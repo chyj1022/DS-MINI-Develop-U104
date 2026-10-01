@@ -1,0 +1,8 @@
+﻿평가항목,배점,직접 근거,산출물
+EDA,50,분포·열화·ΔQ·정책·상관·VIF를 원본 재계산,eda_distribution / degradation_evidence / eda_correlations / eda_vif
+EDA → 전략 연결성,30,관측→시사점→설계→코드→검증 연결표,노트북 1~3절
+모델링 전략 수립,20,회귀·정규화·212후보·기준선·개선 불확실성,cv_results / feature_ablation / paired_ablation
+전략 → 구현 반영,20,100회 이내 피처·타깃 변환·실제 선택 모델,features.py / model_coefficients / 노트북 직접 추출
+Pipeline 개발,40,원본→정책 분리→fold 내부 전처리→선택→재학습→평가,train.py / 직접 재현 셀 / provenance / verify_results.py
+성능 리포팅 및 해석,20,지정 형식·Gap 방향·동일 Batch 2 기준선·불확실성·조건 차이,model_performance / batch2_baseline_comparison / metric_uncertainty
+분석 결과 해석,20,과대예측 편향·동일 하위집단 확인·입력 범위 반례·ESS 해석,prediction_bias / subgroup_overlap / domain_metrics / ESS 의사결정표

@@ -1,0 +1,39 @@
+{
+  "model_sha256": "494a514a77a8fc0ebc1134f5de88abd0c8adfb2b23ffac7dce7d6abd3350b2eb",
+  "config": {
+    "model": "Ridge",
+    "feature_set": "plus_2",
+    "alpha": 0.1
+  },
+  "diagnostic_python": "3.11.15",
+  "packages": {
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.6.1",
+    "h5py": "3.14.0",
+    "matplotlib": "3.9.4",
+    "nbformat": "5.10.4",
+    "joblib": "1.5.3",
+    "scipy": "1.17.1"
+  },
+  "sources": [
+    {
+      "batch": 1,
+      "filename": "2017-05-12_batchdata_updated_struct_errorcorrect.mat",
+      "bytes": 3025320241,
+      "sha256": "9d928ab978f0e3c70b31cb833a749fedd35094d01af76475d69b40aa3497f5ba"
+    },
+    {
+      "batch": 2,
+      "filename": "2018-02-20_batchdata_updated_struct_errorcorrect.mat",
+      "bytes": 2022599329,
+      "sha256": "3487db505ad08b6c805f41dd0560e73b54077c76aca04f706f06e2356ccf7845"
+    },
+    {
+      "batch": 3,
+      "filename": "2018-04-12_batchdata_updated_struct_errorcorrect.mat",
+      "bytes": 3236690412,
+      "sha256": "62c30e413b63e6144720e016deed3661fac8468641794a5807b123fe84717998"
+    }
+  ]
+}

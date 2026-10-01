@@ -1,0 +1,19 @@
+{
+  "include_batch3": true,
+  "model_sha256": "494a514a77a8fc0ebc1134f5de88abd0c8adfb2b23ffac7dce7d6abd3350b2eb",
+  "n_cells": 119,
+  "selection_unchanged": true,
+  "bootstrap_method": "policy-cluster percentile; fixed model; 2000 samples; seed 42",
+  "batch3_exclusions": [
+    23,
+    32
+  ],
+  "n_late_faster_than_middle": 119,
+  "n_knee_search_boundary": 33,
+  "batch3_quality_flag_ids": [
+    2,
+    37,
+    42,
+    43
+  ]
+}

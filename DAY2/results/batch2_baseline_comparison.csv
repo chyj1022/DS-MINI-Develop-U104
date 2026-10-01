@@ -1,0 +1,3 @@
+﻿model,n_cells,constant_prediction_cycles,mape_pct,mae_cycles,rmse_cycles,mape_reduction_vs_baseline_pct
+Batch 1 median baseline,39,772.5,58.72793338392444,284.78205128205127,301.4229395078259,0.0
+Frozen selected model,39,,28.60918728493949,141.75235909363803,158.6761111983737,51.285213634350924

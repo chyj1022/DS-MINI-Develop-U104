@@ -1,0 +1,5 @@
+﻿fold,n_train,n_valid,selected_config,mape_pct,mae_cycles,rmse_cycles
+1,21,8,"{""model"": ""Linear"", ""feature_set"": ""variance"", ""target_scale"": ""raw""}",5.440213674268554,41.42074767288851,50.36643439215452
+2,22,7,"{""model"": ""Linear"", ""feature_set"": ""variance""}",10.790473625381408,75.45460578455263,95.91815737265912
+3,22,7,"{""model"": ""ElasticNet"", ""feature_set"": ""plus_3"", ""alpha"": 0.01, ""l1_ratio"": 0.5}",16.615350581465165,141.74840252613555,160.22782669844025
+4,22,7,"{""model"": ""Linear"", ""feature_set"": ""variance"", ""target_scale"": ""raw""}",10.521647064559563,87.39197397718864,104.26925870678271

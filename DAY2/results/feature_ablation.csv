@@ -1,0 +1,17 @@
+﻿feature_set,n_features,features,model,cv_mean_mape_pct
+plus_2,2,"log10_dq_variance, charge_time_mean_2_6",Ridge,9.024173963523138
+variance,1,log10_dq_variance,Ridge,9.025860203175776
+plus_2_4,3,"log10_dq_variance, charge_time_mean_2_6, tavg_mean_2_100",ElasticNet,9.112788348779292
+early,3,"log10_dq_variance, qd_slope_2_100, charge_time_mean_2_6",ElasticNet,9.137121010466483
+plus_1,2,"log10_dq_variance, qd_slope_2_100",ElasticNet,9.152464098025826
+early_temperature,4,"log10_dq_variance, qd_slope_2_100, charge_time_mean_2_6, tavg_mean_2_100",ElasticNet,9.155421482846185
+plus_4,2,"log10_dq_variance, tavg_mean_2_100",ElasticNet,9.168503993998453
+plus_1_4,3,"log10_dq_variance, qd_slope_2_100, tavg_mean_2_100",ElasticNet,9.168503993998453
+early_ir,4,"log10_dq_variance, qd_slope_2_100, charge_time_mean_2_6, ir_change_100_2",ElasticNet,10.13522309648415
+plus_2_3,3,"log10_dq_variance, charge_time_mean_2_6, ir_change_100_2",ElasticNet,10.13522309648415
+plus_3,2,"log10_dq_variance, ir_change_100_2",ElasticNet,10.144579089272137
+plus_1_3,3,"log10_dq_variance, qd_slope_2_100, ir_change_100_2",ElasticNet,10.144579089272137
+plus_2_3_4,4,"log10_dq_variance, charge_time_mean_2_6, ir_change_100_2, tavg_mean_2_100",ElasticNet,10.15352356886385
+full,5,"log10_dq_variance, qd_slope_2_100, charge_time_mean_2_6, ir_change_100_2, tavg_mean_2_100",ElasticNet,10.15352356886385
+plus_3_4,3,"log10_dq_variance, ir_change_100_2, tavg_mean_2_100",ElasticNet,10.160618985244762
+plus_1_3_4,4,"log10_dq_variance, qd_slope_2_100, ir_change_100_2, tavg_mean_2_100",ElasticNet,10.160618985244762

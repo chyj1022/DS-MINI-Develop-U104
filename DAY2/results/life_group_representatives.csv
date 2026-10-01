@@ -1,0 +1,4 @@
+﻿life_group,batch,cell_id,cycle_life,selection
+short_lt500,2,18,449.0,lower median of lifetime-sorted eligible group
+middle_500_1000,3,40,796.0,lower median of lifetime-sorted eligible group
+long_gt1000,3,3,1115.0,lower median of lifetime-sorted eligible group

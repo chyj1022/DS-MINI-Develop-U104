@@ -1,0 +1,3 @@
+﻿group,n_cells,overpredicted_cells,underpredicted_cells,mean_signed_error_cycles,mae_cycles,median_ape_pct
+Batch 2 all,39,36,3,133.13389485251273,141.75235909363803,30.41039780413926
+below_batch1_life_min,30,30,0,146.08554631468195,146.08554631468195,32.50759586068203

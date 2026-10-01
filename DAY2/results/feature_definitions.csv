@@ -1,0 +1,6 @@
+﻿feature,의미,window,unit,selected
+log10_dq_variance,ΔQ(V) 변화 분산의 log10,100회 − 10회,log10(Ah²),True
+qd_slope_2_100,방전 용량 기울기,2~100회,Ah/cycle,False
+charge_time_mean_2_6,초기 평균 충전 시간,2~6회,min,True
+ir_change_100_2,내부저항 변화량,100회 − 2회,Ω,False
+tavg_mean_2_100,초기 평균 온도,2~100회,°C,False

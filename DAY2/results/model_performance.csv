@@ -1,0 +1,7 @@
+﻿구분,MAPE (%),비고
+Train (Batch 1 CV),10.84192123641867,개발 Nested-CV (29셀); 외부 fold 검증오차 평균
+Valid (Batch 1 Hold-out),10.435312575840184,정책 분리 7셀; 개발 29셀로 학습
+Test (Batch 2),28.60918728493949,Batch 1 36셀로 재학습한 고정 모델; 39셀 평가
+Gap (Train-Valid),-0.4066086605784864,"Valid − Train; (+): 오차 증가, 과적합 가능성"
+Gap (Valid-Test),18.17387470909931,Test − Valid; (+): 배치 간 일반화 저하 가능성
+Gap (Target-Test),19.509187284939493,Test − 9.1%; 과제 Target 대비 참고 비교

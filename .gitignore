@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+.venv/
+.ipynb_checkpoints/
+archive/
+data/*
+!data/README.md
+data_preview/
+*.mat
+*.joblib

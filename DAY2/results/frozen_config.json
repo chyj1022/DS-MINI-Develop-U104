@@ -1,0 +1,21 @@
+{
+  "selected_config": {
+    "model": "Ridge",
+    "feature_set": "plus_2",
+    "alpha": 0.1
+  },
+  "features": [
+    "log10_dq_variance",
+    "charge_time_mean_2_6"
+  ],
+  "selection_rule": "minimum mean 4-fold protocol-grouped development CV MAPE",
+  "target_transform": "log10, inverse 10**prediction",
+  "target_mape_pct": 9.1,
+  "n_final_training": 36,
+  "n_development": 29,
+  "n_holdout": 7,
+  "python": "3.11.15",
+  "sklearn": "1.6.1",
+  "pandas": "2.3.3",
+  "numpy": "2.0.2"
+}
