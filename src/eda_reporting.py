@@ -126,7 +126,7 @@ def readme_section(distribution, core_vif, full_vif):
     """Write each requested EDA heading with computed evidence and a finding."""
     from .report import markdown_table
     read=lambda name:pd.read_csv(OUT/(name+'.csv'))
-    names=dict(zip(GROUPS,['단수명 <500','중간 500~1,000','장수명 >1,000']))
+    names=dict(zip(GROUPS,['단수명 <500','중간 500–1,000','장수명 >1,000']))
     counts=read('life_group_proportions'); rates=read('life_group_degradation')
     statistics=read('life_group_statistics'); knee=read('knee_timing_summary')
     representatives=read('life_group_representatives')
@@ -145,7 +145,7 @@ def readme_section(distribution, core_vif, full_vif):
     candidate=knee[knee.scope=='Pooled (descriptive)'].copy()
     kt=pd.DataFrame({'수명 그룹':candidate.life_group.map(names),'셀 수':candidate.n_cells,
         '탐색 경계 후보':candidate.n_search_boundary,'내부·형태 조건 충족':candidate.n_interior_shape_ok,
-        '후보 범위 (회)':[f'{a:.1f}~{b:.1f}' for a,b in zip(candidate.interior_candidate_min_cycle,candidate.interior_candidate_max_cycle)],
+        '후보 범위 (회)':[f'{a:.1f}–{b:.1f}' for a,b in zip(candidate.interior_candidate_min_cycle,candidate.interior_candidate_max_cycle)],
         '후보 중앙값 (회)':candidate.interior_candidate_median_cycle,
         '수명 대비 시점 중앙값':[f'{v*100:.1f}%' for v in candidate.interior_candidate_median_fraction_of_life]})
     dt=statistics[['batch','life_group','n_cells','log10_dq_variance_median','dq_min_median']].rename(columns={
@@ -161,7 +161,7 @@ def readme_section(distribution, core_vif, full_vif):
     batch3_description = 'Batch 3은 더 넓은 범위로 분포하며 장수명 비중이 큽니다. ' if 3 in distribution.batch.values else ''
     return f"""## EDA
 
-DAY 1과 같은 **단수명 <500회 / 중간 500~1,000회 / 장수명 >1,000회** 기준을 유지합니다. 분모는 모델링에 사용할 유효 라벨 셀이며 알려진 불완전·결측 라벨은 제외했습니다. 그룹이 없는 배치는 0셀로 표시하고 경계를 바꾸어 채우지 않습니다. 이 그룹은 설명·오류 분석용이며 회귀 입력이나 분류 모델의 학습 라벨이 아닙니다.
+DAY 1과 같은 **단수명 <500회 / 중간 500–1,000회 / 장수명 >1,000회** 기준을 유지합니다. 분모는 모델링에 사용할 유효 라벨 셀이며 알려진 불완전·결측 라벨은 제외했습니다. 그룹이 없는 배치는 0셀로 표시하고 경계를 바꾸어 채우지 않습니다. 이 그룹은 설명·오류 분석용이며 회귀 입력이나 분류 모델의 학습 라벨이 아닙니다.
 
 ### 1. Cycle Life 분포
 
@@ -189,7 +189,7 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 
 #### Knee point 존재 여부와 시점
 
-100회 이후 용량에 연속 구간선형 모델을 적합하고 관측 기간의 20~80% 범위에서 knee 후보를 탐색했습니다. 후반 기울기가 음수이고 이전보다 감소가 빠르며 크기가 2배 이상인 경우를 형태 조건으로 표시했습니다. 총 {int(candidate.n_cells.sum())}셀 중 {int(candidate.n_shape_ok.sum())}셀이 조건을 충족했지만 **{int(candidate.n_search_boundary.sum())}셀은 탐색 경계**에 걸렸습니다. 아래 시점은 경계에 걸리지 않고 형태 조건을 충족한 후보만의 요약입니다.
+100회 이후 용량에 연속 구간선형 모델을 적합하고 관측 기간의 20–80% 범위에서 knee 후보를 탐색했습니다. 후반 기울기가 음수이고 이전보다 감소가 빠르며 크기가 2배 이상인 경우를 형태 조건으로 표시했습니다. 총 {int(candidate.n_cells.sum())}셀 중 {int(candidate.n_shape_ok.sum())}셀이 조건을 충족했지만 **{int(candidate.n_search_boundary.sum())}셀은 탐색 경계**에 걸렸습니다. 아래 시점은 경계에 걸리지 않고 형태 조건을 충족한 후보만의 요약입니다.
 
 {markdown_table(kt)}
 
@@ -197,7 +197,7 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 
 ### 3. ΔQ(V) 곡선 분석
 
-`ΔQ(V) = Q100(V) − Q10(V)`를 공통 2.0~3.5V·1,000점 전압축에서 계산했습니다. 배치별 곡선의 중앙값과 IQR은 다음과 같습니다.
+`ΔQ(V) = Q100(V) − Q10(V)`를 공통 2.0–3.5V·1,000점 전압축에서 계산했습니다. 배치별 곡선의 중앙값과 IQR은 다음과 같습니다.
 
 ![배치별 Cycle 100−10 ΔQ 곡선과 설명용 열화 속도](DAY2/results/04_eda_curve_evidence.png)
 
@@ -223,7 +223,7 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 
 표의 동률 보정은 부동소수점 계산의 미세한 차이로 같은 C-rate의 순위가 달라지는 것을 막기 위해 소수 8자리로 반올림한 민감도 비교입니다. 외부 평가 배치의 등가 C-rate는 거의 4.8C에 집중되어 있어 상관 부호만으로 속도 효과가 뒤집혔다고 해석하기 어렵습니다.
 
-**핵심 발견:** Batch 1에서 등가 C-rate–수명 Spearman은 약 −0.44이지만 거의 같은 등가 속도에서도 프로토콜과 배치별 수명이 다릅니다. 속도 하나로 수명을 설명하거나 빠른 충전의 인과 효과를 확정할 수 없습니다. Batch 1 프로토콜별 1~2셀의 평균 차이는 통계적 유의성을 입증한 결과가 아니며, 같은 정책이 train·valid에 겹치지 않도록 정책 단위로 검증했습니다.
+**핵심 발견:** Batch 1에서 등가 C-rate–수명 Spearman은 약 −0.44이지만 거의 같은 등가 속도에서도 프로토콜과 배치별 수명이 다릅니다. 속도 하나로 수명을 설명하거나 빠른 충전의 인과 효과를 확정할 수 없습니다. Batch 1 프로토콜별 1–2셀의 평균 차이는 통계적 유의성을 입증한 결과가 아니며, 같은 정책이 train·valid에 겹치지 않도록 정책 단위로 검증했습니다.
 
 ### 5. 추가 확인: 피처 중복·전이 안정성과 품질
 

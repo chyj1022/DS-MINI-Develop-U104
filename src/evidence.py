@@ -49,10 +49,10 @@ def enhance_report():
     all_bias, below_bias = bias.iloc[0], bias.iloc[1]
     assert bool(overlap.iloc[0].identical_cell_sets)
     nested = read("nested_cv_folds")
-    cv_range = f"{nested.mape_pct.min():.2f}~{nested.mape_pct.max():.2f}"
+    cv_range = f"{nested.mape_pct.min():.2f}–{nested.mape_pct.max():.2f}"
     assessment=pd.DataFrame([
         {"평가항목":"EDA","배점":50,"직접 근거":"분포·열화·ΔQ·정책·상관·VIF를 원본 재계산","산출물":"eda_distribution / degradation_evidence / eda_correlations / eda_vif"},
-        {"평가항목":"EDA → 전략 연결성","배점":30,"직접 근거":"관측→시사점→설계→코드→검증 연결표","산출물":"노트북 1~3절"},
+        {"평가항목":"EDA → 전략 연결성","배점":30,"직접 근거":"관측→시사점→설계→코드→검증 연결표","산출물":"노트북 1–3절"},
         {"평가항목":"모델링 전략 수립","배점":20,"직접 근거":"회귀·정규화·212후보·기준선·개선 불확실성","산출물":"cv_results / feature_ablation / paired_ablation"},
         {"평가항목":"전략 → 구현 반영","배점":20,"직접 근거":"100회 이내 피처·타깃 변환·실제 선택 모델","산출물":"features.py / model_coefficients / 노트북 직접 추출"},
         {"평가항목":"Pipeline 개발","배점":40,"직접 근거":"원본→정책 분리→fold 내부 전처리→선택→재학습→평가","산출물":"train.py / 직접 재현 셀 / provenance / verify_results.py"},
@@ -101,7 +101,7 @@ Batch 1 최소 수명보다 짧은 **{int(below_bias.n_cells)}셀 모두 과대�
 """+"\n"+markdown_table(intervals)
     domain_text=f"""### 오류 원인 가설을 반례와 함께 점검
 
-입력 피처가 Batch 1 최솟값~최댓값 안인 **{int(inside.n_cells)}셀의 MAPE {inside.mape_pct:.3f}%**가 범위 밖 **{int(outside.n_cells)}셀의 {outside.mape_pct:.3f}%**보다 큽니다. 따라서 **입력 범위 이탈만으로 Batch 2 오차를 설명할 수 없습니다.** 같은 입력 범위에서도 수명과의 관계가 배치마다 달라졌을 가능성, 정책·실험 조건의 교란을 함께 고려해야 합니다.
+입력 피처가 Batch 1 최솟값–최댓값 안인 **{int(inside.n_cells)}셀의 MAPE {inside.mape_pct:.3f}%**가 범위 밖 **{int(outside.n_cells)}셀의 {outside.mape_pct:.3f}%**보다 큽니다. 따라서 **입력 범위 이탈만으로 Batch 2 오차를 설명할 수 없습니다.** 같은 입력 범위에서도 수명과의 관계가 배치마다 달라졌을 가능성, 정책·실험 조건의 교란을 함께 고려해야 합니다.
 
 실제 수명이 학습 범위 밖이라는 구분은 정답을 본 뒤의 오류 분석용입니다. 배포 시에는 실제 수명을 모르므로 입력 분포·신규 정책·현장 라벨 수집으로 감시해야 합니다. 각 피처가 범위 안이라는 사실만으로 다변량 분포까지 같다고 보장되지 않습니다. `standard_structure` 30셀과 학습 최소 수명 미만 30셀은 동일 집합이므로 구조와 수명 범위의 효과를 분리할 수 없습니다.
 
@@ -131,7 +131,7 @@ Gap (Train-Valid)은 Valid − Train, Gap (Valid-Test)은 Test − Valid로 계�
 
 {markdown_table(quality)}
 
-공통 전압축 2.0~3.5V·1,000점을 확인했고 ΔQ 분산은 곡선의 상수 원점 이동에 불변임을 검사했습니다. 이는 배치별 충전·방전 절차나 곡선 형태의 차이가 모두 교정됐다는 뜻은 아닙니다. 평균·최솟값에 동일한 불변성을 가정하지 않습니다.
+공통 전압축 2.0–3.5V·1,000점을 확인했고 ΔQ 분산은 곡선의 상수 원점 이동에 불변임을 검사했습니다. 이는 배치별 충전·방전 절차나 곡선 형태의 차이가 모두 교정됐다는 뜻은 아닙니다. 평균·최솟값에 동일한 불변성을 가정하지 않습니다.
 """
     ess_table=pd.DataFrame([
         {"의사결정":"셀 선별·점검 우선순위","활용":"초기 신호로 상대 수명 비교","추가 조건":"같은 화학계·현장 운전 조건 검증"},
@@ -225,7 +225,7 @@ python -m src.verify_results
 
 {markdown_table(feature_table)}
 
-핵심 피처는 `log10 Var(Q100(V) − Q10(V))`입니다. 충전 시간은 2~6회의 유한한 양수 값 평균, 용량 기울기는 2~100회 유효 용량에 대한 선형 적합, IR 변화는 양수인 100회 값−2회 값, 온도는 2~100회 유한 값 평균으로 구현했습니다. 전압축의 단조성·2.0~3.5V 범위·1,000개 공통 점을 확인합니다. 최종 입력과 품질 진단용 플래그는 구분합니다.
+핵심 피처는 `log10 Var(Q100(V) − Q10(V))`입니다. 충전 시간은 2–6회의 유한한 양수 값 평균, 용량 기울기는 2–100회 유효 용량에 대한 선형 적합, IR 변화는 양수인 100회 값−2회 값, 온도는 2–100회 유한 값 평균으로 구현했습니다. 전압축의 단조성·2.0–3.5V 범위·1,000개 공통 점을 확인합니다. 최종 입력과 품질 진단용 플래그는 구분합니다.
 
 ### 개발 파이프라인과 누수 방지
 
@@ -271,7 +271,7 @@ MAPE=`100 × mean(|실제−예측|/실제)`. 필수 6행은 `model_performance.
 
 상대 감소율은 `100 × (1 − 모델 MAPE / 기준선 MAPE)`입니다. 논문과의 비교에 더해, 같은 외부 셀에서의 실질적 개선을 보여주는 단순 기준선 비교입니다.
 
-Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=42)의 고정 모델 MAPE 95% 구간은 **{ci2.ci_low_pct:.2f}~{ci2.ci_high_pct:.2f}%**입니다. 재학습·미래 배치의 성능 보증이나 셀별 예측 구간은 아닙니다.
+Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=42)의 고정 모델 MAPE 95% 구간은 **{ci2.ci_low_pct:.2f}–{ci2.ci_high_pct:.2f}%**입니다. 재학습·미래 배치의 성능 보증이나 셀별 예측 구간은 아닙니다.
 
 원논문은 `2017-05-12`·`2017-06-30` 혼합 분할이고 과제는 `2018-02-20` 외부 배치 평가여서 **Target Gap은 참고 비교**입니다. 선행 EDA가 세 배치를 봤다는 한계가 있으며, 모델 선택·계수 추정은 Batch 1에 제한했습니다. Valid 모델 29셀·Test 모델 36셀의 학습 규모 차이도 Gap에 포함됩니다. [저자 분할 코드](https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation/blob/master/LoadData.m).
 

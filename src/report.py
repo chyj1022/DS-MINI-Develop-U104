@@ -54,10 +54,10 @@ def build_report(frozen, scores, performance, comparison, baselines, errors, fea
     ablation.to_csv(OUT / "feature_ablation.csv",index=False,encoding="utf-8-sig")
     feature_definitions = pd.DataFrame([
         {"feature":"log10_dq_variance","의미":"ΔQ(V) 변화 분산의 log10","window":"100회 − 10회","unit":"log10(Ah²)"},
-        {"feature":"qd_slope_2_100","의미":"방전 용량 기울기","window":"2~100회","unit":"Ah/cycle"},
-        {"feature":"charge_time_mean_2_6","의미":"초기 평균 충전 시간","window":"2~6회","unit":"min"},
+        {"feature":"qd_slope_2_100","의미":"방전 용량 기울기","window":"2–100회","unit":"Ah/cycle"},
+        {"feature":"charge_time_mean_2_6","의미":"초기 평균 충전 시간","window":"2–6회","unit":"min"},
         {"feature":"ir_change_100_2","의미":"내부저항 변화량","window":"100회 − 2회","unit":"Ω"},
-        {"feature":"tavg_mean_2_100","의미":"초기 평균 온도","window":"2~100회","unit":"°C"},
+        {"feature":"tavg_mean_2_100","의미":"초기 평균 온도","window":"2–100회","unit":"°C"},
     ])
     feature_definitions["selected"] = feature_definitions.feature.isin(frozen["features"])
     feature_definitions.to_csv(OUT / "feature_definitions.csv",index=False,encoding="utf-8-sig")
@@ -69,7 +69,7 @@ def build_report(frozen, scores, performance, comparison, baselines, errors, fea
 | --- | --- | --- |
 | ΔQ log 분산–log 수명 Pearson r=-0.844 | `log10 Var(Q100−Q10)`를 모든 후보에 포함 | 단일 피처 Linear 기준선과 비교 |
 | ΔQ 분산·최솟값·평균의 상관 절댓값 ≥0.97 | 중복 피처를 동시에 넣지 않음 | 대표 5개 피처의 16개 부분집합 비교 |
-| 용량 기울기 r=0.552, 초기 충전 시간 r=0.575 | 기울기(2~100회)와 평균 충전 시간(2~6회) 추가 | 개발 CV에서 추가 피처 효과 비교 |
+| 용량 기울기 r=0.552, 초기 충전 시간 r=0.575 | 기울기(2–100회)와 평균 충전 시간(2–6회) 추가 | 개발 CV에서 추가 피처 효과 비교 |
 | 온도·IR의 직접 관계가 약하고 센서 영향 가능 | 보조 피처로 포함·제외 | 대표 피처의 모든 부분집합 비교 |
 | Batch 1 유효 표본 36셀, 정책 20개 | 소수 피처 + Ridge/Elastic Net 정규화 | 프로토콜 단위 nested GroupKFold |
 | Batch 1에는 <500회 셀이 없음 | 이진 분류 대신 연속 수명 회귀 선택 | 원 단위 MAPE·MAE·RMSE |
