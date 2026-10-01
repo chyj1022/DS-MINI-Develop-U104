@@ -158,6 +158,7 @@ def readme_section(distribution, core_vif, full_vif):
     ct=correlations.rename(columns={'batch':'Batch','n_valid':'셀 수','equivalent_c_min':'최소 C-rate','equivalent_c_max':'최대 C-rate',
         'spearman_equivalent_c_life':'Spearman (원 계산)','spearman_equivalent_c_life_rounded8':'Spearman (동률 보정)'})
     representative_text=' / '.join(f"{names[r.life_group]}: Batch {r.batch} 셀 {r.cell_id}, {r.cycle_life:.0f}회" for r in representatives.itertuples())
+    batch3_description = 'Batch 3은 더 넓은 범위로 분포하며 장수명 비중이 큽니다. ' if 3 in distribution.batch.values else ''
     return f"""## EDA
 
 DAY 1과 같은 **단수명 <500회 / 중간 500~1,000회 / 장수명 >1,000회** 기준을 유지합니다. 분모는 모델링에 사용할 유효 라벨 셀이며 알려진 불완전·결측 라벨은 제외했습니다. 그룹이 없는 배치는 0셀로 표시하고 경계를 바꾸어 채우지 않습니다. 이 그룹은 설명·오류 분석용이며 회귀 입력이나 분류 모델의 학습 라벨이 아닙니다.
@@ -172,7 +173,7 @@ DAY 1과 같은 **단수명 <500회 / 중간 500~1,000회 / 장수명 >1,000회*
 
 ![Batch 1과 Batch 2의 수명 분포 및 ΔQ 피처 관계](DAY2/results/03_batch_shift.png)
 
-Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는 28/39셀(71.8%)이 <500회이고 소수의 긴 수명 셀 때문에 오른쪽 꼬리가 나타납니다. Batch 3은 더 넓은 범위로 분포하며 장수명 비중이 큽니다. 위 Batch 2 그래프는 고정 모델 평가 후의 사후 진단으로 후보 선택에 사용하지 않았습니다.
+Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는 28/39셀(71.8%)이 <500회이고 소수의 긴 수명 셀 때문에 오른쪽 꼬리가 나타납니다. {batch3_description}위 Batch 2 그래프는 고정 모델 평가 후의 사후 진단으로 후보 선택에 사용하지 않았습니다.
 
 **핵심 발견:** 학습 배치에 없는 단수명 구간이 외부 Batch 2의 대부분을 차지하므로 단수명 개발 데이터 확보와 배치 간 일반화 검증이 중요합니다.
 
@@ -202,7 +203,7 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 
 ![배치 내 수명 그룹별 ΔQ 곡선의 중앙값과 IQR](DAY2/results/08_dq_life_groups.png)
 
-두 번째 그림은 배치마다 장·중간·단수명 곡선을 비교합니다. Batch 1·3의 단수명 그룹은 실제로 없으므로 그리지 않습니다. 음영은 셀 간 IQR로 평균의 신뢰구간이 아닙니다.
+두 번째 그림은 배치마다 장·중간·단수명 곡선을 비교합니다. 실제로 없는 수명 그룹은 그리지 않습니다. 음영은 셀 간 IQR로 평균의 신뢰구간이 아닙니다.
 
 {markdown_table(dt)}
 
@@ -220,7 +221,7 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 
 {markdown_table(ct)}
 
-표의 동률 보정은 부동소수점 계산의 미세한 차이로 같은 C-rate의 순위가 달라지는 것을 막기 위해 소수 8자리로 반올림한 민감도 비교입니다. Batch 2·3의 등가 C-rate는 거의 4.8C에 집중되어 있어 상관 부호만으로 속도 효과가 뒤집혔다고 해석하기 어렵습니다.
+표의 동률 보정은 부동소수점 계산의 미세한 차이로 같은 C-rate의 순위가 달라지는 것을 막기 위해 소수 8자리로 반올림한 민감도 비교입니다. 외부 평가 배치의 등가 C-rate는 거의 4.8C에 집중되어 있어 상관 부호만으로 속도 효과가 뒤집혔다고 해석하기 어렵습니다.
 
 **핵심 발견:** Batch 1에서 등가 C-rate–수명 Spearman은 약 −0.44이지만 거의 같은 등가 속도에서도 프로토콜과 배치별 수명이 다릅니다. 속도 하나로 수명을 설명하거나 빠른 충전의 인과 효과를 확정할 수 없습니다. Batch 1 프로토콜별 1~2셀의 평균 차이는 통계적 유의성을 입증한 결과가 아니며, 같은 정책이 train·valid에 겹치지 않도록 정책 단위로 검증했습니다.
 

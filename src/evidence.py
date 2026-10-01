@@ -191,6 +191,7 @@ python -m src.verify_results      # 결과·누수·코드 셀 검증
 │   ├── features.py
 │   ├── train.py
 │   ├── diagnostics.py
+│   ├── eda_reporting.py        # 수명 그룹·knee·ΔQ·정책 EDA
 │   ├── report.py / evidence.py
 │   └── verify_results.py
 ├── requirements.txt
