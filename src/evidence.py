@@ -164,13 +164,14 @@ python -m src.verify_results      # 결과·누수·코드 셀 검증
     baseline_table['모델']=['Batch 1 중앙값 고정 예측','고정 Ridge 모델']
     top_error_table=read('error_analysis').head(5)[['cell_id','cycle_life','predicted_cycle_life','signed_error_cycles','ape_pct']].rename(columns={'cell_id':'셀 ID','cycle_life':'실제 수명','predicted_cycle_life':'예측 수명','signed_error_cycles':'예측−실제 (회)','ape_pct':'오차율 (%)'})
     detailed_eda=readme_section(distribution, core_vif, full_vif)
-    from .paper_comparison import generate as generate_paper_comparison, readme_section as paper_readme
+    from .paper_comparison import generate as generate_paper_comparison, readme_section as paper_readme, batch3_gap_interpretation
     paper_tables=generate_paper_comparison()
     paper_text=paper_readme(paper_tables)
     paper_configs=json.loads((OUT/'paper_models_config.json').read_text())
     selected_paper=next(r for r in paper_configs if r['task']=='regression' and r['family']=='Selected')
     paper_mandatory=paper_tables['paper_selected_regression_performance']
-    paper_extra=("\n\n### 최종 회귀 추가 평가: Batch 3\n\n"+markdown_table(batch3_reporting_format(paper_tables['paper_selected_regression_with_batch3']))) if has3 else ''
+    paper_extra=("\n\n### 최종 회귀 추가 평가: Batch 3\n\n"+markdown_table(batch3_reporting_format(paper_tables['paper_selected_regression_with_batch3']))+
+                 "\n\n"+batch3_gap_interpretation('regression')) if has3 else ''
     concise=f"""# ESS 배터리 수명 예측
 
 초기 100사이클의 총 Cycle Life 회귀와 **초기 5사이클의 장·단수명 분류**를 개발하고 **Batch 1 학습 → Batch 2 평가**로 원논문 Target과 비교합니다. 단·중·장수명 분류와 Batch 3 평가도 추가했습니다. EDA 근거와 논문 피처 설계, 실제 학습, 성능·오류·ESS 해석을 연결합니다.
@@ -265,6 +266,8 @@ python -m src.verify_results
 각 막대는 해당 모델군에서 선택된 최저 후보의 개발 CV MAPE이며 오차 막대는 **fold 간 표준편차**입니다. 성능 리포팅의 Nested-CV와는 별도입니다. Ridge·Elastic Net·Linear의 성능이 비슷해 작은 점수 차이를 우월성의 강한 근거로 보지 않습니다. `plus_2`는 ΔQ log 분산과 초기 충전 시간 조합입니다.
 
 ## 성능 결과
+
+노션 지정 양식에 따라 회귀·분류의 필수 표는 **Train / Valid / Test (Batch 2) / 세 가지 Gap의 6행**으로 작성했습니다. Batch 3 추가 표는 **구분과 비교 항목을 분리**하고, Batch 3 성능·Batch2-Batch3 Gap·Batch 3 Target Gap을 더한 **9행**입니다. 회귀는 MAPE, 분류는 Macro-F1·Accuracy를 보고합니다. Gap이 양수이면 앞 단계 대비 성능 저하를 나타내도록 계산 방향을 아래에 명시합니다. Train–Valid의 양수 Gap은 과적합을 점검할 신호, Valid–Test의 양수 Gap은 배치 간 일반화 저하를 점검할 신호이며, 표본 수와 분포 차이를 함께 해석합니다.
 
 ### 최종 회귀 필수 평가: 논문 기반 Discharge Elastic Net
 

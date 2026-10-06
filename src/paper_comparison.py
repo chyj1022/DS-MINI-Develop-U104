@@ -228,6 +228,44 @@ def regression_reporting(scores):
     return mandatory,pd.DataFrame(rows)
 
 
+def batch3_gap_interpretation(task):
+    """Explain the reported batch gap using saved scores and observed groups."""
+    scores = pd.read_csv(OUT / 'paper_model_metrics.csv')
+    family = 'Selected' if task == 'regression' else 'Full'
+    lookup = scores[(scores.task == task) & (scores.family == family)].set_index('partition')
+    if PARTITIONS[3] not in lookup.index:
+        return ''
+    b2, b3 = lookup.loc[PARTITIONS[2]], lookup.loc[PARTITIONS[3]]
+    features = pd.read_csv(OUT / 'paper_model_features.csv')
+    batches = {b: features[features.batch == b] for b in (1, 2, 3)}
+    if task == 'regression':
+        medians = [batches[b].cycle_life.median() for b in (1, 2, 3)]
+        return (f'**Batch 2–3 Gap 해석:** Batch 3 MAPE는 {b3.mape_pct:.3f}%로 Batch 2보다 '
+                f'{b2.mape_pct-b3.mape_pct:.3f}%p 낮고, 회귀 Gap은 **{b3.mape_pct-b2.mape_pct:+.3f}%p**입니다. '
+                f'음수는 Batch 3에서 오차가 감소했다는 뜻이며, Target Gap은 **{b3.mape_pct-9.1:+.3f}%p**입니다. '
+                f'실제 수명 중앙값은 Batch 1·2·3 각각 {medians[0]:.1f}·{medians[1]:.1f}·{medians[2]:.1f}회입니다. '
+                '단수명 셀이 많은 Batch 2의 과대예측과 아래 수명 그룹별 오차를 함께 보면, 배치에 따라 일반화 성능이 달라집니다. '
+                '큰 Gap의 절댓값만으로 특정 피처의 과적합을 단정하지 않습니다. 수명·충전 정책·수집 조건이 함께 달라 '
+                '이를 원인 후보로 구분하고, 공통 전압축 검사와 저자 품질 규칙의 민감도 결과도 함께 확인합니다. '
+                '같은 Batch 1 고정 모델을 두 배치에 적용했으며 Batch 3 결과로 재선택하지 않았습니다.')
+    short = {b: int((life_labels(frame.cycle_life, task) == 0).sum()) for b, frame in batches.items()}
+    common = (f'**Batch 2–3 Gap 해석:** Accuracy Gap은 **{b2.accuracy_pct-b3.accuracy_pct:+.3f}%p**, '
+              f'Macro-F1 Gap은 **{b2.macro_f1-b3.macro_f1:+.3f}**입니다. '
+              f'음수는 Batch 3 점수가 더 높다는 뜻입니다. ')
+    if task == 'binary_550':
+        recalls = pd.read_csv(OUT / 'paper_model_class_recalls.csv')
+        r3 = recalls[(recalls.task == task) & (recalls.family == family) &
+                     (recalls.partition == PARTITIONS[3]) & (recalls.life_group == 'short_le550')].iloc[0]
+        return (common + f'그러나 단수명 셀은 Batch 2의 {short[2]}셀에서 Batch 3의 {short[3]}셀로 줄고, '
+                f'Batch 3 단수명 Recall은 **{r3.recall_pct:.1f}%**입니다. '
+                '높은 Batch 3 Accuracy는 클래스 구성의 영향을 크게 받으며, Macro-F1과 혼동행렬까지 함께 봐야 합니다. '
+                '전체 Accuracy 개선을 단수명 식별이나 모든 배치의 일반화 개선으로 해석하지 않습니다.')
+    return (common + f'<500회 단수명 셀은 Batch 1에 {short[1]}셀, Batch 2에 {short[2]}셀, '
+            f'Batch 3에 {short[3]}셀입니다. Batch 2에는 학습에서 관측하지 못한 클래스가 다수 포함되지만 '
+            'Batch 3에는 해당 클래스가 없습니다. 배치별 클래스 구성과 클래스별 Recall을 함께 설명하며, '
+            'Batch 3 점수만으로 단수명 예측 능력을 검증했다고 주장하지 않습니다.')
+
+
 def trained_evidence():
     scores=pd.read_csv(OUT/"paper_model_metrics.csv")
     predictions=pd.read_csv(OUT/"paper_model_predictions.csv")
@@ -512,6 +550,8 @@ Selected 행은 **Variance·Discharge·Full의 피처군과 파라미터를 내�
 
 {('#### 초기 5회 이진 분류: Batch 3 추가 양식' + chr(10)*2 + mt(tables['paper_binary_550_with_batch3_formatted'])) if has3 else ''}
 
+{batch3_gap_interpretation('binary_550') if has3 else ''}
+
 F1은 고정된 2개 클래스의 **Macro-F1(0–1)**, Accuracy는 **%(0–100)**입니다. Train은 4개 Nested-CV 외부 fold 점수의 단순 평균입니다. 클래스가 실제·예측 모두 없으면 해당 클래스 F1을 0으로 포함(`zero_division=0`)합니다. Hold-out은 단수명 정답이 없어 Accuracy 100%가 단수명 식별의 검증을 뜻하지 않습니다.
 
 점수는 높을수록 좋으므로 Gap (Train-Valid)=Train−Valid, Gap (Valid-Test)=Valid−Test, Gap (Target-Test)=Target−Test, Gap (Batch2-Batch3)=Batch 2−Batch 3입니다. F1 Gap은 점수 차이, Accuracy Gap은 %p입니다. Target F1은 위 논문 혼동행렬에서 재계산한 값이고, Target Accuracy는 과제 지정 95.1%입니다.
@@ -521,6 +561,8 @@ F1은 고정된 2개 클래스의 **Macro-F1(0–1)**, Accuracy는 **%(0–100)*
 {mt(tables['paper_three_500_1000_performance'])}
 
 {('#### 단·중·장 분류: Batch 3 추가 양식' + chr(10)*2 + mt(tables['paper_three_500_1000_with_batch3_formatted'])) if has3 else ''}
+
+{batch3_gap_interpretation('three_500_1000') if has3 else ''}
 
 고정된 3개 클래스의 Macro-F1을 사용합니다. 3분류 Target은 원논문에 없어 `—`로 둡니다. Batch 1의 관측 클래스는 중간·장수명 두 개이며, 학습된 Logistic 모델은 이 관측 클래스에 대해 계수를 적합합니다. <500회 클래스는 학습셋에 없으므로 외부 셀의 단수명 Recall도 같이 제시합니다. 3분류를 이진 논문 Accuracy 95.1%와 동등한 실험으로 비교하지 않습니다.
 

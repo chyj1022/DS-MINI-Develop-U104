@@ -235,6 +235,8 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 
 ## 성능 결과
 
+노션 지정 양식에 따라 회귀·분류의 필수 표는 **Train / Valid / Test (Batch 2) / 세 가지 Gap의 6행**으로 작성했습니다. Batch 3 추가 표는 **구분과 비교 항목을 분리**하고, Batch 3 성능·Batch2-Batch3 Gap·Batch 3 Target Gap을 더한 **9행**입니다. 회귀는 MAPE, 분류는 Macro-F1·Accuracy를 보고합니다. Gap이 양수이면 앞 단계 대비 성능 저하를 나타내도록 계산 방향을 아래에 명시합니다. Train–Valid의 양수 Gap은 과적합을 점검할 신호, Valid–Test의 양수 Gap은 배치 간 일반화 저하를 점검할 신호이며, 표본 수와 분포 차이를 함께 해석합니다.
+
 ### 최종 회귀 필수 평가: 논문 기반 Discharge Elastic Net
 
 | 구분 | MAPE (%) | 비고 |
@@ -263,6 +265,8 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 | Test (Batch 3) |  | 10.523 | 동일 Batch 1 고정 모델 |
 |  | Gap (Batch2-Batch3) | -15.040 | Batch 3 − Batch 2 |
 |  | Gap (Target-Test) | 1.423 | Batch 3 − 9.1 |
+
+**Batch 2–3 Gap 해석:** Batch 3 MAPE는 10.523%로 Batch 2보다 15.040%p 낮고, 회귀 Gap은 **-15.040%p**입니다. 음수는 Batch 3에서 오차가 감소했다는 뜻이며, Target Gap은 **+1.423%p**입니다. 실제 수명 중앙값은 Batch 1·2·3 각각 772.5·472.0·1005.5회입니다. 단수명 셀이 많은 Batch 2의 과대예측과 아래 수명 그룹별 오차를 함께 보면, 배치에 따라 일반화 성능이 달라집니다. 큰 Gap의 절댓값만으로 특정 피처의 과적합을 단정하지 않습니다. 수명·충전 정책·수집 조건이 함께 달라 이를 원인 후보로 구분하고, 공통 전압축 검사와 저자 품질 규칙의 민감도 결과도 함께 확인합니다. 같은 Batch 1 고정 모델을 두 배치에 적용했으며 Batch 3 결과로 재선택하지 않았습니다.
 
 ![논문 기반 최종 회귀의 실제·예측 수명과 기존 Ridge 대비 MAPE](DAY2/results/13_paper_regression_comparison.png)
 
@@ -459,6 +463,8 @@ Selected 행은 **Variance·Discharge·Full의 피처군과 파라미터를 내�
 |  | Gap (Batch2-Batch3) | -0.007 | -49.009 | Batch 2 점수 − Batch 3 점수 |
 |  | Gap (Target-Test) | 0.441 | -2.627 | Accuracy: 95.1 − Test; F1: 논문 혼동행렬 재계산값 − Test |
 
+**Batch 2–3 Gap 해석:** Accuracy Gap은 **-49.009%p**, Macro-F1 Gap은 **-0.007**입니다. 음수는 Batch 3 점수가 더 높다는 뜻입니다. 그러나 단수명 셀은 Batch 2의 30셀에서 Batch 3의 1셀로 줄고, Batch 3 단수명 Recall은 **0.0%**입니다. 높은 Batch 3 Accuracy는 클래스 구성의 영향을 크게 받으며, Macro-F1과 혼동행렬까지 함께 봐야 합니다. 전체 Accuracy 개선을 단수명 식별이나 모든 배치의 일반화 개선으로 해석하지 않습니다.
+
 F1은 고정된 2개 클래스의 **Macro-F1(0–1)**, Accuracy는 **%(0–100)**입니다. Train은 4개 Nested-CV 외부 fold 점수의 단순 평균입니다. 클래스가 실제·예측 모두 없으면 해당 클래스 F1을 0으로 포함(`zero_division=0`)합니다. Hold-out은 단수명 정답이 없어 Accuracy 100%가 단수명 식별의 검증을 뜻하지 않습니다.
 
 점수는 높을수록 좋으므로 Gap (Train-Valid)=Train−Valid, Gap (Valid-Test)=Valid−Test, Gap (Target-Test)=Target−Test, Gap (Batch2-Batch3)=Batch 2−Batch 3입니다. F1 Gap은 점수 차이, Accuracy Gap은 %p입니다. Target F1은 위 논문 혼동행렬에서 재계산한 값이고, Target Accuracy는 과제 지정 95.1%입니다.
@@ -487,6 +493,8 @@ F1은 고정된 2개 클래스의 **Macro-F1(0–1)**, Accuracy는 **%(0–100)*
 | Test (Batch 3) |  | 0.461 | 70.455 | 44셀; 동일 고정 모델 |
 |  | Gap (Batch2-Batch3) | -0.355 | -52.506 | Batch 2 점수 − Batch 3 점수 |
 |  | Gap (Target-Test) | — | — | 3분류 Target·F1은 원논문에 없음; N/A |
+
+**Batch 2–3 Gap 해석:** Accuracy Gap은 **-52.506%p**, Macro-F1 Gap은 **-0.355**입니다. 음수는 Batch 3 점수가 더 높다는 뜻입니다. <500회 단수명 셀은 Batch 1에 0셀, Batch 2에 28셀, Batch 3에 0셀입니다. Batch 2에는 학습에서 관측하지 못한 클래스가 다수 포함되지만 Batch 3에는 해당 클래스가 없습니다. 배치별 클래스 구성과 클래스별 Recall을 함께 설명하며, Batch 3 점수만으로 단수명 예측 능력을 검증했다고 주장하지 않습니다.
 
 고정된 3개 클래스의 Macro-F1을 사용합니다. 3분류 Target은 원논문에 없어 `—`로 둡니다. Batch 1의 관측 클래스는 중간·장수명 두 개이며, 학습된 Logistic 모델은 이 관측 클래스에 대해 계수를 적합합니다. <500회 클래스는 학습셋에 없으므로 외부 셀의 단수명 Recall도 같이 제시합니다. 3분류를 이진 논문 Accuracy 95.1%와 동등한 실험으로 비교하지 않습니다.
 
