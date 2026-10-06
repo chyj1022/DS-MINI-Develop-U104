@@ -1,0 +1,13 @@
+{
+  "n_evaluated": 39,
+  "n_exact_match": 39,
+  "n_mismatch": 0,
+  "n_not_reached": 0,
+  "threshold_ah": 0.88,
+  "comparison": "exact equality; no tolerance",
+  "source_file": "/Users/skala/Desktop/SKALA/SKALA-dev/24_데이터분석_미니프로젝트/archive/2018-02-20_batchdata_updated_struct_errorcorrect.mat",
+  "cycle_number_source": "summary.cycle",
+  "labels_changed": false,
+  "cells_excluded_by_this_audit": 0,
+  "n_recovered_after_crossing": 2
+}

@@ -54,7 +54,7 @@ def enhance_report():
         {"평가항목":"EDA","배점":50,"직접 근거":"분포·열화·ΔQ·정책·상관·VIF를 원본 재계산","산출물":"eda_distribution / degradation_evidence / eda_correlations / eda_vif"},
         {"평가항목":"EDA → 전략 연결성","배점":30,"직접 근거":"관측→시사점→설계→코드→검증 연결표","산출물":"노트북 1–3절"},
         {"평가항목":"모델링 전략 수립","배점":20,"직접 근거":"논문 피처군·Elastic Net·초기 5회 Logistic·3분류·Batch 1 선택","산출물":"paper_model_candidates / paper_models_config / 기존 cv_results"},
-        {"평가항목":"전략 → 구현 반영","배점":20,"직접 근거":"100회 이내 피처·타깃 변환·실제 선택 모델","산출물":"features.py / model_coefficients / 노트북 직접 추출"},
+        {"평가항목":"전략 → 구현 반영","배점":20,"직접 근거":"최종 Discharge 피처·log 타깃 변환·실제 선택 모델; Ridge는 초기 비교","산출물":"paper_models.py / paper_model_coefficients.csv; 초기 Ridge: features.py / model_coefficients.csv"},
         {"평가항목":"Pipeline 개발","배점":40,"직접 근거":"원본→정책 분리→fold 내부 전처리→선택→재학습→평가","산출물":"train.py / 직접 재현 셀 / provenance / verify_results.py"},
         {"평가항목":"성능 리포팅 및 해석","배점":20,"직접 근거":"회귀·이진·3분류 지정 양식·원논문 혼동행렬 F1·Gap","산출물":"paper_selected_regression_performance / paper_binary_550_performance / paper_three_500_1000_performance"},
         {"평가항목":"분석 결과 해석","배점":20,"직접 근거":"과대예측 편향·동일 하위집단 확인·입력 범위 반례·ESS 해석","산출물":"prediction_bias / subgroup_overlap / domain_metrics / ESS 의사결정표"},
@@ -353,7 +353,9 @@ Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=
 평가항목별 근거는 노트북과 `assessment_evidence.csv`에서 확인할 수 있습니다. 자동 검증은 원본 피처·미래 정보 불변성·정책 분리·학습 전용 전처리·수치·모델·노트북 실행을 확인합니다.
 """
     from .readme_layout import align_with_assignment
-    path.write_text(align_with_assignment(concise))
+    from .submission_review import review_readme
+    from .submission_finalize import finalize_readme, refresh_notebook
+    path.write_text(finalize_readme(review_readme(align_with_assignment(concise))))
 
     nb=nbformat.read(ROOT/"DAY2/03_modeling.ipynb",as_version=4)
     environment={}
@@ -430,3 +432,4 @@ Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=
                 if output.output_type=="execute_result":output.execution_count=count
     nb.metadata.language_info.version=provenance["diagnostic_python"]
     nbformat.validate(nb);nbformat.write(nb,ROOT/"DAY2/03_modeling.ipynb")
+    refresh_notebook()

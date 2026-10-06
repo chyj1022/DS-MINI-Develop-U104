@@ -1,0 +1,5 @@
+﻿fold,selected_family,estimator,alpha,l1_ratio,selected_mape_pct,discharge_mape_pct,same_config_and_score
+1,Discharge,ElasticNet,0.01,0.2,5.201036468831481,5.201036468831481,True
+2,Discharge,ElasticNet,0.01,0.5,6.476167459518523,6.476167459518523,True
+3,Discharge,ElasticNet,0.001,0.8,6.079255440060148,6.079255440060148,True
+4,Discharge,ElasticNet,0.001,0.2,7.054746972974126,7.054746972974126,True

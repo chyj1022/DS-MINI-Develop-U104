@@ -213,18 +213,21 @@ def paper_classification_reference():
 def regression_reporting(scores):
     lookup=scores[(scores.task=="regression")&(scores.family=="Selected")].set_index("partition")
     rows=[]
+    notes={PARTITIONS[0]:'29셀; 피처군·파라미터 선택을 포함한 Nested-CV 외부 검증 평균',
+           PARTITIONS[1]:'개발 29셀로 학습한 모델의 정책 Hold-out 7셀 평가',
+           PARTITIONS[2]:'Batch 1 전체 36셀로 재학습한 고정 모델; 39셀 평가'}
     for p in PARTITIONS[:3]:
-        rows.append({"구분":p,"MAPE (%)":lookup.loc[p].mape_pct,"비고":f"{int(lookup.loc[p].n_cells)}셀; 논문 피처군·파라미터를 Batch 1 내부 선택"})
+        rows.append({"구분":p,"MAPE (%)":lookup.loc[p].mape_pct,"비고":notes[p]})
     tr,va,te=[lookup.loc[p].mape_pct for p in PARTITIONS[:3]]
-    rows.extend([{"구분":"Gap (Train-Valid)","MAPE (%)":va-tr,"비고":"Valid − Train; (+): 검증 오차 증가"},
-                 {"구분":"Gap (Valid-Test)","MAPE (%)":te-va,"비고":"Test − Valid; (+): 외부 배치 오차 증가"},
-                 {"구분":"Gap (Target-Test)","MAPE (%)":te-9.1,"비고":"Test − 9.1; 원논문 Target"}])
+    rows.extend([{"구분":"Gap (Train-Valid)","MAPE (%)":va-tr,"비고":"(+): 검증 오차 증가; 과적합 점검 신호"},
+                 {"구분":"Gap (Valid-Test)","MAPE (%)":te-va,"비고":"(+): 외부 배치 오차 증가; 일반화 저하 점검 신호"},
+                 {"구분":"Gap (Target-Test)","MAPE (%)":te-9.1,"비고":"Batch 2 기준; 과제 Target MAPE 9.1%"}])
     mandatory=pd.DataFrame(rows)
     if PARTITIONS[3] in lookup.index:
         m3=lookup.loc[PARTITIONS[3]].mape_pct
         rows.extend([{"구분":PARTITIONS[3],"MAPE (%)":m3,"비고":"동일 Batch 1 고정 모델"},
-                     {"구분":"Gap (Batch2-Batch3)","MAPE (%)":m3-te,"비고":"Batch 3 − Batch 2"},
-                     {"구분":"Gap (Target-Test, Batch 3)","MAPE (%)":m3-9.1,"비고":"Batch 3 − 9.1"}])
+                     {"구분":"Gap (Batch2-Batch3)","MAPE (%)":m3-te,"비고":"Batch 2・3 테스트 성능 차이"},
+                     {"구분":"Gap (Target-Test, Batch 3)","MAPE (%)":m3-9.1,"비고":"Batch 3 기준; 과제 Target MAPE 9.1%"}])
     return mandatory,pd.DataFrame(rows)
 
 
@@ -286,7 +289,15 @@ def trained_evidence():
     tables['paper_classification_source_audit']=pd.DataFrame(audit)
     trained=scores[(scores.task!="regression")&(scores.family=="Full")].rename(columns={"task":"scheme"})
     for scheme in SCHEMES:
-        extended=reporting_format(trained,scheme,target_f1,trained=True)
+        extended=reporting_format(trained,scheme,trained=True)
+        holdout=predictions[(predictions.task==scheme)&(predictions.family=='Full')&
+                           (predictions.partition==PARTITIONS[1])]
+        if not (holdout.observed_class==0).any():
+            extended.loc[extended['구분']==PARTITIONS[1],'비고']='7셀; 단수명 정답 0셀; 단수명 검증 불가'
+            extended.loc[extended['구분'].isin(['Gap (Train-Valid)','Gap (Valid-Test)']),'비고']='단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음'
+        for position, batch in [(5, 2), (8, 3)]:
+            if position < len(extended):
+                extended.loc[position,'비고']=f'Batch {batch} 기준; Accuracy Target 95.1%; F1 Target N/A' if scheme=='binary_550' else f'Batch {batch} 기준; 3분류 Target N/A'
         tables[f"paper_{scheme}_performance"]=extended.iloc[:6].copy()
         tables[f"paper_{scheme}_with_batch3"]=extended
         if len(extended)>6:
@@ -538,7 +549,7 @@ Selected 행은 **Variance·Discharge·Full의 피처군과 파라미터를 내�
 
 {mt(paper_c)}
 
-논문 Table 2의 Accuracy에 더해 **보충자료 Table 4·6의 혼동행렬에서 Macro-F1과 단수명 Recall을 재계산**했습니다. 이는 논문이 F1을 직접 보고했다는 뜻이 아닙니다. Full의 Primary+Secondary 81셀에서 Accuracy {rf.accuracy_pct:.3f}%가 한 자리 반올림으로 **95.1%**, 재계산 Macro-F1은 **{rf.macro_f1_reconstructed:.6f}**입니다. 이 두 값을 이진 Target 비교의 근거로 사용합니다. 보충자료 캡션은 Train 39셀로 적었지만 Full 혼동행렬의 합은 38셀입니다. Variance 혼동행렬도 캡션·본문 Accuracy와 일부 불일치합니다. 보고값을 임의로 수정하지 않고 `paper_classification_source_audit.csv`에 대조 결과를 저장했으며, F1은 명시된 혼동행렬 셀 개수로 계산했습니다.
+논문 Table 2의 Accuracy에 더해 **보충자료 Table 4·6의 혼동행렬에서 Macro-F1과 단수명 Recall을 재계산**했습니다. 이는 논문이 F1을 직접 보고했다는 뜻이 아닙니다. Full의 Primary+Secondary 81셀에서 Accuracy {rf.accuracy_pct:.3f}%가 한 자리 반올림으로 **95.1%**, 재계산 Macro-F1은 **{rf.macro_f1_reconstructed:.6f}**입니다. 과제의 Accuracy Target은 95.1%이고 F1 Target은 지정되지 않아 N/A로 둡니다. 재계산 F1은 별도 참고 비교에만 사용합니다. 보충자료 캡션은 Train 39셀로 적었지만 Full 혼동행렬의 합은 38셀입니다. Variance 혼동행렬도 캡션·본문 Accuracy와 일부 불일치합니다. 보고값을 임의로 수정하지 않고 `paper_classification_source_audit.csv`에 대조 결과를 저장했으며, F1은 명시된 혼동행렬 셀 개수로 계산했습니다.
 
 {mt(cl)}
 
@@ -554,7 +565,7 @@ Selected 행은 **Variance·Discharge·Full의 피처군과 파라미터를 내�
 
 F1은 고정된 2개 클래스의 **Macro-F1(0–1)**, Accuracy는 **%(0–100)**입니다. Train은 4개 Nested-CV 외부 fold 점수의 단순 평균입니다. 클래스가 실제·예측 모두 없으면 해당 클래스 F1을 0으로 포함(`zero_division=0`)합니다. Hold-out은 단수명 정답이 없어 Accuracy 100%가 단수명 식별의 검증을 뜻하지 않습니다.
 
-점수는 높을수록 좋으므로 Gap (Train-Valid)=Train−Valid, Gap (Valid-Test)=Valid−Test, Gap (Target-Test)=Target−Test, Gap (Batch2-Batch3)=Batch 2−Batch 3입니다. F1 Gap은 점수 차이, Accuracy Gap은 %p입니다. Target F1은 위 논문 혼동행렬에서 재계산한 값이고, Target Accuracy는 과제 지정 95.1%입니다.
+Gap 방향·단위는 성능 결과의 공통 규칙을 따릅니다. 과제 지정 F1 Target이 없어 F1의 Target Gap은 N/A입니다. Hold-out 관련 두 Gap은 클래스 구성 차이를 포함한 참고 차이입니다.
 
 ### 7. 단·중·장 분류 성능표: 초기 100회 Full
 
@@ -587,6 +598,8 @@ python -m src.paper_models --batch3   # 원본 피처 추출, 실제 추가 학�
 python -m src.report                  # 논문 비교표·그림·README·노트북 갱신
 python -m src.verify_results          # 기존 모델 및 추가 실험의 계산·누수 검증
 ```
+
+Batch 2 저장 수명 라벨의 원본 재검사는 `python -m src.submission_finalize --archive-dir archive`로 실행합니다. `python -m src.verify_results`는 원본 피처·미래 정보 배제·정책 분리·전처리·저장 예측·성능표와 Gap을 대조하고 DAY 2 노트북의 모든 코드 셀을 실행합니다. 검증에는 원본 MAT와 재생성한 로컬 모델이 필요하며, 공개 저장소의 CSV·그림·노트북 저장 출력은 별도로 열람할 수 있습니다.
 
 전체 `python -m src.train --batch3`에도 추가 실험을 연결했습니다. 기존 Ridge 모델·예측·설정은 비교 기준으로 보존하며 해시 일치를 검사합니다. 논문 수치는 `paper_regression_metrics.csv`, `paper_classification_metrics.csv`, `paper_classification_confusion.csv`, 추가 실험은 `paper_model_*.csv`, 주 성능표는 `paper_selected_regression_performance.csv`, 이진·3분류 양식은 `paper_binary_550_performance.csv`·`paper_three_500_1000_performance.csv`에 있습니다.
 '''

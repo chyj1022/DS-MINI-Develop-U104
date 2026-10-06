@@ -1,0 +1,2 @@
+﻿model,primary_excluded_n,primary_excluded_reported_mape_pct,secondary_n,secondary_reported_mape_pct,weighted_reported_mape_pct,abstract_target_mape_pct,status,source
+Full,42,7.5,40,10.7,9.060975609756097,9.1,inference from rounded Table 1 values; pooling not explicitly stated,https://www.nature.com/articles/s41560-019-0356-8

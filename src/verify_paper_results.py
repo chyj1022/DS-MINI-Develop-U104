@@ -112,12 +112,12 @@ def main():
         for key,col in [('macro_f1','F1-Score (macro)'),('accuracy_pct','Accuracy (%)')]:
             a,b,c=[values.loc[n,key] for n in PARTITIONS[:3]]
             np.testing.assert_allclose(table[col].iloc[:5],[a,b,c,a-b,b-c])
-            expected=(target-c if key=='macro_f1' else 95.1-c) if task=='binary_550' else np.nan
+            expected=95.1-c if task=='binary_550' and key=='accuracy_pct' else np.nan
             np.testing.assert_allclose(table[col].iloc[5],expected,equal_nan=True)
             if PARTITIONS[3] in values.index:
                 extended=pd.read_csv(OUT/f'paper_{task}_with_batch3.csv')
                 d=values.loc[PARTITIONS[3],key]
-                tg=(target-d if key=='macro_f1' else 95.1-d) if task=='binary_550' else np.nan
+                tg=95.1-d if task=='binary_550' and key=='accuracy_pct' else np.nan
                 np.testing.assert_allclose(extended[col].iloc[-3:],[d,c-d,tg],equal_nan=True)
                 formatted=pd.read_csv(OUT/f'paper_{task}_with_batch3_formatted.csv').fillna('')
                 assert formatted.shape==(9,5)
@@ -131,6 +131,24 @@ def main():
         g=p[(p.task=='regression')&(p.family=='Selected')&(p.batch==3)&(~p.cell_id.isin([2,37,42,43]))]
         assert len(g)==sensitivity.iloc[1].n_cells==40
         np.testing.assert_allclose(sensitivity.iloc[1].mape_pct,(100*(g.prediction-g.cycle_life).abs()/g.cycle_life).mean())
+    label_path=OUT/'batch2_cycle_life_audit.csv'
+    if label_path.exists():
+        audit=pd.read_csv(label_path)
+        expected_ids=set(p[(p.task=='regression')&(p.family=='Selected')&(p.partition==PARTITIONS[2])].cell_id)
+        assert len(audit)==39 and set(audit.cell_id)==expected_ids
+        with h5py.File(ROOT/'archive/2018-02-20_batchdata_updated_struct_errorcorrect.mat') as mat:
+            batch=mat['batch']
+            for row in audit.itertuples():
+                s=mat[batch['summary'][int(row.cell_id),0]]
+                pairs=list(zip(s['cycle'][()].ravel(),s['QDischarge'][()].ravel()))
+                hits=[cycle for cycle,q in pairs if np.isfinite(cycle) and np.isfinite(q) and q<=.88]
+                if hits:
+                    first=min(hits)
+                    assert row.first_qd_le_088_cycle==first
+                    assert row.crossing_minus_stored_cycles==first-row.stored_cycle_life
+                    assert row.exact_match==(first==row.stored_cycle_life)
+                else:
+                    assert row.not_reached and pd.isna(row.first_qd_le_088_cycle)
     print('PASS: paper early-5/100 source parity; future-window invariance; raw early-5 curves; 13/20/18 features; disjoint policies; train-only preprocessing; actual saved/refitted predictions; nested means; regression/classification Gaps; reconstructed paper F1; original model unchanged')
 
 

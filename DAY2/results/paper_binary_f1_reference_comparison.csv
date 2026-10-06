@@ -1,0 +1,4 @@
+﻿evaluation,project_macro_f1,paper_pooled_reference_macro_f1,reference_minus_project_f1,purpose
+이번 Batch 2,0.48684210526315785,0.9357142857142857,0.44887218045112787,reference comparison only; not an assignment F1 Target
+이번 Batch 3 전체,0.4942528735632184,0.9357142857142857,0.4414614121510673,reference comparison only; not an assignment F1 Target
+이번 Batch 3 저자 품질 규칙,0.4936708860759494,0.9357142857142857,0.44204339963833633,reference comparison only; not an assignment F1 Target

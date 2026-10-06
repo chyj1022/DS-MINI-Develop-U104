@@ -1,0 +1,4 @@
+﻿evaluation,n_cells,accuracy_pct,macro_f1,n_short,n_short_correct,short_recall_pct
+논문 Full Secondary,40,97.5,0.4936708860759494,1,0,0.0
+이번 Batch 3 전체,44,97.72727272727273,0.4942528735632184,1,0,0.0
+이번 Batch 3 저자 품질 규칙,40,97.5,0.4936708860759494,1,0,0.0

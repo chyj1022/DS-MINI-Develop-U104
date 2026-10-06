@@ -1,0 +1,5 @@
+﻿partition,structure,n_cells,mape_pct,mae_cycles,mean_signed_error_cycles,observed_life_min,observed_life_max,structure_source
+Test (Batch 2),standard,30,24.384604145928005,109.51970985886622,103.82232704016475,392.0,514.0,policy contains newstructure; otherwise standard
+Test (Batch 2),newstructure,9,29.491505963773914,259.82226901617724,259.82226901617724,777.0,1186.0,policy contains newstructure; otherwise standard
+Test (Batch 3),standard,0,,,,,,policy contains newstructure; otherwise standard
+Test (Batch 3),newstructure,44,10.52270486789951,120.2190895761409,-11.717023594035204,541.0,1935.0,policy contains newstructure; otherwise standard

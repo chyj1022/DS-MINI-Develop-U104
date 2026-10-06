@@ -1,0 +1,39 @@
+﻿scope,feature_set,feature,n_cells,r_squared,vif,imputation
+Batch 1 full fit,Discharge 13 candidates,c100_dq_min_log,36,0.9992575131128865,1346.8251323434981,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_dq_mean_log,36,0.9982712722654636,578.4600894762623,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_dq_variance_log,36,0.9987683036565385,811.8884214510329,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_dq_skew_log,36,0.6375202816339516,2.758775041284254,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_dq_kurtosis_log,36,0.8352649654262243,6.070354145293577,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_dq_2v_log,36,0.9825927973799182,57.44748434457542,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_capacity_slope,36,0.998962640853133,963.9862944479642,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_capacity_intercept,36,0.9999017987610097,10183.170907842195,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_late_slope,36,0.9998958091032495,9597.767474777913,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_late_intercept,36,0.9999743339992081,38962.0497602229,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_capacity_2,36,0.9994158218521073,1711.8065843566883,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_capacity_max_minus_2,36,0.9577701794579602,23.67994907779679,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Discharge 13 candidates,c100_capacity_end,36,0.9999540790658151,21776.56046747868,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Selected 6 nonzero,c100_dq_min_log,36,0.9967898919395847,311.515992975831,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Selected 6 nonzero,c100_dq_variance_log,36,0.9965391536587649,288.94666257939616,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Selected 6 nonzero,c100_dq_kurtosis_log,36,0.6118244127252647,2.5761537633541067,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Selected 6 nonzero,c100_capacity_2,36,0.9800839289191765,50.21070651645072,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Selected 6 nonzero,c100_capacity_max_minus_2,36,0.7983618648911573,4.95937933298286,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 full fit,Selected 6 nonzero,c100_capacity_end,36,0.9739307581574599,38.35938175878163,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_dq_min_log,29,0.9995124953998519,2051.262695154376,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_dq_mean_log,29,0.9984518138566415,645.9171620220602,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_dq_variance_log,29,0.9993205579293174,1471.795820643474,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_dq_skew_log,29,0.617946462769311,2.6174342141902134,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_dq_kurtosis_log,29,0.8744072664662843,7.962244087406119,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_dq_2v_log,29,0.9887458649777454,88.85622911245879,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_capacity_slope,29,0.9990642305258988,1068.6392617802128,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_capacity_intercept,29,0.9998923360835961,9288.162955620213,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_late_slope,29,0.9999180297291141,12199.544898326663,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_late_intercept,29,0.9999754229830878,40688.42055054564,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_capacity_2,29,0.9996287115077901,2693.3234425015435,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_capacity_max_minus_2,29,0.9712755222321807,34.81351368971881,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Discharge 13 candidates,c100_capacity_end,29,0.9999615784289637,26027.046084493035,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Selected 6 nonzero,c100_dq_min_log,29,0.9974354156266898,389.92673058725137,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Selected 6 nonzero,c100_dq_variance_log,29,0.9972958206416767,369.797956234687,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Selected 6 nonzero,c100_dq_kurtosis_log,29,0.6555799835003479,2.9034317173636452,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Selected 6 nonzero,c100_capacity_2,29,0.9782349255529587,45.945167908025965,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Selected 6 nonzero,c100_capacity_max_minus_2,29,0.8140871010162591,5.378862927028295,median fitted on this Batch 1 scope; diagnostic only
+Batch 1 development,Selected 6 nonzero,c100_capacity_end,29,0.9723772688912615,36.20206836403838,median fitted on this Batch 1 scope; diagnostic only

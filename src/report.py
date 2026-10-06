@@ -139,7 +139,7 @@ Batch 2에서 **{below}/{len(b2)}셀**의 수명이 Batch 1 최소값({b1.cycle_
     md("## 7. 평가항목 대응\n\n"+evaluation)
     md("## 재학습 및 검증\n\n프로젝트 루트 터미널에서 `python -m src.train`, `python -m src.verify_results`를 실행하면 결과를 재생성하고 분할·성능표·모델 저장·미래 정보 배제를 확인합니다. 노트북에는 원본 피처 추출과 고정 설정의 재학습·평가 셀도 포함하며 전체 후보 탐색은 위 명령으로 수행합니다.")
     md("## 참고문헌\n\n- Severson et al. (2019). Data-driven prediction of battery cycle life before capacity degradation. *Nature Energy*, 4, 383–391. [원논문](https://www.nature.com/articles/s41560-019-0356-8).")
-    md("## 팀 구성\n\n- 최유정(울산 3반 U104), 개인 수행: EDA, 모델 전략 수립, 피처 엔지니어링, 파이프라인·모델 개발, Batch 2·3 성능 평가, 오류 분석 및 보고서 작성 전 과정.")
+    md("## 수행자\n\n- 최유정(울산 3반 U104), 개인 수행: EDA, 모델 전략 수립, 피처 엔지니어링, 파이프라인·모델 개발, Batch 2·3 성능 평가, 오류 분석 및 보고서 작성 전 과정.")
     nb.cells=cells
     nb.metadata={"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":frozen["python"]}}
     nbformat.validate(nb)

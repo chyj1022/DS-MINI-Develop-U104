@@ -2,7 +2,7 @@
 EDA,50,분포·열화·ΔQ·정책·상관·VIF를 원본 재계산,eda_distribution / degradation_evidence / eda_correlations / eda_vif
 EDA → 전략 연결성,30,관측→시사점→설계→코드→검증 연결표,노트북 1–3절
 모델링 전략 수립,20,논문 피처군·Elastic Net·초기 5회 Logistic·3분류·Batch 1 선택,paper_model_candidates / paper_models_config / 기존 cv_results
-전략 → 구현 반영,20,100회 이내 피처·타깃 변환·실제 선택 모델,features.py / model_coefficients / 노트북 직접 추출
+전략 → 구현 반영,20,최종 Discharge 피처·log 타깃 변환·실제 선택 모델; Ridge는 초기 비교,paper_models.py / paper_model_coefficients.csv; 초기 Ridge: features.py / model_coefficients.csv
 Pipeline 개발,40,원본→정책 분리→fold 내부 전처리→선택→재학습→평가,train.py / 직접 재현 셀 / provenance / verify_results.py
 성능 리포팅 및 해석,20,회귀·이진·3분류 지정 양식·원논문 혼동행렬 F1·Gap,paper_selected_regression_performance / paper_binary_550_performance / paper_three_500_1000_performance
 분석 결과 해석,20,과대예측 편향·동일 하위집단 확인·입력 범위 반례·ESS 해석,prediction_bias / subgroup_overlap / domain_metrics / ESS 의사결정표

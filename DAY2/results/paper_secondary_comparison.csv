@@ -1,0 +1,4 @@
+﻿model,n_cells,mape_pct,paper_secondary_mape_pct,gap_pp,comparison,source
+Variance,40,11.747151822118713,11.4,0.34715182211871287,same date and author quality rule; different training split,https://www.nature.com/articles/s41560-019-0356-8
+Discharge,40,9.805655543991302,8.6,1.205655543991302,same date and author quality rule; different training split,https://www.nature.com/articles/s41560-019-0356-8
+Full,40,9.487007023903274,10.7,-1.212992976096725,same date and author quality rule; different training split,https://www.nature.com/articles/s41560-019-0356-8
