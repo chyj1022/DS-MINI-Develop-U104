@@ -352,7 +352,8 @@ Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=
 
 평가항목별 근거는 노트북과 `assessment_evidence.csv`에서 확인할 수 있습니다. 자동 검증은 원본 피처·미래 정보 불변성·정책 분리·학습 전용 전처리·수치·모델·노트북 실행을 확인합니다.
 """
-    path.write_text(concise)
+    from .readme_layout import align_with_assignment
+    path.write_text(align_with_assignment(concise))
 
     nb=nbformat.read(ROOT/"DAY2/03_modeling.ipynb",as_version=4)
     environment={}
