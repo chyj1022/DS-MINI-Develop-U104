@@ -1,0 +1,7 @@
+﻿model,partition,caption_n_cells,matrix_n_cells,table2_reported_accuracy_pct,matrix_computed_accuracy_pct,count_agrees,rounded_accuracy_agrees
+Variance classifier,Train,39,38,82.1,81.57894736842105,False,False
+Variance classifier,Primary test,41,42,78.6,80.95238095238095,False,False
+Variance classifier,Secondary test,40,40,97.5,97.5,True,True
+Full classifier,Train,39,38,97.4,97.36842105263158,False,True
+Full classifier,Primary test,41,41,92.7,92.6829268292683,True,True
+Full classifier,Secondary test,40,40,97.5,97.5,True,True

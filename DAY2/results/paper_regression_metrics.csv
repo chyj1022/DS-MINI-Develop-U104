@@ -1,0 +1,4 @@
+﻿model,train_mape_pct,primary_mape_pct,primary_excluded_mape_pct,secondary_mape_pct,train_rmse_cycles,primary_rmse_cycles,primary_excluded_rmse_cycles,secondary_rmse_cycles,source,locator
+Variance,14.1,14.7,13.2,11.4,103,138,138,196,https://www.nature.com/articles/s41560-019-0356-8,Table 1 (PDF p.4)
+Discharge,9.8,13.0,10.1,8.6,76,91,86,173,https://www.nature.com/articles/s41560-019-0356-8,Table 1 (PDF p.4)
+Full,5.6,14.1,7.5,10.7,51,118,100,214,https://www.nature.com/articles/s41560-019-0356-8,Table 1 (PDF p.4)

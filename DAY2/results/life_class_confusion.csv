@@ -1,0 +1,53 @@
+﻿scheme,partition,observed_group,predicted_group,n_cells
+binary_550,Train (Batch 1 CV),short_le550,short_le550,0
+binary_550,Train (Batch 1 CV),short_le550,long_gt550,1
+binary_550,Train (Batch 1 CV),long_gt550,short_le550,1
+binary_550,Train (Batch 1 CV),long_gt550,long_gt550,27
+binary_550,Valid (Batch 1 Hold-out),short_le550,short_le550,0
+binary_550,Valid (Batch 1 Hold-out),short_le550,long_gt550,0
+binary_550,Valid (Batch 1 Hold-out),long_gt550,short_le550,0
+binary_550,Valid (Batch 1 Hold-out),long_gt550,long_gt550,7
+binary_550,Test (Batch 2),short_le550,short_le550,7
+binary_550,Test (Batch 2),short_le550,long_gt550,23
+binary_550,Test (Batch 2),long_gt550,short_le550,0
+binary_550,Test (Batch 2),long_gt550,long_gt550,9
+binary_550,Test (Batch 3),short_le550,short_le550,0
+binary_550,Test (Batch 3),short_le550,long_gt550,1
+binary_550,Test (Batch 3),long_gt550,short_le550,0
+binary_550,Test (Batch 3),long_gt550,long_gt550,43
+three_500_1000,Train (Batch 1 CV),short_lt500,short_lt500,0
+three_500_1000,Train (Batch 1 CV),short_lt500,middle_500_1000,0
+three_500_1000,Train (Batch 1 CV),short_lt500,long_gt1000,0
+three_500_1000,Train (Batch 1 CV),middle_500_1000,short_lt500,1
+three_500_1000,Train (Batch 1 CV),middle_500_1000,middle_500_1000,24
+three_500_1000,Train (Batch 1 CV),middle_500_1000,long_gt1000,0
+three_500_1000,Train (Batch 1 CV),long_gt1000,short_lt500,0
+three_500_1000,Train (Batch 1 CV),long_gt1000,middle_500_1000,4
+three_500_1000,Train (Batch 1 CV),long_gt1000,long_gt1000,0
+three_500_1000,Valid (Batch 1 Hold-out),short_lt500,short_lt500,0
+three_500_1000,Valid (Batch 1 Hold-out),short_lt500,middle_500_1000,0
+three_500_1000,Valid (Batch 1 Hold-out),short_lt500,long_gt1000,0
+three_500_1000,Valid (Batch 1 Hold-out),middle_500_1000,short_lt500,0
+three_500_1000,Valid (Batch 1 Hold-out),middle_500_1000,middle_500_1000,6
+three_500_1000,Valid (Batch 1 Hold-out),middle_500_1000,long_gt1000,0
+three_500_1000,Valid (Batch 1 Hold-out),long_gt1000,short_lt500,0
+three_500_1000,Valid (Batch 1 Hold-out),long_gt1000,middle_500_1000,1
+three_500_1000,Valid (Batch 1 Hold-out),long_gt1000,long_gt1000,0
+three_500_1000,Test (Batch 2),short_lt500,short_lt500,2
+three_500_1000,Test (Batch 2),short_lt500,middle_500_1000,26
+three_500_1000,Test (Batch 2),short_lt500,long_gt1000,0
+three_500_1000,Test (Batch 2),middle_500_1000,short_lt500,0
+three_500_1000,Test (Batch 2),middle_500_1000,middle_500_1000,5
+three_500_1000,Test (Batch 2),middle_500_1000,long_gt1000,3
+three_500_1000,Test (Batch 2),long_gt1000,short_lt500,0
+three_500_1000,Test (Batch 2),long_gt1000,middle_500_1000,0
+three_500_1000,Test (Batch 2),long_gt1000,long_gt1000,3
+three_500_1000,Test (Batch 3),short_lt500,short_lt500,0
+three_500_1000,Test (Batch 3),short_lt500,middle_500_1000,0
+three_500_1000,Test (Batch 3),short_lt500,long_gt1000,0
+three_500_1000,Test (Batch 3),middle_500_1000,short_lt500,0
+three_500_1000,Test (Batch 3),middle_500_1000,middle_500_1000,18
+three_500_1000,Test (Batch 3),middle_500_1000,long_gt1000,3
+three_500_1000,Test (Batch 3),long_gt1000,short_lt500,0
+three_500_1000,Test (Batch 3),long_gt1000,middle_500_1000,5
+three_500_1000,Test (Batch 3),long_gt1000,long_gt1000,18

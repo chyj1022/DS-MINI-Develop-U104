@@ -1,0 +1,10 @@
+﻿구분,MAPE (%),비고
+Train (Batch 1 CV),6.202801585346069,29셀; 논문 피처군·파라미터를 Batch 1 내부 선택
+Valid (Batch 1 Hold-out),6.721941443907663,7셀; 논문 피처군·파라미터를 Batch 1 내부 선택
+Test (Batch 2),25.56311995004629,39셀; 논문 피처군·파라미터를 Batch 1 내부 선택
+Gap (Train-Valid),0.5191398585615934,Valid − Train; (+): 검증 오차 증가
+Gap (Valid-Test),18.841178506138625,Test − Valid; (+): 외부 배치 오차 증가
+Gap (Target-Test),16.46311995004629,Test − 9.1; 원논문 Target
+Test (Batch 3),10.522704867899511,동일 Batch 1 고정 모델
+Gap (Batch2-Batch3),-15.040415082146778,Batch 3 − Batch 2
+"Gap (Target-Test, Batch 3)",1.4227048678995118,Batch 3 − 9.1

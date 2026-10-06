@@ -1,0 +1,33 @@
+﻿model,partition,observed_class,predicted_class,n_cells
+Variance classifier,Train,0,0,16
+Variance classifier,Train,0,1,4
+Variance classifier,Train,1,0,3
+Variance classifier,Train,1,1,15
+Variance classifier,Primary test,0,0,14
+Variance classifier,Primary test,0,1,5
+Variance classifier,Primary test,1,0,3
+Variance classifier,Primary test,1,1,20
+Variance classifier,Secondary test,0,0,0
+Variance classifier,Secondary test,0,1,1
+Variance classifier,Secondary test,1,0,0
+Variance classifier,Secondary test,1,1,39
+Variance classifier,Primary + Secondary test,0,0,14
+Variance classifier,Primary + Secondary test,0,1,6
+Variance classifier,Primary + Secondary test,1,0,3
+Variance classifier,Primary + Secondary test,1,1,59
+Full classifier,Train,0,0,19
+Full classifier,Train,0,1,1
+Full classifier,Train,1,0,0
+Full classifier,Train,1,1,18
+Full classifier,Primary test,0,0,19
+Full classifier,Primary test,0,1,0
+Full classifier,Primary test,1,0,3
+Full classifier,Primary test,1,1,19
+Full classifier,Secondary test,0,0,0
+Full classifier,Secondary test,0,1,1
+Full classifier,Secondary test,1,0,0
+Full classifier,Secondary test,1,1,39
+Full classifier,Primary + Secondary test,0,0,19
+Full classifier,Primary + Secondary test,0,1,1
+Full classifier,Primary + Secondary test,1,0,3
+Full classifier,Primary + Secondary test,1,1,58

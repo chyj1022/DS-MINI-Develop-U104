@@ -1,0 +1,29 @@
+﻿task,family,fold,n_train,n_valid,constant_fallback,config,mape_pct,mae_cycles,rmse_cycles,macro_f1,accuracy_pct
+regression,Variance,1,21,8,False,"{""estimator"": ""Linear""}",4.9818850797401675,39.35942092460698,52.92776171035608,,
+regression,Variance,2,22,7,False,"{""estimator"": ""Linear""}",10.790473625381408,75.45460578455263,95.91815737265912,,
+regression,Variance,3,22,7,False,"{""estimator"": ""Linear""}",10.648831062002733,99.84909732167218,117.44098777447351,,
+regression,Variance,4,22,7,False,"{""estimator"": ""Linear""}",9.833894844434532,82.0927814198553,102.00763812610096,,
+regression,Discharge,1,21,8,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.01, ""l1_ratio"": 0.2}",5.201036468831481,40.830498729232104,58.223143356783375,,
+regression,Discharge,2,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.01, ""l1_ratio"": 0.5}",6.476167459518523,42.53079138292464,44.412537872074324,,
+regression,Discharge,3,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.001, ""l1_ratio"": 0.8}",6.079255440060148,56.05763261058174,70.59928213710364,,
+regression,Discharge,4,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.001, ""l1_ratio"": 0.2}",7.054746972974126,61.42253289686261,70.87098842576137,,
+regression,Full,1,21,8,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.01, ""l1_ratio"": 0.8}",5.638818897648231,41.60650385438052,54.14352213214417,,
+regression,Full,2,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.01, ""l1_ratio"": 0.8}",7.631085067197809,51.34740185612303,56.331889522242626,,
+regression,Full,3,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.01, ""l1_ratio"": 0.2}",17.732019029603315,136.98066809612186,227.53583283651875,,
+regression,Full,4,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.1, ""l1_ratio"": 0.2}",9.630638634961944,85.43933215996388,110.77044392547353,,
+regression,Selected,1,21,8,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.01, ""l1_ratio"": 0.2, ""family"": ""Discharge""}",5.201036468831481,40.830498729232104,58.223143356783375,,
+regression,Selected,2,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.01, ""l1_ratio"": 0.5, ""family"": ""Discharge""}",6.476167459518523,42.53079138292464,44.412537872074324,,
+regression,Selected,3,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.001, ""l1_ratio"": 0.8, ""family"": ""Discharge""}",6.079255440060148,56.05763261058174,70.59928213710364,,
+regression,Selected,4,22,7,False,"{""estimator"": ""ElasticNet"", ""alpha"": 0.001, ""l1_ratio"": 0.2, ""family"": ""Discharge""}",7.054746972974126,61.42253289686261,70.87098842576137,,
+binary_550,Variance,1,21,8,False,"{""estimator"": ""Logistic"", ""C"": 0.1, ""penalty"": ""l2"", ""class_weight"": null}",,,,0.5,100.0
+binary_550,Variance,2,22,7,True,"{""estimator"": ""Logistic"", ""C"": 0.1, ""penalty"": ""l2"", ""class_weight"": null}",,,,0.46153846153846156,85.71428571428571
+binary_550,Variance,3,22,7,False,"{""estimator"": ""Logistic"", ""C"": 0.1, ""penalty"": ""l2"", ""class_weight"": null}",,,,0.5,100.0
+binary_550,Variance,4,22,7,False,"{""estimator"": ""Logistic"", ""C"": 0.1, ""penalty"": ""l2"", ""class_weight"": null}",,,,0.5,100.0
+binary_550,Full,1,21,8,False,"{""estimator"": ""Logistic"", ""C"": 1.0, ""penalty"": ""l1"", ""class_weight"": null}",,,,0.5,100.0
+binary_550,Full,2,22,7,True,"{""estimator"": ""Logistic"", ""C"": 0.1, ""penalty"": ""l1"", ""class_weight"": null}",,,,0.46153846153846156,85.71428571428571
+binary_550,Full,3,22,7,False,"{""estimator"": ""Logistic"", ""C"": 1.0, ""penalty"": ""l1"", ""class_weight"": null}",,,,0.5,100.0
+binary_550,Full,4,22,7,False,"{""estimator"": ""Logistic"", ""C"": 1.0, ""penalty"": ""l1"", ""class_weight"": null}",,,,0.5,100.0
+three_500_1000,Full,1,21,8,False,"{""estimator"": ""Logistic"", ""C"": 0.1, ""penalty"": ""l2"", ""class_weight"": ""balanced""}",,,,0.3111111111111111,87.5
+three_500_1000,Full,2,22,7,False,"{""estimator"": ""Logistic"", ""C"": 0.1, ""penalty"": ""l2"", ""class_weight"": ""balanced""}",,,,0.3076923076923077,85.71428571428571
+three_500_1000,Full,3,22,7,False,"{""estimator"": ""Logistic"", ""C"": 0.1, ""penalty"": ""l2"", ""class_weight"": null}",,,,0.24242424242424243,57.14285714285714
+three_500_1000,Full,4,22,7,False,"{""estimator"": ""Logistic"", ""C"": 1.0, ""penalty"": ""l2"", ""class_weight"": ""balanced""}",,,,0.43333333333333335,71.42857142857143

@@ -1,0 +1,21 @@
+﻿scheme,partition,life_group,n_actual,n_predicted,n_correct,recall_pct,f1
+binary_550,Train (Batch 1 CV),short_le550,1,1,0,0.0,0.0
+binary_550,Train (Batch 1 CV),long_gt550,28,28,27,96.42857142857143,0.9642857142857143
+binary_550,Valid (Batch 1 Hold-out),short_le550,0,0,0,,
+binary_550,Valid (Batch 1 Hold-out),long_gt550,7,7,7,100.0,1.0
+binary_550,Test (Batch 2),short_le550,30,7,7,23.333333333333332,0.3783783783783784
+binary_550,Test (Batch 2),long_gt550,9,32,9,100.0,0.43902439024390244
+binary_550,Test (Batch 3),short_le550,1,0,0,0.0,0.0
+binary_550,Test (Batch 3),long_gt550,43,44,43,100.0,0.9885057471264368
+three_500_1000,Train (Batch 1 CV),short_lt500,0,1,0,,0.0
+three_500_1000,Train (Batch 1 CV),middle_500_1000,25,28,24,96.0,0.9056603773584906
+three_500_1000,Train (Batch 1 CV),long_gt1000,4,0,0,0.0,0.0
+three_500_1000,Valid (Batch 1 Hold-out),short_lt500,0,0,0,,
+three_500_1000,Valid (Batch 1 Hold-out),middle_500_1000,6,7,6,100.0,0.9230769230769231
+three_500_1000,Valid (Batch 1 Hold-out),long_gt1000,1,0,0,0.0,0.0
+three_500_1000,Test (Batch 2),short_lt500,28,2,2,7.142857142857143,0.13333333333333333
+three_500_1000,Test (Batch 2),middle_500_1000,8,31,5,62.5,0.2564102564102564
+three_500_1000,Test (Batch 2),long_gt1000,3,6,3,100.0,0.6666666666666666
+three_500_1000,Test (Batch 3),short_lt500,0,0,0,,
+three_500_1000,Test (Batch 3),middle_500_1000,21,23,18,85.71428571428571,0.8181818181818182
+three_500_1000,Test (Batch 3),long_gt1000,23,21,18,78.26086956521739,0.8181818181818182

@@ -53,10 +53,10 @@ def enhance_report():
     assessment=pd.DataFrame([
         {"평가항목":"EDA","배점":50,"직접 근거":"분포·열화·ΔQ·정책·상관·VIF를 원본 재계산","산출물":"eda_distribution / degradation_evidence / eda_correlations / eda_vif"},
         {"평가항목":"EDA → 전략 연결성","배점":30,"직접 근거":"관측→시사점→설계→코드→검증 연결표","산출물":"노트북 1–3절"},
-        {"평가항목":"모델링 전략 수립","배점":20,"직접 근거":"회귀·정규화·212후보·기준선·개선 불확실성","산출물":"cv_results / feature_ablation / paired_ablation"},
+        {"평가항목":"모델링 전략 수립","배점":20,"직접 근거":"논문 피처군·Elastic Net·초기 5회 Logistic·3분류·Batch 1 선택","산출물":"paper_model_candidates / paper_models_config / 기존 cv_results"},
         {"평가항목":"전략 → 구현 반영","배점":20,"직접 근거":"100회 이내 피처·타깃 변환·실제 선택 모델","산출물":"features.py / model_coefficients / 노트북 직접 추출"},
         {"평가항목":"Pipeline 개발","배점":40,"직접 근거":"원본→정책 분리→fold 내부 전처리→선택→재학습→평가","산출물":"train.py / 직접 재현 셀 / provenance / verify_results.py"},
-        {"평가항목":"성능 리포팅 및 해석","배점":20,"직접 근거":"지정 형식·Gap 방향·동일 Batch 2 기준선·불확실성·조건 차이","산출물":"model_performance / batch2_baseline_comparison / metric_uncertainty"},
+        {"평가항목":"성능 리포팅 및 해석","배점":20,"직접 근거":"회귀·이진·3분류 지정 양식·원논문 혼동행렬 F1·Gap","산출물":"paper_selected_regression_performance / paper_binary_550_performance / paper_three_500_1000_performance"},
         {"평가항목":"분석 결과 해석","배점":20,"직접 근거":"과대예측 편향·동일 하위집단 확인·입력 범위 반례·ESS 해석","산출물":"prediction_bias / subgroup_overlap / domain_metrics / ESS 의사결정표"},
     ])
     assessment.to_csv(OUT/"assessment_evidence.csv",index=False,encoding="utf-8-sig")
@@ -153,7 +153,7 @@ python -m src.verify_results      # 결과·누수·코드 셀 검증
     path=ROOT/"README.md"
     # Show key evidence in README; retain full calculations in the notebook.
     table=read("model_performance")
-    additional_reporting=("\n\n### 추가 평가: Batch 3 (과제 확장 양식)\n\n"+markdown_table(formatted_performance)+
+    additional_reporting=("\n\n### 초기 Ridge의 Batch 3 평가 (비교 기준)\n\n"+markdown_table(formatted_performance)+
         "\n\nGap (Train-Valid)은 Valid − Train으로 계산합니다. Batch2-Batch3 Gap은 Batch 3 − Batch 2, 마지막 Target Gap은 Batch 3 − 9.1입니다. 단위는 %p이며 표의 두 Target Gap은 각각 Batch 2·Batch 3 결과에 해당합니다.\n\n"+
         f"Batch 3 MAPE {all_scores[all_scores['index']=='Test (Batch 3)'].mape_pct.iloc[0]:.3f}%는 Batch 2보다 {abs(all_scores[all_scores['index']=='Test (Batch 3)'].mape_pct.iloc[0]-model_mape):.3f}%p 낮습니다. 이번 결과는 모든 외부 배치가 동일하게 어렵다는 가정과 맞지 않으며, 짧은 수명에 집중된 Batch 2에서 모델이 더 취약함을 보여줍니다. 구조·정책·수명 분포가 함께 달라 원인을 하나로 단정하지 않습니다. 추가 양식의 계산 근거는 `model_performance_with_batch3_formatted.csv`에 저장합니다.") if has3 else ''
     ci2=intervals[intervals.partition=="Test (Batch 2)"].iloc[0]
@@ -164,17 +164,26 @@ python -m src.verify_results      # 결과·누수·코드 셀 검증
     baseline_table['모델']=['Batch 1 중앙값 고정 예측','고정 Ridge 모델']
     top_error_table=read('error_analysis').head(5)[['cell_id','cycle_life','predicted_cycle_life','signed_error_cycles','ape_pct']].rename(columns={'cell_id':'셀 ID','cycle_life':'실제 수명','predicted_cycle_life':'예측 수명','signed_error_cycles':'예측−실제 (회)','ape_pct':'오차율 (%)'})
     detailed_eda=readme_section(distribution, core_vif, full_vif)
+    from .paper_comparison import generate as generate_paper_comparison, readme_section as paper_readme
+    paper_tables=generate_paper_comparison()
+    paper_text=paper_readme(paper_tables)
+    paper_configs=json.loads((OUT/'paper_models_config.json').read_text())
+    selected_paper=next(r for r in paper_configs if r['task']=='regression' and r['family']=='Selected')
+    paper_mandatory=paper_tables['paper_selected_regression_performance']
+    paper_extra=("\n\n### 최종 회귀 추가 평가: Batch 3\n\n"+markdown_table(batch3_reporting_format(paper_tables['paper_selected_regression_with_batch3']))) if has3 else ''
     concise=f"""# ESS 배터리 수명 예측
 
-초기 100사이클 데이터로 총 Cycle Life를 예측하고 **Batch 1 학습 → Batch 2 평가**로 배치 간 일반화를 확인합니다. EDA 근거와 모델 구현, 성능·오류·ESS 해석을 연결합니다.
+초기 100사이클의 총 Cycle Life 회귀와 **초기 5사이클의 장·단수명 분류**를 개발하고 **Batch 1 학습 → Batch 2 평가**로 원논문 Target과 비교합니다. 단·중·장수명 분류와 Batch 3 평가도 추가했습니다. EDA 근거와 논문 피처 설계, 실제 학습, 성능·오류·ESS 해석을 연결합니다.
 
 ## 프로젝트 개요
 
 - 데이터셋: MIT–Stanford Battery Dataset 계열 (Severson et al., 2019)
-- 태스크: **Regression**; `log10(cycle_life)` 학습 후 사이클 단위 복원
+- 주 태스크: **Regression**; `log10(cycle_life)` 학습 후 사이클 단위 복원. 추가 태스크: 초기 5회 이진 Classification / 초기 100회 3분류
 - 학습: Batch 1 (`2017-05-12`), 46 → 36셀; 개발 29 / 정책 Hold-out 7
 - 평가: Batch 2 (`2018-02-20`), 47 → 39셀{'; 추가 Batch 3 (`2018-04-12`), 46 → 44셀' if has3 else ''}
-- 최종 모델: **{cfg['model']}**, 피처 `{chosen_features}`, `alpha={cfg.get('alpha','—')}`
+- 최종 회귀: **논문 기반 Discharge Elastic Net**, 13개 후보 피처, `alpha=0.01`, `l1_ratio=0.2`; 피처군·파라미터는 Batch 1 CV 선택
+- 추가 분류: 초기 5회 Full **L1 Logistic Regression**(550회 경계), 초기 100회 Full **L2 Logistic Regression**(500/1,000회 경계)
+- 초기 구현 비교 모델: **{cfg['model']}**, 피처 `{chosen_features}`, `alpha={cfg.get('alpha','—')}`; 기존 결과·모델은 비교 근거로 보존
 - [상세 분석·직접 실행 노트북](DAY2/03_modeling.ipynb)
 
 ## 파일 구조
@@ -192,6 +201,8 @@ python -m src.verify_results      # 결과·누수·코드 셀 검증
 │   ├── train.py
 │   ├── diagnostics.py
 │   ├── eda_reporting.py        # 수명 그룹·knee·ΔQ·정책 EDA
+│   ├── paper_models.py         # 논문 피처·추가 회귀 및 실제 분류기
+│   ├── paper_comparison.py     # 논문 혼동행렬·F1·비교표·그래프
 │   ├── report.py / evidence.py
 │   └── verify_results.py
 ├── requirements.txt
@@ -217,9 +228,9 @@ python -m src.verify_results
 대용량 원본 `archive/`, 가상환경 `.venv/`, 저장 모델 `*.joblib`는 Git 업로드에서 제외합니다. 공개된 CSV·그림·실행 결과는 바로 열람할 수 있고, 원본부터 재학습하거나 저장 모델을 재생성하려면 위의 MAT 파일과 환경이 필요합니다. 상세 분석의 재현 기준은 DAY 2 노트북이며 기존 통합 EDA는 선행 탐색 기록입니다.
 
 {detailed_eda}
-## Modeling
+## Modeling: 초기 구현과 논문 기반 확장
 
-### 피처 엔지니어링 전략
+### 초기 구현의 피처 엔지니어링 전략
 
 ΔQ log 분산을 고정하고 초기 용량 기울기·충전 시간·IR 변화·평균 온도를 포함/제외한 **16개 부분집합**을 비교했습니다. 용량 기울기는 `0<Qd≤1.2Ah` 값으로 적합하며 결측 대치·표준화는 학습 fold 안에서만 수행합니다. 셀 ID·수명·기록 길이·최종 용량·후반 knee는 입력에서 제외합니다.
 
@@ -241,9 +252,9 @@ python -m src.verify_results
 
 셀 단위 분리만으로 동일 정책의 중복이 자동으로 차단되지는 않으므로, **동일 충전 정책이 개발·Hold-out 및 CV train·valid를 가로지르지 않도록** 분리합니다. 결측 중앙값과 표준화 통계도 각 학습 fold에서만 적합합니다. Hold-out 및 외부 배치 점수는 후보 선택에 사용하지 않았습니다. 선행 EDA에서 평가 배치를 확인했다는 한계는 별도로 보고합니다.
 
-### 모델 선택 및 근거
+### 초기 모델 선택 및 논문 피처 확장 근거
 
-중앙값·단일 피처 Linear·Ridge·Elastic Net·제한된 RBF SVR/Random Forest, 원 단위 타깃 대안을 포함한 **212조합**을 개발 29셀의 정책별 4-fold CV에서 비교했습니다. {cfg['model']}가 최저 CV({scores.iloc[0].cv_mean_mape_pct:.5f}%)로 선택됐지만 단일 ΔQ 피처 후보({best_core.cv_mean_mape_pct:.5f}%)와 차이는 **{effect:.5f}%p**로 작습니다. 충전 시간의 실질적 개선을 주장하지 않으며 다음 개발 실험에서 선택 근거를 재검토하고 단순 모델을 우선 비교합니다. 현재 시험 결과로 모델을 바꾸지 않았습니다.
+중앙값·단일 피처 Linear·Ridge·Elastic Net·제한된 RBF SVR/Random Forest, 원 단위 타깃 대안을 포함한 **212조합**을 개발 29셀의 정책별 4-fold CV에서 비교했습니다. {cfg['model']}가 최저 CV({scores.iloc[0].cv_mean_mape_pct:.5f}%)로 선택됐지만 단일 ΔQ 피처 후보({best_core.cv_mean_mape_pct:.5f}%)와 차이는 **{effect:.5f}%p**로 작습니다. 충전 시간 하나의 추가 개선을 강하게 해석하지 않습니다. 이번에는 논문 후보 피처와 Elastic Net을 실제로 추가 구현하고 Batch 1 CV로 다시 선택했습니다. 논문 기반 추가 개발·비교 절의 모델군 비교와 최종 선택으로 연결합니다.
 
 과제의 Train은 **개발 Nested-CV**(nested 4×4 GroupKFold)의 외부 fold 검증오차 평균이며 학습 오차가 아닙니다. Valid는 별도 7셀 Hold-out입니다. 설정 고정 후 전체 Batch 1 **36셀**로 재학습해 Batch 2{'·3' if has3 else ''}를 평가했습니다. 같은 정책이 개발·검증에 걸치지 않습니다. 피처 추가 효과는 `paired_ablation.csv`에서 같은 alpha·같은 fold로 비교합니다.
 
@@ -255,7 +266,21 @@ python -m src.verify_results
 
 ## 성능 결과
 
-### 필수 평가: Regression (Batch 1 → Batch 2)
+### 최종 회귀 필수 평가: 논문 기반 Discharge Elastic Net
+
+{markdown_table(paper_mandatory)}
+
+**Gap (Train-Valid)은 Valid − Train**, Gap (Valid-Test)은 Test − Valid, Gap (Target-Test)은 Test − 9.1로 계산하며 단위는 %p입니다. Train은 학습 적합 오차가 아니라 **피처군·파라미터 선택을 포함한 개발 Nested-CV 외부 검증 평균**입니다. Hold-out 모델은 개발 29셀로, 외부 테스트 모델은 전체 Batch 1 36셀로 학습합니다.
+
+{paper_extra}
+
+![논문 기반 최종 회귀의 실제·예측 수명과 기존 Ridge 대비 MAPE](DAY2/results/13_paper_regression_comparison.png)
+
+왼쪽은 최종 논문 기반 모델의 예측이며 Train 점은 Nested-CV 외부 fold 예측입니다. 오른쪽은 같은 셀·분할에서 기존 Ridge와 추가 최종 모델의 MAPE를 비교합니다. 점선 9.1%는 논문의 테스트 Target으로 내부 CV 달성만으로 외부 목표 달성을 주장하지 않습니다.
+
+추가 Batch 3의 Gap (Batch2-Batch3)은 Batch 3 − Batch 2, 마지막 Target Gap은 Batch 3 − 9.1입니다. 모델 선택·실제 학습과 원논문 수치, 장·단 및 단·중·장 분류 양식·오류 분석은 아래 **원논문 기반 추가 개발·비교**에 정리했습니다.
+
+### 초기 Ridge 구현 성능: 같은 셀에서의 비교 기준
 
 {markdown_table(table)}
 
@@ -275,7 +300,9 @@ Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=
 
 원논문은 `2017-05-12`·`2017-06-30` 혼합 분할이고 과제는 `2018-02-20` 외부 배치 평가여서 **Target Gap은 참고 비교**입니다. 선행 EDA가 세 배치를 봤다는 한계가 있으며, 모델 선택·계수 추정은 Batch 1에 제한했습니다. Valid 모델 29셀·Test 모델 36셀의 학습 규모 차이도 Gap에 포함됩니다. [저자 분할 코드](https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation/blob/master/LoadData.m).
 
-## 오류 분석
+{paper_text}
+
+## 초기 Ridge 오류 분석: 추가 개발 전 비교 근거
 
 ### 실제값·예측값과 Batch 2 잔차
 
@@ -300,7 +327,7 @@ Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=
 
 셀 선별·점검 우선순위·교체 예산의 보조 지표로 활용할 수 있습니다. 짧은 수명 과대예측은 교체 지연 위험으로 이어집니다. 실험실 단일 셀·36셀 학습·특정 충전 조건에 한정돼 현장 달력 열화·온도·부분 충방전·셀 불균형, 제조 배치와 셀별 예측 구간의 추가 검증이 필요합니다.
 
-동일 배치에서는 약 10% 검증 오차를 얻었지만, 단수명 셀이 많은 외부 Batch 2에서 과대예측 편향과 일반화 한계를 확인했습니다. 현재 모델은 교체 시점의 단독 결정 근거로 사용하기 어렵습니다.
+논문 피처를 반영한 최종 회귀는 내부 약 6–7%, 외부 Batch 2 약 25.6% MAPE를 얻었습니다. 초기 5회 이진·3분류 모델의 혼동행렬과 수명 구간별 회귀 오차를 함께 분석했습니다. 짧은 수명에 대한 과대예측과 클래스별 식별 오차를 고려하면 현재 모델은 교체 시점의 단독 결정 근거로 사용하기 어렵습니다.
 
 {markdown_table(ess_table)}
 
@@ -382,6 +409,13 @@ Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=
     if has3:
         extra.extend([md(b3_text),code("batch3, audit3 = load_batch(3)\nprediction3 = predict(final_model,batch3,config)\nexpected3 = pd.read_csv(OUT / 'predictions_all.csv')\nexpected3 = expected3[expected3.batch==3].set_index('cell_id').loc[batch3.cell_id]\nnp.testing.assert_allclose(prediction3,expected3.predicted_cycle_life)\npd.DataFrame([{'n_cells':len(batch3),**metrics(batch3.cycle_life,prediction3)}])"),code("pd.read_csv(OUT / 'model_performance_with_batch3_formatted.csv').fillna('')"),code("eda = pd.read_csv(OUT / 'eda_cell_features.csv')\nprint('곡선 원점 이동 후 분산 차이 최대:',eda.delta_variance_origin_invariance_error.max())\nassert eda.delta_variance_origin_invariance_error.max() < 1e-12\npd.read_csv(OUT / 'batch3_quality_sensitivity.csv')")])
     insert_before("## 6.",extra)
+    paper_markdown=re.sub(r"^!\[.*?\]\([^)]+\)\n", "", paper_text, flags=re.MULTILINE)
+    paper_check="from src.paper_models import fit as fit_paper, evaluate as evaluate_paper\npaper_config = json.loads((OUT / 'paper_models_config.json').read_text())\npaper_features = pd.read_csv(OUT / 'paper_model_features.csv')\npaper_predictions = pd.read_csv(OUT / 'paper_model_predictions.csv')\npaper_b1 = paper_features[paper_features.batch==1].reset_index(drop=True)\npaper_dev, paper_valid = development_split(paper_b1)\nchecks = []\nfor task, family in [('regression','Selected'), ('binary_550','Full'), ('three_500_1000','Full')]:\n    record = next(r for r in paper_config if r['task']==task and r['family']==family)\n    trained, selected_features, fallback = fit_paper(paper_b1,task,family,record['selected_config'])\n    assert not fallback\n    for number in sorted(paper_features.batch.unique()):\n        if number==1: continue\n        frame = paper_features[paper_features.batch==number]\n        values, score = evaluate_paper(trained,selected_features,frame,task)\n        expected = paper_predictions[(paper_predictions.task==task)&(paper_predictions.family==family)&(paper_predictions.batch==number)].set_index('cell_id').loc[frame.cell_id]\n        np.testing.assert_allclose(values,expected.prediction)\n        checks.append({'task':task,'family':family,'batch':number,**score})\npd.DataFrame(checks)"
+    insert_before("## 6.",[md(paper_markdown),picture('13_paper_regression_comparison.png'),picture('12_paper_early5_signal.png'),picture('11_paper_classifiers_confusion.png'),
+        md("### 추가 학습 모델의 예측을 직접 재현\n\n아래 셀은 저장된 논문 피처와 Batch 1 고정 설정으로 회귀·초기 5회 이진·3분류를 실제 재학습하고 외부 예측 일치를 검증합니다. 원본 피처부터 nested CV 전체 재현은 `python -m src.paper_models --batch3`로 실행합니다."),code(paper_check),
+        code("pd.read_csv(OUT / 'paper_selected_regression_performance.csv')"),
+        code("pd.read_csv(OUT / 'paper_binary_550_performance.csv')"),
+        code("pd.read_csv(OUT / 'paper_three_500_1000_performance.csv')")])
     insert_before("## 7.",[md(markdown_table(ess_table)+"\n\n개선 우선순위: 단수명 개발 데이터 확보 → 새로운 배치·정책 검증 → 단순 기준선과 보조 피처 재비교 → 셀별 예측 구간·감시 기준. 현재 평가 데이터를 본 후의 개선 모델은 새로운 미사용 배치로 검증해야 합니다.")])
     nb.cells.extend([md("## 계산 근거·평가항목·재현성\n\n"+markdown_table(assessment)+"\n\n이 표는 자체 점수가 아니라 평가자가 확인할 계산 근거의 위치입니다.\n\n"+reproducibility_text),code("provenance = json.loads((OUT / 'provenance.json').read_text())\nprint('고정 모델 SHA-256:',provenance['model_sha256'])\nprint('실행 패키지:',provenance['packages'])\npd.DataFrame(provenance['sources'])")])
     count=0

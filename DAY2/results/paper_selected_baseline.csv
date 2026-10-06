@@ -1,0 +1,5 @@
+﻿model,partition,n_cells,mape_pct
+Batch 1 median,Test (Batch 2),39,58.72793338392443
+Selected Discharge ElasticNet,Test (Batch 2),39,25.56311995004629
+Batch 1 median,Test (Batch 3),44,24.51207391485876
+Selected Discharge ElasticNet,Test (Batch 3),44,10.52270486789951

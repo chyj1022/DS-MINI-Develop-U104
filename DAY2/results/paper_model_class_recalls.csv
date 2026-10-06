@@ -1,0 +1,29 @@
+﻿task,family,partition,life_group,n_actual,n_correct,recall_pct
+binary_550,Variance,Train (Batch 1 CV),short_le550,1,0,0.0
+binary_550,Variance,Train (Batch 1 CV),long_gt550,28,28,100.0
+binary_550,Variance,Valid (Batch 1 Hold-out),short_le550,0,0,
+binary_550,Variance,Valid (Batch 1 Hold-out),long_gt550,7,7,100.0
+binary_550,Full,Train (Batch 1 CV),short_le550,1,0,0.0
+binary_550,Full,Train (Batch 1 CV),long_gt550,28,28,100.0
+binary_550,Full,Valid (Batch 1 Hold-out),short_le550,0,0,
+binary_550,Full,Valid (Batch 1 Hold-out),long_gt550,7,7,100.0
+three_500_1000,Full,Train (Batch 1 CV),short_lt500,0,0,
+three_500_1000,Full,Train (Batch 1 CV),middle_500_1000,25,21,84.0
+three_500_1000,Full,Train (Batch 1 CV),long_gt1000,4,1,25.0
+three_500_1000,Full,Valid (Batch 1 Hold-out),short_lt500,0,0,
+three_500_1000,Full,Valid (Batch 1 Hold-out),middle_500_1000,6,6,100.0
+three_500_1000,Full,Valid (Batch 1 Hold-out),long_gt1000,1,1,100.0
+binary_550,Variance,Test (Batch 2),short_le550,30,0,0.0
+binary_550,Variance,Test (Batch 2),long_gt550,9,9,100.0
+binary_550,Full,Test (Batch 2),short_le550,30,10,33.333333333333336
+binary_550,Full,Test (Batch 2),long_gt550,9,9,100.0
+three_500_1000,Full,Test (Batch 2),short_lt500,28,0,0.0
+three_500_1000,Full,Test (Batch 2),middle_500_1000,8,7,87.5
+three_500_1000,Full,Test (Batch 2),long_gt1000,3,0,0.0
+binary_550,Variance,Test (Batch 3),short_le550,1,0,0.0
+binary_550,Variance,Test (Batch 3),long_gt550,43,43,100.0
+binary_550,Full,Test (Batch 3),short_le550,1,0,0.0
+binary_550,Full,Test (Batch 3),long_gt550,43,43,100.0
+three_500_1000,Full,Test (Batch 3),short_lt500,0,0,
+three_500_1000,Full,Test (Batch 3),middle_500_1000,21,20,95.23809523809524
+three_500_1000,Full,Test (Batch 3),long_gt1000,23,11,47.82608695652174

@@ -1,0 +1,202 @@
+[
+  {
+    "task": "regression",
+    "family": "Variance",
+    "window": 100,
+    "features": [
+      "c100_dq_variance_log"
+    ],
+    "selected_config": {
+      "estimator": "Linear"
+    },
+    "n_train": 36,
+    "n_development": 29,
+    "n_holdout": 7,
+    "constant_fallback": false
+  },
+  {
+    "task": "regression",
+    "family": "Discharge",
+    "window": 100,
+    "features": [
+      "c100_dq_min_log",
+      "c100_dq_mean_log",
+      "c100_dq_variance_log",
+      "c100_dq_skew_log",
+      "c100_dq_kurtosis_log",
+      "c100_dq_2v_log",
+      "c100_capacity_slope",
+      "c100_capacity_intercept",
+      "c100_late_slope",
+      "c100_late_intercept",
+      "c100_capacity_2",
+      "c100_capacity_max_minus_2",
+      "c100_capacity_end"
+    ],
+    "selected_config": {
+      "estimator": "ElasticNet",
+      "alpha": 0.01,
+      "l1_ratio": 0.2
+    },
+    "n_train": 36,
+    "n_development": 29,
+    "n_holdout": 7,
+    "constant_fallback": false
+  },
+  {
+    "task": "regression",
+    "family": "Full",
+    "window": 100,
+    "features": [
+      "c100_dq_min_log",
+      "c100_dq_mean_log",
+      "c100_dq_variance_log",
+      "c100_dq_skew_log",
+      "c100_dq_kurtosis_log",
+      "c100_dq_2v_log",
+      "c100_capacity_slope",
+      "c100_capacity_intercept",
+      "c100_late_slope",
+      "c100_late_intercept",
+      "c100_capacity_2",
+      "c100_capacity_max_minus_2",
+      "c100_capacity_end",
+      "c100_charge_time",
+      "c100_temperature_max",
+      "c100_temperature_min",
+      "c100_temperature_integral",
+      "c100_ir_2",
+      "c100_ir_min",
+      "c100_ir_change"
+    ],
+    "selected_config": {
+      "estimator": "ElasticNet",
+      "alpha": 0.01,
+      "l1_ratio": 0.5
+    },
+    "n_train": 36,
+    "n_development": 29,
+    "n_holdout": 7,
+    "constant_fallback": false
+  },
+  {
+    "task": "regression",
+    "family": "Selected",
+    "window": 100,
+    "features": [
+      "c100_dq_min_log",
+      "c100_dq_mean_log",
+      "c100_dq_variance_log",
+      "c100_dq_skew_log",
+      "c100_dq_kurtosis_log",
+      "c100_dq_2v_log",
+      "c100_capacity_slope",
+      "c100_capacity_intercept",
+      "c100_late_slope",
+      "c100_late_intercept",
+      "c100_capacity_2",
+      "c100_capacity_max_minus_2",
+      "c100_capacity_end"
+    ],
+    "selected_config": {
+      "estimator": "ElasticNet",
+      "alpha": 0.01,
+      "l1_ratio": 0.2,
+      "family": "Discharge"
+    },
+    "n_train": 36,
+    "n_development": 29,
+    "n_holdout": 7,
+    "constant_fallback": false
+  },
+  {
+    "task": "binary_550",
+    "family": "Variance",
+    "window": 5,
+    "features": [
+      "c5_dq_variance_log"
+    ],
+    "selected_config": {
+      "estimator": "Logistic",
+      "C": 0.1,
+      "penalty": "l2",
+      "class_weight": null
+    },
+    "n_train": 36,
+    "n_development": 29,
+    "n_holdout": 7,
+    "constant_fallback": false
+  },
+  {
+    "task": "binary_550",
+    "family": "Full",
+    "window": 5,
+    "features": [
+      "c5_dq_min_log",
+      "c5_dq_mean_log",
+      "c5_dq_variance_log",
+      "c5_dq_skew_log",
+      "c5_dq_kurtosis_log",
+      "c5_dq_2v_log",
+      "c5_capacity_slope",
+      "c5_capacity_intercept",
+      "c5_capacity_2",
+      "c5_capacity_max_minus_2",
+      "c5_capacity_end",
+      "c5_charge_time",
+      "c5_temperature_max",
+      "c5_temperature_min",
+      "c5_temperature_integral",
+      "c5_ir_2",
+      "c5_ir_min",
+      "c5_ir_change"
+    ],
+    "selected_config": {
+      "estimator": "Logistic",
+      "C": 1.0,
+      "penalty": "l1",
+      "class_weight": null
+    },
+    "n_train": 36,
+    "n_development": 29,
+    "n_holdout": 7,
+    "constant_fallback": false
+  },
+  {
+    "task": "three_500_1000",
+    "family": "Full",
+    "window": 100,
+    "features": [
+      "c100_dq_min_log",
+      "c100_dq_mean_log",
+      "c100_dq_variance_log",
+      "c100_dq_skew_log",
+      "c100_dq_kurtosis_log",
+      "c100_dq_2v_log",
+      "c100_capacity_slope",
+      "c100_capacity_intercept",
+      "c100_late_slope",
+      "c100_late_intercept",
+      "c100_capacity_2",
+      "c100_capacity_max_minus_2",
+      "c100_capacity_end",
+      "c100_charge_time",
+      "c100_temperature_max",
+      "c100_temperature_min",
+      "c100_temperature_integral",
+      "c100_ir_2",
+      "c100_ir_min",
+      "c100_ir_change"
+    ],
+    "selected_config": {
+      "estimator": "Logistic",
+      "C": 10.0,
+      "penalty": "l2",
+      "class_weight": "balanced"
+    },
+    "n_train": 36,
+    "n_development": 29,
+    "n_holdout": 7,
+    "constant_fallback": false
+  }
+]

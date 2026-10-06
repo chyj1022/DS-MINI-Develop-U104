@@ -1,0 +1,834 @@
+﻿batch,cell_id,policy,cycle_life,task,family,partition,fold,prediction,observed_class
+1,16,5.4C(60%)-3.6C,862.0,regression,Variance,Train (Batch 1 CV),1,946.4302156774554,
+1,17,5.4C(60%)-3.6C,857.0,regression,Variance,Train (Batch 1 CV),1,863.8270394794736,
+1,26,6C(40%)-3.6C,870.0,regression,Variance,Train (Batch 1 CV),1,763.3899311643812,
+1,27,6C(40%)-3.6C,842.0,regression,Variance,Train (Batch 1 CV),1,795.5950339580905,
+1,38,7C(40%)-3.6C,617.0,regression,Variance,Train (Batch 1 CV),1,591.0355439909591,
+1,39,7C(40%)-3.6C,625.0,regression,Variance,Train (Batch 1 CV),1,621.6544106139793,
+1,44,8C(35%)-3.6C,616.0,regression,Variance,Train (Batch 1 CV),1,585.9014194071898,
+1,45,8C(35%)-3.6C,599.0,regression,Variance,Train (Batch 1 CV),1,587.8055486254732,
+1,11,5.4C(50%)-3C,788.0,regression,Variance,Train (Batch 1 CV),2,998.8659615080261,
+1,20,5.4C(80%)-5.4C,534.0,regression,Variance,Train (Batch 1 CV),2,589.5762959475647,
+1,21,5.4C(80%)-5.4C,559.0,regression,Variance,Train (Batch 1 CV),2,582.8772133960164,
+1,34,7C(30%)-3.6C,742.0,regression,Variance,Train (Batch 1 CV),2,816.4120690362525,
+1,35,7C(30%)-3.6C,703.0,regression,Variance,Train (Batch 1 CV),2,775.5092825911053,
+1,42,8C(25%)-3.6C,702.0,regression,Variance,Train (Batch 1 CV),2,721.5012283838316,
+1,43,8C(25%)-3.6C,651.0,regression,Variance,Train (Batch 1 CV),2,722.4401896290717,
+1,9,5.4C(40%)-3.6C,1054.0,regression,Variance,Train (Batch 1 CV),3,880.886060079816,
+1,18,5.4C(70%)-3C,691.0,regression,Variance,Train (Batch 1 CV),3,684.366073432808,
+1,19,5.4C(70%)-3C,788.0,regression,Variance,Train (Batch 1 CV),3,671.7481579087959,
+1,30,6C(50%)-3.6C,709.0,regression,Variance,Train (Batch 1 CV),3,725.4908669620778,
+1,31,6C(50%)-3.6C,876.0,regression,Variance,Train (Batch 1 CV),3,740.4229996807792,
+1,40,8C(15%)-3.6C,966.0,regression,Variance,Train (Batch 1 CV),3,878.6229605796004,
+1,41,8C(15%)-3.6C,1051.0,regression,Variance,Train (Batch 1 CV),3,887.500934028573,
+1,5,4.4C(80%)-4.4C,1074.0,regression,Variance,Train (Batch 1 CV),4,1001.4319432312906,
+1,14,5.4C(60%)-3C,880.0,regression,Variance,Train (Batch 1 CV),4,915.7025540435204,
+1,15,5.4C(60%)-3C,719.0,regression,Variance,Train (Batch 1 CV),4,898.5137757436181,
+1,24,6C(40%)-3C,1017.0,regression,Variance,Train (Batch 1 CV),4,851.767556952965,
+1,25,6C(40%)-3C,854.0,regression,Variance,Train (Batch 1 CV),4,904.5522369028794,
+1,36,7C(40%)-3C,704.0,regression,Variance,Train (Batch 1 CV),4,710.476341210648,
+1,37,7C(40%)-3C,648.0,regression,Variance,Train (Batch 1 CV),4,712.6040622225768,
+1,6,4.8C(80%)-4.8C,636.0,regression,Variance,Valid (Batch 1 Hold-out),,755.1337248028689,
+1,7,4.8C(80%)-4.8C,870.0,regression,Variance,Valid (Batch 1 Hold-out),,777.9969958544291,
+1,23,6C(30%)-3.6C,1014.0,regression,Variance,Valid (Batch 1 Hold-out),,905.7059392929833,
+1,28,6C(50%)-3C,860.0,regression,Variance,Valid (Batch 1 Hold-out),,794.4119331057739,
+1,29,6C(50%)-3C,917.0,regression,Variance,Valid (Batch 1 Hold-out),,791.0036375474041,
+1,32,6C(60%)-3C,731.0,regression,Variance,Valid (Batch 1 Hold-out),,695.7851674162131,
+1,33,6C(60%)-3C,757.0,regression,Variance,Valid (Batch 1 Hold-out),,705.4327509592117,
+1,16,5.4C(60%)-3.6C,862.0,regression,Discharge,Train (Batch 1 CV),1,999.8590701543594,
+1,17,5.4C(60%)-3.6C,857.0,regression,Discharge,Train (Batch 1 CV),1,829.0729071306266,
+1,26,6C(40%)-3.6C,870.0,regression,Discharge,Train (Batch 1 CV),1,917.8280959085472,
+1,27,6C(40%)-3.6C,842.0,regression,Discharge,Train (Batch 1 CV),1,808.078622803041,
+1,38,7C(40%)-3.6C,617.0,regression,Discharge,Train (Batch 1 CV),1,555.6875293333482,
+1,39,7C(40%)-3.6C,625.0,regression,Discharge,Train (Batch 1 CV),1,634.882235904842,
+1,44,8C(35%)-3.6C,616.0,regression,Discharge,Train (Batch 1 CV),1,617.9502719948556,
+1,45,8C(35%)-3.6C,599.0,regression,Discharge,Train (Batch 1 CV),1,604.9633751382684,
+1,11,5.4C(50%)-3C,788.0,regression,Discharge,Train (Batch 1 CV),2,846.7272862764506,
+1,20,5.4C(80%)-5.4C,534.0,regression,Discharge,Train (Batch 1 CV),2,584.5118078012384,
+1,21,5.4C(80%)-5.4C,559.0,regression,Discharge,Train (Batch 1 CV),2,601.9314506514476,
+1,34,7C(30%)-3.6C,742.0,regression,Discharge,Train (Batch 1 CV),2,795.8208609324864,
+1,35,7C(30%)-3.6C,703.0,regression,Discharge,Train (Batch 1 CV),2,738.8629840367228,
+1,42,8C(25%)-3.6C,702.0,regression,Discharge,Train (Batch 1 CV),2,719.4235399266212,
+1,43,8C(25%)-3.6C,651.0,regression,Discharge,Train (Batch 1 CV),2,689.4376100555055,
+1,9,5.4C(40%)-3.6C,1054.0,regression,Discharge,Train (Batch 1 CV),3,915.2520655057134,
+1,18,5.4C(70%)-3C,691.0,regression,Discharge,Train (Batch 1 CV),3,702.1078819212854,
+1,19,5.4C(70%)-3C,788.0,regression,Discharge,Train (Batch 1 CV),3,718.7368930334201,
+1,30,6C(50%)-3.6C,709.0,regression,Discharge,Train (Batch 1 CV),3,752.3477830071665,
+1,31,6C(50%)-3.6C,876.0,regression,Discharge,Train (Batch 1 CV),3,859.3515653755429,
+1,40,8C(15%)-3.6C,966.0,regression,Discharge,Train (Batch 1 CV),3,989.8970870312598,
+1,41,8C(15%)-3.6C,1051.0,regression,Discharge,Train (Batch 1 CV),3,961.6087997709632,
+1,5,4.4C(80%)-4.4C,1074.0,regression,Discharge,Train (Batch 1 CV),4,980.0599338957912,
+1,14,5.4C(60%)-3C,880.0,regression,Discharge,Train (Batch 1 CV),4,891.42940231353,
+1,15,5.4C(60%)-3C,719.0,regression,Discharge,Train (Batch 1 CV),4,763.6670350069683,
+1,24,6C(40%)-3C,1017.0,regression,Discharge,Train (Batch 1 CV),4,894.7947111513396,
+1,25,6C(40%)-3C,854.0,regression,Discharge,Train (Batch 1 CV),4,930.1577842619054,
+1,36,7C(40%)-3C,704.0,regression,Discharge,Train (Batch 1 CV),4,671.8337270465556,
+1,37,7C(40%)-3C,648.0,regression,Discharge,Train (Batch 1 CV),4,697.3918807893211,
+1,6,4.8C(80%)-4.8C,636.0,regression,Discharge,Valid (Batch 1 Hold-out),,743.4543855905006,
+1,7,4.8C(80%)-4.8C,870.0,regression,Discharge,Valid (Batch 1 Hold-out),,871.906127400515,
+1,23,6C(30%)-3.6C,1014.0,regression,Discharge,Valid (Batch 1 Hold-out),,938.0661620532504,
+1,28,6C(50%)-3C,860.0,regression,Discharge,Valid (Batch 1 Hold-out),,811.4275702910436,
+1,29,6C(50%)-3C,917.0,regression,Discharge,Valid (Batch 1 Hold-out),,822.5644467278423,
+1,32,6C(60%)-3C,731.0,regression,Discharge,Valid (Batch 1 Hold-out),,705.9448437939761,
+1,33,6C(60%)-3C,757.0,regression,Discharge,Valid (Batch 1 Hold-out),,780.2915029839749,
+1,16,5.4C(60%)-3.6C,862.0,regression,Full,Train (Batch 1 CV),1,991.3382707203357,
+1,17,5.4C(60%)-3.6C,857.0,regression,Full,Train (Batch 1 CV),1,841.6713176578575,
+1,26,6C(40%)-3.6C,870.0,regression,Full,Train (Batch 1 CV),1,854.0898948975326,
+1,27,6C(40%)-3.6C,842.0,regression,Full,Train (Batch 1 CV),1,806.0122520162314,
+1,38,7C(40%)-3.6C,617.0,regression,Full,Train (Batch 1 CV),1,584.4940837812478,
+1,39,7C(40%)-3.6C,625.0,regression,Full,Train (Batch 1 CV),1,665.9668244054144,
+1,44,8C(35%)-3.6C,616.0,regression,Full,Train (Batch 1 CV),1,636.6179720993058,
+1,45,8C(35%)-3.6C,599.0,regression,Full,Train (Batch 1 CV),1,641.1965119628576,
+1,11,5.4C(50%)-3C,788.0,regression,Full,Train (Batch 1 CV),2,893.3331037664437,
+1,20,5.4C(80%)-5.4C,534.0,regression,Full,Train (Batch 1 CV),2,583.6012861084303,
+1,21,5.4C(80%)-5.4C,559.0,regression,Full,Train (Batch 1 CV),2,604.5497877383447,
+1,34,7C(30%)-3.6C,742.0,regression,Full,Train (Batch 1 CV),2,793.3328453923469,
+1,35,7C(30%)-3.6C,703.0,regression,Full,Train (Batch 1 CV),2,746.3356076815052,
+1,42,8C(25%)-3.6C,702.0,regression,Full,Train (Batch 1 CV),2,732.743812484629,
+1,43,8C(25%)-3.6C,651.0,regression,Full,Train (Batch 1 CV),2,684.5353698211615,
+1,9,5.4C(40%)-3.6C,1054.0,regression,Full,Train (Batch 1 CV),3,919.4920703285495,
+1,18,5.4C(70%)-3C,691.0,regression,Full,Train (Batch 1 CV),3,121.29538224991266,
+1,19,5.4C(70%)-3C,788.0,regression,Full,Train (Batch 1 CV),3,723.773560599636,
+1,30,6C(50%)-3.6C,709.0,regression,Full,Train (Batch 1 CV),3,757.0930218693577,
+1,31,6C(50%)-3.6C,876.0,regression,Full,Train (Batch 1 CV),3,894.5751891932988,
+1,40,8C(15%)-3.6C,966.0,regression,Full,Train (Batch 1 CV),3,955.6536933051968,
+1,41,8C(15%)-3.6C,1051.0,regression,Full,Train (Batch 1 CV),3,937.5888279065085,
+1,5,4.4C(80%)-4.4C,1074.0,regression,Full,Train (Batch 1 CV),4,907.0081846638163,
+1,14,5.4C(60%)-3C,880.0,regression,Full,Train (Batch 1 CV),4,851.0253503909546,
+1,15,5.4C(60%)-3C,719.0,regression,Full,Train (Batch 1 CV),4,823.4150562537017,
+1,24,6C(40%)-3C,1017.0,regression,Full,Train (Batch 1 CV),4,814.1203510108273,
+1,25,6C(40%)-3C,854.0,regression,Full,Train (Batch 1 CV),4,845.6336969895794,
+1,36,7C(40%)-3C,704.0,regression,Full,Train (Batch 1 CV),4,721.772251168059,
+1,37,7C(40%)-3C,648.0,regression,Full,Train (Batch 1 CV),4,716.6756007531642,
+1,6,4.8C(80%)-4.8C,636.0,regression,Full,Valid (Batch 1 Hold-out),,754.7354231417049,
+1,7,4.8C(80%)-4.8C,870.0,regression,Full,Valid (Batch 1 Hold-out),,873.4799343036157,
+1,23,6C(30%)-3.6C,1014.0,regression,Full,Valid (Batch 1 Hold-out),,918.5461052294365,
+1,28,6C(50%)-3C,860.0,regression,Full,Valid (Batch 1 Hold-out),,801.2073069695814,
+1,29,6C(50%)-3C,917.0,regression,Full,Valid (Batch 1 Hold-out),,810.4738739608778,
+1,32,6C(60%)-3C,731.0,regression,Full,Valid (Batch 1 Hold-out),,702.608942126607,
+1,33,6C(60%)-3C,757.0,regression,Full,Valid (Batch 1 Hold-out),,779.2009665306596,
+1,16,5.4C(60%)-3.6C,862.0,regression,Selected,Train (Batch 1 CV),1,999.8590701543594,
+1,17,5.4C(60%)-3.6C,857.0,regression,Selected,Train (Batch 1 CV),1,829.0729071306266,
+1,26,6C(40%)-3.6C,870.0,regression,Selected,Train (Batch 1 CV),1,917.8280959085472,
+1,27,6C(40%)-3.6C,842.0,regression,Selected,Train (Batch 1 CV),1,808.078622803041,
+1,38,7C(40%)-3.6C,617.0,regression,Selected,Train (Batch 1 CV),1,555.6875293333482,
+1,39,7C(40%)-3.6C,625.0,regression,Selected,Train (Batch 1 CV),1,634.882235904842,
+1,44,8C(35%)-3.6C,616.0,regression,Selected,Train (Batch 1 CV),1,617.9502719948556,
+1,45,8C(35%)-3.6C,599.0,regression,Selected,Train (Batch 1 CV),1,604.9633751382684,
+1,11,5.4C(50%)-3C,788.0,regression,Selected,Train (Batch 1 CV),2,846.7272862764506,
+1,20,5.4C(80%)-5.4C,534.0,regression,Selected,Train (Batch 1 CV),2,584.5118078012384,
+1,21,5.4C(80%)-5.4C,559.0,regression,Selected,Train (Batch 1 CV),2,601.9314506514476,
+1,34,7C(30%)-3.6C,742.0,regression,Selected,Train (Batch 1 CV),2,795.8208609324864,
+1,35,7C(30%)-3.6C,703.0,regression,Selected,Train (Batch 1 CV),2,738.8629840367228,
+1,42,8C(25%)-3.6C,702.0,regression,Selected,Train (Batch 1 CV),2,719.4235399266212,
+1,43,8C(25%)-3.6C,651.0,regression,Selected,Train (Batch 1 CV),2,689.4376100555055,
+1,9,5.4C(40%)-3.6C,1054.0,regression,Selected,Train (Batch 1 CV),3,915.2520655057134,
+1,18,5.4C(70%)-3C,691.0,regression,Selected,Train (Batch 1 CV),3,702.1078819212854,
+1,19,5.4C(70%)-3C,788.0,regression,Selected,Train (Batch 1 CV),3,718.7368930334201,
+1,30,6C(50%)-3.6C,709.0,regression,Selected,Train (Batch 1 CV),3,752.3477830071665,
+1,31,6C(50%)-3.6C,876.0,regression,Selected,Train (Batch 1 CV),3,859.3515653755429,
+1,40,8C(15%)-3.6C,966.0,regression,Selected,Train (Batch 1 CV),3,989.8970870312598,
+1,41,8C(15%)-3.6C,1051.0,regression,Selected,Train (Batch 1 CV),3,961.6087997709632,
+1,5,4.4C(80%)-4.4C,1074.0,regression,Selected,Train (Batch 1 CV),4,980.0599338957912,
+1,14,5.4C(60%)-3C,880.0,regression,Selected,Train (Batch 1 CV),4,891.42940231353,
+1,15,5.4C(60%)-3C,719.0,regression,Selected,Train (Batch 1 CV),4,763.6670350069683,
+1,24,6C(40%)-3C,1017.0,regression,Selected,Train (Batch 1 CV),4,894.7947111513396,
+1,25,6C(40%)-3C,854.0,regression,Selected,Train (Batch 1 CV),4,930.1577842619054,
+1,36,7C(40%)-3C,704.0,regression,Selected,Train (Batch 1 CV),4,671.8337270465556,
+1,37,7C(40%)-3C,648.0,regression,Selected,Train (Batch 1 CV),4,697.3918807893211,
+1,6,4.8C(80%)-4.8C,636.0,regression,Selected,Valid (Batch 1 Hold-out),,743.4543855905006,
+1,7,4.8C(80%)-4.8C,870.0,regression,Selected,Valid (Batch 1 Hold-out),,871.906127400515,
+1,23,6C(30%)-3.6C,1014.0,regression,Selected,Valid (Batch 1 Hold-out),,938.0661620532504,
+1,28,6C(50%)-3C,860.0,regression,Selected,Valid (Batch 1 Hold-out),,811.4275702910436,
+1,29,6C(50%)-3C,917.0,regression,Selected,Valid (Batch 1 Hold-out),,822.5644467278423,
+1,32,6C(60%)-3C,731.0,regression,Selected,Valid (Batch 1 Hold-out),,705.9448437939761,
+1,33,6C(60%)-3C,757.0,regression,Selected,Valid (Batch 1 Hold-out),,780.2915029839749,
+1,16,5.4C(60%)-3.6C,862.0,binary_550,Variance,Train (Batch 1 CV),1,1.0,1.0
+1,17,5.4C(60%)-3.6C,857.0,binary_550,Variance,Train (Batch 1 CV),1,1.0,1.0
+1,26,6C(40%)-3.6C,870.0,binary_550,Variance,Train (Batch 1 CV),1,1.0,1.0
+1,27,6C(40%)-3.6C,842.0,binary_550,Variance,Train (Batch 1 CV),1,1.0,1.0
+1,38,7C(40%)-3.6C,617.0,binary_550,Variance,Train (Batch 1 CV),1,1.0,1.0
+1,39,7C(40%)-3.6C,625.0,binary_550,Variance,Train (Batch 1 CV),1,1.0,1.0
+1,44,8C(35%)-3.6C,616.0,binary_550,Variance,Train (Batch 1 CV),1,1.0,1.0
+1,45,8C(35%)-3.6C,599.0,binary_550,Variance,Train (Batch 1 CV),1,1.0,1.0
+1,11,5.4C(50%)-3C,788.0,binary_550,Variance,Train (Batch 1 CV),2,1.0,1.0
+1,20,5.4C(80%)-5.4C,534.0,binary_550,Variance,Train (Batch 1 CV),2,1.0,0.0
+1,21,5.4C(80%)-5.4C,559.0,binary_550,Variance,Train (Batch 1 CV),2,1.0,1.0
+1,34,7C(30%)-3.6C,742.0,binary_550,Variance,Train (Batch 1 CV),2,1.0,1.0
+1,35,7C(30%)-3.6C,703.0,binary_550,Variance,Train (Batch 1 CV),2,1.0,1.0
+1,42,8C(25%)-3.6C,702.0,binary_550,Variance,Train (Batch 1 CV),2,1.0,1.0
+1,43,8C(25%)-3.6C,651.0,binary_550,Variance,Train (Batch 1 CV),2,1.0,1.0
+1,9,5.4C(40%)-3.6C,1054.0,binary_550,Variance,Train (Batch 1 CV),3,1.0,1.0
+1,18,5.4C(70%)-3C,691.0,binary_550,Variance,Train (Batch 1 CV),3,1.0,1.0
+1,19,5.4C(70%)-3C,788.0,binary_550,Variance,Train (Batch 1 CV),3,1.0,1.0
+1,30,6C(50%)-3.6C,709.0,binary_550,Variance,Train (Batch 1 CV),3,1.0,1.0
+1,31,6C(50%)-3.6C,876.0,binary_550,Variance,Train (Batch 1 CV),3,1.0,1.0
+1,40,8C(15%)-3.6C,966.0,binary_550,Variance,Train (Batch 1 CV),3,1.0,1.0
+1,41,8C(15%)-3.6C,1051.0,binary_550,Variance,Train (Batch 1 CV),3,1.0,1.0
+1,5,4.4C(80%)-4.4C,1074.0,binary_550,Variance,Train (Batch 1 CV),4,1.0,1.0
+1,14,5.4C(60%)-3C,880.0,binary_550,Variance,Train (Batch 1 CV),4,1.0,1.0
+1,15,5.4C(60%)-3C,719.0,binary_550,Variance,Train (Batch 1 CV),4,1.0,1.0
+1,24,6C(40%)-3C,1017.0,binary_550,Variance,Train (Batch 1 CV),4,1.0,1.0
+1,25,6C(40%)-3C,854.0,binary_550,Variance,Train (Batch 1 CV),4,1.0,1.0
+1,36,7C(40%)-3C,704.0,binary_550,Variance,Train (Batch 1 CV),4,1.0,1.0
+1,37,7C(40%)-3C,648.0,binary_550,Variance,Train (Batch 1 CV),4,1.0,1.0
+1,6,4.8C(80%)-4.8C,636.0,binary_550,Variance,Valid (Batch 1 Hold-out),,1.0,1.0
+1,7,4.8C(80%)-4.8C,870.0,binary_550,Variance,Valid (Batch 1 Hold-out),,1.0,1.0
+1,23,6C(30%)-3.6C,1014.0,binary_550,Variance,Valid (Batch 1 Hold-out),,1.0,1.0
+1,28,6C(50%)-3C,860.0,binary_550,Variance,Valid (Batch 1 Hold-out),,1.0,1.0
+1,29,6C(50%)-3C,917.0,binary_550,Variance,Valid (Batch 1 Hold-out),,1.0,1.0
+1,32,6C(60%)-3C,731.0,binary_550,Variance,Valid (Batch 1 Hold-out),,1.0,1.0
+1,33,6C(60%)-3C,757.0,binary_550,Variance,Valid (Batch 1 Hold-out),,1.0,1.0
+1,16,5.4C(60%)-3.6C,862.0,binary_550,Full,Train (Batch 1 CV),1,1.0,1.0
+1,17,5.4C(60%)-3.6C,857.0,binary_550,Full,Train (Batch 1 CV),1,1.0,1.0
+1,26,6C(40%)-3.6C,870.0,binary_550,Full,Train (Batch 1 CV),1,1.0,1.0
+1,27,6C(40%)-3.6C,842.0,binary_550,Full,Train (Batch 1 CV),1,1.0,1.0
+1,38,7C(40%)-3.6C,617.0,binary_550,Full,Train (Batch 1 CV),1,1.0,1.0
+1,39,7C(40%)-3.6C,625.0,binary_550,Full,Train (Batch 1 CV),1,1.0,1.0
+1,44,8C(35%)-3.6C,616.0,binary_550,Full,Train (Batch 1 CV),1,1.0,1.0
+1,45,8C(35%)-3.6C,599.0,binary_550,Full,Train (Batch 1 CV),1,1.0,1.0
+1,11,5.4C(50%)-3C,788.0,binary_550,Full,Train (Batch 1 CV),2,1.0,1.0
+1,20,5.4C(80%)-5.4C,534.0,binary_550,Full,Train (Batch 1 CV),2,1.0,0.0
+1,21,5.4C(80%)-5.4C,559.0,binary_550,Full,Train (Batch 1 CV),2,1.0,1.0
+1,34,7C(30%)-3.6C,742.0,binary_550,Full,Train (Batch 1 CV),2,1.0,1.0
+1,35,7C(30%)-3.6C,703.0,binary_550,Full,Train (Batch 1 CV),2,1.0,1.0
+1,42,8C(25%)-3.6C,702.0,binary_550,Full,Train (Batch 1 CV),2,1.0,1.0
+1,43,8C(25%)-3.6C,651.0,binary_550,Full,Train (Batch 1 CV),2,1.0,1.0
+1,9,5.4C(40%)-3.6C,1054.0,binary_550,Full,Train (Batch 1 CV),3,1.0,1.0
+1,18,5.4C(70%)-3C,691.0,binary_550,Full,Train (Batch 1 CV),3,1.0,1.0
+1,19,5.4C(70%)-3C,788.0,binary_550,Full,Train (Batch 1 CV),3,1.0,1.0
+1,30,6C(50%)-3.6C,709.0,binary_550,Full,Train (Batch 1 CV),3,1.0,1.0
+1,31,6C(50%)-3.6C,876.0,binary_550,Full,Train (Batch 1 CV),3,1.0,1.0
+1,40,8C(15%)-3.6C,966.0,binary_550,Full,Train (Batch 1 CV),3,1.0,1.0
+1,41,8C(15%)-3.6C,1051.0,binary_550,Full,Train (Batch 1 CV),3,1.0,1.0
+1,5,4.4C(80%)-4.4C,1074.0,binary_550,Full,Train (Batch 1 CV),4,1.0,1.0
+1,14,5.4C(60%)-3C,880.0,binary_550,Full,Train (Batch 1 CV),4,1.0,1.0
+1,15,5.4C(60%)-3C,719.0,binary_550,Full,Train (Batch 1 CV),4,1.0,1.0
+1,24,6C(40%)-3C,1017.0,binary_550,Full,Train (Batch 1 CV),4,1.0,1.0
+1,25,6C(40%)-3C,854.0,binary_550,Full,Train (Batch 1 CV),4,1.0,1.0
+1,36,7C(40%)-3C,704.0,binary_550,Full,Train (Batch 1 CV),4,1.0,1.0
+1,37,7C(40%)-3C,648.0,binary_550,Full,Train (Batch 1 CV),4,1.0,1.0
+1,6,4.8C(80%)-4.8C,636.0,binary_550,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,7,4.8C(80%)-4.8C,870.0,binary_550,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,23,6C(30%)-3.6C,1014.0,binary_550,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,28,6C(50%)-3C,860.0,binary_550,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,29,6C(50%)-3C,917.0,binary_550,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,32,6C(60%)-3C,731.0,binary_550,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,33,6C(60%)-3C,757.0,binary_550,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,16,5.4C(60%)-3.6C,862.0,three_500_1000,Full,Train (Batch 1 CV),1,2.0,1.0
+1,17,5.4C(60%)-3.6C,857.0,three_500_1000,Full,Train (Batch 1 CV),1,1.0,1.0
+1,26,6C(40%)-3.6C,870.0,three_500_1000,Full,Train (Batch 1 CV),1,1.0,1.0
+1,27,6C(40%)-3.6C,842.0,three_500_1000,Full,Train (Batch 1 CV),1,1.0,1.0
+1,38,7C(40%)-3.6C,617.0,three_500_1000,Full,Train (Batch 1 CV),1,1.0,1.0
+1,39,7C(40%)-3.6C,625.0,three_500_1000,Full,Train (Batch 1 CV),1,1.0,1.0
+1,44,8C(35%)-3.6C,616.0,three_500_1000,Full,Train (Batch 1 CV),1,1.0,1.0
+1,45,8C(35%)-3.6C,599.0,three_500_1000,Full,Train (Batch 1 CV),1,1.0,1.0
+1,11,5.4C(50%)-3C,788.0,three_500_1000,Full,Train (Batch 1 CV),2,2.0,1.0
+1,20,5.4C(80%)-5.4C,534.0,three_500_1000,Full,Train (Batch 1 CV),2,1.0,1.0
+1,21,5.4C(80%)-5.4C,559.0,three_500_1000,Full,Train (Batch 1 CV),2,1.0,1.0
+1,34,7C(30%)-3.6C,742.0,three_500_1000,Full,Train (Batch 1 CV),2,1.0,1.0
+1,35,7C(30%)-3.6C,703.0,three_500_1000,Full,Train (Batch 1 CV),2,1.0,1.0
+1,42,8C(25%)-3.6C,702.0,three_500_1000,Full,Train (Batch 1 CV),2,1.0,1.0
+1,43,8C(25%)-3.6C,651.0,three_500_1000,Full,Train (Batch 1 CV),2,1.0,1.0
+1,9,5.4C(40%)-3.6C,1054.0,three_500_1000,Full,Train (Batch 1 CV),3,1.0,2.0
+1,18,5.4C(70%)-3C,691.0,three_500_1000,Full,Train (Batch 1 CV),3,2.0,1.0
+1,19,5.4C(70%)-3C,788.0,three_500_1000,Full,Train (Batch 1 CV),3,1.0,1.0
+1,30,6C(50%)-3.6C,709.0,three_500_1000,Full,Train (Batch 1 CV),3,1.0,1.0
+1,31,6C(50%)-3.6C,876.0,three_500_1000,Full,Train (Batch 1 CV),3,1.0,1.0
+1,40,8C(15%)-3.6C,966.0,three_500_1000,Full,Train (Batch 1 CV),3,1.0,1.0
+1,41,8C(15%)-3.6C,1051.0,three_500_1000,Full,Train (Batch 1 CV),3,1.0,2.0
+1,5,4.4C(80%)-4.4C,1074.0,three_500_1000,Full,Train (Batch 1 CV),4,1.0,2.0
+1,14,5.4C(60%)-3C,880.0,three_500_1000,Full,Train (Batch 1 CV),4,1.0,1.0
+1,15,5.4C(60%)-3C,719.0,three_500_1000,Full,Train (Batch 1 CV),4,1.0,1.0
+1,24,6C(40%)-3C,1017.0,three_500_1000,Full,Train (Batch 1 CV),4,2.0,2.0
+1,25,6C(40%)-3C,854.0,three_500_1000,Full,Train (Batch 1 CV),4,2.0,1.0
+1,36,7C(40%)-3C,704.0,three_500_1000,Full,Train (Batch 1 CV),4,1.0,1.0
+1,37,7C(40%)-3C,648.0,three_500_1000,Full,Train (Batch 1 CV),4,1.0,1.0
+1,6,4.8C(80%)-4.8C,636.0,three_500_1000,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,7,4.8C(80%)-4.8C,870.0,three_500_1000,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,23,6C(30%)-3.6C,1014.0,three_500_1000,Full,Valid (Batch 1 Hold-out),,2.0,2.0
+1,28,6C(50%)-3C,860.0,three_500_1000,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,29,6C(50%)-3C,917.0,three_500_1000,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,32,6C(60%)-3C,731.0,three_500_1000,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+1,33,6C(60%)-3C,757.0,three_500_1000,Full,Valid (Batch 1 Hold-out),,1.0,1.0
+2,0,5.2C(58%)-4C,477.0,regression,Variance,Test (Batch 2),,629.4923849933265,
+2,1,5.6C(26%)-4.5C,491.0,regression,Variance,Test (Batch 2),,553.028078323216,
+2,2,5.2C(50%)-4.25C,424.0,regression,Variance,Test (Batch 2),,617.9593430190534,
+2,3,4.65C(44%)-5C,499.0,regression,Variance,Test (Batch 2),,633.3725425652964,
+2,4,4.65C(69%)-6C,444.0,regression,Variance,Test (Batch 2),,528.7668251279631,
+2,5,3.6C(30%)-6C,416.0,regression,Variance,Test (Batch 2),,478.27777159691465,
+2,6,3.6C(9%)-5C,393.0,regression,Variance,Test (Batch 2),,648.1943302953404,
+2,7,4.8C(80%)-4.8C-newstructure,777.0,regression,Variance,Test (Batch 2),,1047.763841271718,
+2,8,5.2C(58%)-4C-newstructure,904.0,regression,Variance,Test (Batch 2),,959.0578919926859,
+2,9,5.6C(26%)-4.5C-newstructure,791.0,regression,Variance,Test (Batch 2),,1131.826276310272,
+2,10,4.8C(80%)-4.8C,492.0,regression,Variance,Test (Batch 2),,614.0180730298295,
+2,11,5.2C(50%)-4.25C,449.0,regression,Variance,Test (Batch 2),,628.6865350606708,
+2,12,4.65C(44%)-5C,466.0,regression,Variance,Test (Batch 2),,505.9181746650397,
+2,13,4.65C(69%)-6C,460.0,regression,Variance,Test (Batch 2),,570.8715530529633,
+2,14,3.6C(30%)-6C,426.0,regression,Variance,Test (Batch 2),,489.0821882672252,
+2,15,3.6C(9%)-5C,396.0,regression,Variance,Test (Batch 2),,642.1061729364117,
+2,16,4.8C(80%)-4.8C,472.0,regression,Variance,Test (Batch 2),,632.7823821586377,
+2,17,5.6C(26%)-4.5C,471.0,regression,Variance,Test (Batch 2),,635.1528996230578,
+2,18,5.2C(50%)-4.25C,449.0,regression,Variance,Test (Batch 2),,731.8065645937439,
+2,19,6C(60%)-3C,392.0,regression,Variance,Test (Batch 2),,550.7264600574659,
+2,20,5.2C(58%)-4C,489.0,regression,Variance,Test (Batch 2),,609.9990450486583,
+2,21,6C(60%)-3C,408.0,regression,Variance,Test (Batch 2),,563.970917388109,
+2,24,4.8C(80%)-4.8C,514.0,regression,Variance,Test (Batch 2),,699.2844108974203,
+2,25,5.2C(58%)-4C,493.0,regression,Variance,Test (Batch 2),,650.1663473493979,
+2,26,5.6C(26%)-4.5C,450.0,regression,Variance,Test (Batch 2),,524.9972232271609,
+2,27,5.2C(50%)-4.25C,474.0,regression,Variance,Test (Batch 2),,629.0353498937944,
+2,28,4.8C(80%)-4.8C,437.0,regression,Variance,Test (Batch 2),,602.5736311493936,
+2,29,5.2C(58%)-4C,452.0,regression,Variance,Test (Batch 2),,638.5982847406655,
+2,30,5.6C(26%)-4.5C,412.0,regression,Variance,Test (Batch 2),,511.9937259975447,
+2,31,5.6C(26%)-4.5C,425.0,regression,Variance,Test (Batch 2),,573.9710172871453,
+2,32,4.8C(80%)-4.8C-newstructure,809.0,regression,Variance,Test (Batch 2),,978.313384926198,
+2,33,5.2C(58%)-4C-newstructure,1140.0,regression,Variance,Test (Batch 2),,1047.733886770639,
+2,34,5.6C(26%)-4.5C-newstructure,1186.0,regression,Variance,Test (Batch 2),,1215.4608206360954,
+2,41,5.6C(26%)-4.5C,442.0,regression,Variance,Test (Batch 2),,507.4431704651285,
+2,42,5.2C(50%)-4.25C,474.0,regression,Variance,Test (Batch 2),,627.4804627863008,
+2,43,4.8C(80%)-4.8C-newstructure,1029.0,regression,Variance,Test (Batch 2),,1076.927748697381,
+2,44,5.2C(58%)-4C-newstructure,841.0,regression,Variance,Test (Batch 2),,1147.5029238677594,
+2,45,5.6C(26%)-4.5C-newstructure,997.0,regression,Variance,Test (Batch 2),,1008.0503702862003,
+2,46,4.8C(80%)-4.8C,503.0,regression,Variance,Test (Batch 2),,638.8723733153228,
+2,0,5.2C(58%)-4C,477.0,regression,Discharge,Test (Batch 2),,612.8415727775972,
+2,1,5.6C(26%)-4.5C,491.0,regression,Discharge,Test (Batch 2),,624.7784790471247,
+2,2,5.2C(50%)-4.25C,424.0,regression,Discharge,Test (Batch 2),,595.1565326925172,
+2,3,4.65C(44%)-5C,499.0,regression,Discharge,Test (Batch 2),,477.8459173070269,
+2,4,4.65C(69%)-6C,444.0,regression,Discharge,Test (Batch 2),,606.7513100597736,
+2,5,3.6C(30%)-6C,416.0,regression,Discharge,Test (Batch 2),,540.3085448140847,
+2,6,3.6C(9%)-5C,393.0,regression,Discharge,Test (Batch 2),,522.0469861283212,
+2,7,4.8C(80%)-4.8C-newstructure,777.0,regression,Discharge,Test (Batch 2),,869.8310008184951,
+2,8,5.2C(58%)-4C-newstructure,904.0,regression,Discharge,Test (Batch 2),,1094.0851034234943,
+2,9,5.6C(26%)-4.5C-newstructure,791.0,regression,Discharge,Test (Batch 2),,1293.048605208364,
+2,10,4.8C(80%)-4.8C,492.0,regression,Discharge,Test (Batch 2),,639.6157391975895,
+2,11,5.2C(50%)-4.25C,449.0,regression,Discharge,Test (Batch 2),,487.9428287754641,
+2,12,4.65C(44%)-5C,466.0,regression,Discharge,Test (Batch 2),,495.62120164677003,
+2,13,4.65C(69%)-6C,460.0,regression,Discharge,Test (Batch 2),,633.1044147872041,
+2,14,3.6C(30%)-6C,426.0,regression,Discharge,Test (Batch 2),,514.2521316702384,
+2,15,3.6C(9%)-5C,396.0,regression,Discharge,Test (Batch 2),,510.69790753048443,
+2,16,4.8C(80%)-4.8C,472.0,regression,Discharge,Test (Batch 2),,619.3004941201586,
+2,17,5.6C(26%)-4.5C,471.0,regression,Discharge,Test (Batch 2),,406.69334041245105,
+2,18,5.2C(50%)-4.25C,449.0,regression,Discharge,Test (Batch 2),,567.4722209758646,
+2,19,6C(60%)-3C,392.0,regression,Discharge,Test (Batch 2),,458.00477975085585,
+2,20,5.2C(58%)-4C,489.0,regression,Discharge,Test (Batch 2),,566.3662696273419,
+2,21,6C(60%)-3C,408.0,regression,Discharge,Test (Batch 2),,522.8271620601803,
+2,24,4.8C(80%)-4.8C,514.0,regression,Discharge,Test (Batch 2),,629.7504764362855,
+2,25,5.2C(58%)-4C,493.0,regression,Discharge,Test (Batch 2),,646.3500043813317,
+2,26,5.6C(26%)-4.5C,450.0,regression,Discharge,Test (Batch 2),,600.3005117517259,
+2,27,5.2C(50%)-4.25C,474.0,regression,Discharge,Test (Batch 2),,505.3674699272769,
+2,28,4.8C(80%)-4.8C,437.0,regression,Discharge,Test (Batch 2),,545.4667597627654,
+2,29,5.2C(58%)-4C,452.0,regression,Discharge,Test (Batch 2),,505.387114504447,
+2,30,5.6C(26%)-4.5C,412.0,regression,Discharge,Test (Batch 2),,529.2938255184334,
+2,31,5.6C(26%)-4.5C,425.0,regression,Discharge,Test (Batch 2),,612.4372365022488,
+2,32,4.8C(80%)-4.8C-newstructure,809.0,regression,Discharge,Test (Batch 2),,998.5776577159827,
+2,33,5.2C(58%)-4C-newstructure,1140.0,regression,Discharge,Test (Batch 2),,1168.9985077538195,
+2,34,5.6C(26%)-4.5C-newstructure,1186.0,regression,Discharge,Test (Batch 2),,1316.8123561335872,
+2,41,5.6C(26%)-4.5C,442.0,regression,Discharge,Test (Batch 2),,520.9076589859148,
+2,42,5.2C(50%)-4.25C,474.0,regression,Discharge,Test (Batch 2),,544.5496269935691,
+2,43,4.8C(80%)-4.8C-newstructure,1029.0,regression,Discharge,Test (Batch 2),,1300.4506595813566,
+2,44,5.2C(58%)-4C-newstructure,841.0,regression,Discharge,Test (Batch 2),,1488.7572321220425,
+2,45,5.6C(26%)-4.5C-newstructure,997.0,regression,Discharge,Test (Batch 2),,1281.8392983884532,
+2,46,4.8C(80%)-4.8C,503.0,regression,Discharge,Test (Batch 2),,663.2312930598955,
+2,0,5.2C(58%)-4C,477.0,regression,Full,Test (Batch 2),,651.8294135632134,
+2,1,5.6C(26%)-4.5C,491.0,regression,Full,Test (Batch 2),,631.2159567425921,
+2,2,5.2C(50%)-4.25C,424.0,regression,Full,Test (Batch 2),,587.7372781764419,
+2,3,4.65C(44%)-5C,499.0,regression,Full,Test (Batch 2),,577.0807915608035,
+2,4,4.65C(69%)-6C,444.0,regression,Full,Test (Batch 2),,582.2755457754472,
+2,5,3.6C(30%)-6C,416.0,regression,Full,Test (Batch 2),,525.9431730652066,
+2,6,3.6C(9%)-5C,393.0,regression,Full,Test (Batch 2),,575.6967084881373,
+2,7,4.8C(80%)-4.8C-newstructure,777.0,regression,Full,Test (Batch 2),,906.4564375074985,
+2,8,5.2C(58%)-4C-newstructure,904.0,regression,Full,Test (Batch 2),,1069.8260622760147,
+2,9,5.6C(26%)-4.5C-newstructure,791.0,regression,Full,Test (Batch 2),,1269.8068174125906,
+2,10,4.8C(80%)-4.8C,492.0,regression,Full,Test (Batch 2),,677.982598183731,
+2,11,5.2C(50%)-4.25C,449.0,regression,Full,Test (Batch 2),,572.1057528706873,
+2,12,4.65C(44%)-5C,466.0,regression,Full,Test (Batch 2),,538.297191188388,
+2,13,4.65C(69%)-6C,460.0,regression,Full,Test (Batch 2),,648.7842923676463,
+2,14,3.6C(30%)-6C,426.0,regression,Full,Test (Batch 2),,526.8900070661774,
+2,15,3.6C(9%)-5C,396.0,regression,Full,Test (Batch 2),,551.7764922244793,
+2,16,4.8C(80%)-4.8C,472.0,regression,Full,Test (Batch 2),,637.5085514064262,
+2,17,5.6C(26%)-4.5C,471.0,regression,Full,Test (Batch 2),,485.7651178545229,
+2,18,5.2C(50%)-4.25C,449.0,regression,Full,Test (Batch 2),,613.7908364569942,
+2,19,6C(60%)-3C,392.0,regression,Full,Test (Batch 2),,506.53854382558484,
+2,20,5.2C(58%)-4C,489.0,regression,Full,Test (Batch 2),,638.3405260119347,
+2,21,6C(60%)-3C,408.0,regression,Full,Test (Batch 2),,562.9878596824744,
+2,24,4.8C(80%)-4.8C,514.0,regression,Full,Test (Batch 2),,684.5801337220378,
+2,25,5.2C(58%)-4C,493.0,regression,Full,Test (Batch 2),,675.3927430308904,
+2,26,5.6C(26%)-4.5C,450.0,regression,Full,Test (Batch 2),,617.7502807806558,
+2,27,5.2C(50%)-4.25C,474.0,regression,Full,Test (Batch 2),,571.127002363428,
+2,28,4.8C(80%)-4.8C,437.0,regression,Full,Test (Batch 2),,585.5585641271981,
+2,29,5.2C(58%)-4C,452.0,regression,Full,Test (Batch 2),,585.0616608832653,
+2,30,5.6C(26%)-4.5C,412.0,regression,Full,Test (Batch 2),,549.1104683982187,
+2,31,5.6C(26%)-4.5C,425.0,regression,Full,Test (Batch 2),,636.9710604619045,
+2,32,4.8C(80%)-4.8C-newstructure,809.0,regression,Full,Test (Batch 2),,1005.9837369684808,
+2,33,5.2C(58%)-4C-newstructure,1140.0,regression,Full,Test (Batch 2),,1099.044729812315,
+2,34,5.6C(26%)-4.5C-newstructure,1186.0,regression,Full,Test (Batch 2),,1243.307415037373,
+2,41,5.6C(26%)-4.5C,442.0,regression,Full,Test (Batch 2),,566.7327025334226,
+2,42,5.2C(50%)-4.25C,474.0,regression,Full,Test (Batch 2),,620.1258314032896,
+2,43,4.8C(80%)-4.8C-newstructure,1029.0,regression,Full,Test (Batch 2),,1228.3097066147552,
+2,44,5.2C(58%)-4C-newstructure,841.0,regression,Full,Test (Batch 2),,1358.1085632889008,
+2,45,5.6C(26%)-4.5C-newstructure,997.0,regression,Full,Test (Batch 2),,1215.1951934075673,
+2,46,4.8C(80%)-4.8C,503.0,regression,Full,Test (Batch 2),,681.1532373121031,
+2,0,5.2C(58%)-4C,477.0,regression,Selected,Test (Batch 2),,612.8415727775972,
+2,1,5.6C(26%)-4.5C,491.0,regression,Selected,Test (Batch 2),,624.7784790471247,
+2,2,5.2C(50%)-4.25C,424.0,regression,Selected,Test (Batch 2),,595.1565326925172,
+2,3,4.65C(44%)-5C,499.0,regression,Selected,Test (Batch 2),,477.8459173070269,
+2,4,4.65C(69%)-6C,444.0,regression,Selected,Test (Batch 2),,606.7513100597736,
+2,5,3.6C(30%)-6C,416.0,regression,Selected,Test (Batch 2),,540.3085448140847,
+2,6,3.6C(9%)-5C,393.0,regression,Selected,Test (Batch 2),,522.0469861283212,
+2,7,4.8C(80%)-4.8C-newstructure,777.0,regression,Selected,Test (Batch 2),,869.8310008184951,
+2,8,5.2C(58%)-4C-newstructure,904.0,regression,Selected,Test (Batch 2),,1094.0851034234943,
+2,9,5.6C(26%)-4.5C-newstructure,791.0,regression,Selected,Test (Batch 2),,1293.048605208364,
+2,10,4.8C(80%)-4.8C,492.0,regression,Selected,Test (Batch 2),,639.6157391975895,
+2,11,5.2C(50%)-4.25C,449.0,regression,Selected,Test (Batch 2),,487.9428287754641,
+2,12,4.65C(44%)-5C,466.0,regression,Selected,Test (Batch 2),,495.62120164677003,
+2,13,4.65C(69%)-6C,460.0,regression,Selected,Test (Batch 2),,633.1044147872041,
+2,14,3.6C(30%)-6C,426.0,regression,Selected,Test (Batch 2),,514.2521316702384,
+2,15,3.6C(9%)-5C,396.0,regression,Selected,Test (Batch 2),,510.69790753048443,
+2,16,4.8C(80%)-4.8C,472.0,regression,Selected,Test (Batch 2),,619.3004941201586,
+2,17,5.6C(26%)-4.5C,471.0,regression,Selected,Test (Batch 2),,406.69334041245105,
+2,18,5.2C(50%)-4.25C,449.0,regression,Selected,Test (Batch 2),,567.4722209758646,
+2,19,6C(60%)-3C,392.0,regression,Selected,Test (Batch 2),,458.00477975085585,
+2,20,5.2C(58%)-4C,489.0,regression,Selected,Test (Batch 2),,566.3662696273419,
+2,21,6C(60%)-3C,408.0,regression,Selected,Test (Batch 2),,522.8271620601803,
+2,24,4.8C(80%)-4.8C,514.0,regression,Selected,Test (Batch 2),,629.7504764362855,
+2,25,5.2C(58%)-4C,493.0,regression,Selected,Test (Batch 2),,646.3500043813317,
+2,26,5.6C(26%)-4.5C,450.0,regression,Selected,Test (Batch 2),,600.3005117517259,
+2,27,5.2C(50%)-4.25C,474.0,regression,Selected,Test (Batch 2),,505.3674699272769,
+2,28,4.8C(80%)-4.8C,437.0,regression,Selected,Test (Batch 2),,545.4667597627654,
+2,29,5.2C(58%)-4C,452.0,regression,Selected,Test (Batch 2),,505.387114504447,
+2,30,5.6C(26%)-4.5C,412.0,regression,Selected,Test (Batch 2),,529.2938255184334,
+2,31,5.6C(26%)-4.5C,425.0,regression,Selected,Test (Batch 2),,612.4372365022488,
+2,32,4.8C(80%)-4.8C-newstructure,809.0,regression,Selected,Test (Batch 2),,998.5776577159827,
+2,33,5.2C(58%)-4C-newstructure,1140.0,regression,Selected,Test (Batch 2),,1168.9985077538195,
+2,34,5.6C(26%)-4.5C-newstructure,1186.0,regression,Selected,Test (Batch 2),,1316.8123561335872,
+2,41,5.6C(26%)-4.5C,442.0,regression,Selected,Test (Batch 2),,520.9076589859148,
+2,42,5.2C(50%)-4.25C,474.0,regression,Selected,Test (Batch 2),,544.5496269935691,
+2,43,4.8C(80%)-4.8C-newstructure,1029.0,regression,Selected,Test (Batch 2),,1300.4506595813566,
+2,44,5.2C(58%)-4C-newstructure,841.0,regression,Selected,Test (Batch 2),,1488.7572321220425,
+2,45,5.6C(26%)-4.5C-newstructure,997.0,regression,Selected,Test (Batch 2),,1281.8392983884532,
+2,46,4.8C(80%)-4.8C,503.0,regression,Selected,Test (Batch 2),,663.2312930598955,
+2,0,5.2C(58%)-4C,477.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,1,5.6C(26%)-4.5C,491.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,2,5.2C(50%)-4.25C,424.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,3,4.65C(44%)-5C,499.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,4,4.65C(69%)-6C,444.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,5,3.6C(30%)-6C,416.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,6,3.6C(9%)-5C,393.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,7,4.8C(80%)-4.8C-newstructure,777.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,8,5.2C(58%)-4C-newstructure,904.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,9,5.6C(26%)-4.5C-newstructure,791.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,10,4.8C(80%)-4.8C,492.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,11,5.2C(50%)-4.25C,449.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,12,4.65C(44%)-5C,466.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,13,4.65C(69%)-6C,460.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,14,3.6C(30%)-6C,426.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,15,3.6C(9%)-5C,396.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,16,4.8C(80%)-4.8C,472.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,17,5.6C(26%)-4.5C,471.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,18,5.2C(50%)-4.25C,449.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,19,6C(60%)-3C,392.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,20,5.2C(58%)-4C,489.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,21,6C(60%)-3C,408.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,24,4.8C(80%)-4.8C,514.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,25,5.2C(58%)-4C,493.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,26,5.6C(26%)-4.5C,450.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,27,5.2C(50%)-4.25C,474.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,28,4.8C(80%)-4.8C,437.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,29,5.2C(58%)-4C,452.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,30,5.6C(26%)-4.5C,412.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,31,5.6C(26%)-4.5C,425.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,32,4.8C(80%)-4.8C-newstructure,809.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,33,5.2C(58%)-4C-newstructure,1140.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,34,5.6C(26%)-4.5C-newstructure,1186.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,41,5.6C(26%)-4.5C,442.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,42,5.2C(50%)-4.25C,474.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,43,4.8C(80%)-4.8C-newstructure,1029.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,44,5.2C(58%)-4C-newstructure,841.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,45,5.6C(26%)-4.5C-newstructure,997.0,binary_550,Variance,Test (Batch 2),,1.0,1.0
+2,46,4.8C(80%)-4.8C,503.0,binary_550,Variance,Test (Batch 2),,1.0,0.0
+2,0,5.2C(58%)-4C,477.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,1,5.6C(26%)-4.5C,491.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,2,5.2C(50%)-4.25C,424.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,3,4.65C(44%)-5C,499.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,4,4.65C(69%)-6C,444.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,5,3.6C(30%)-6C,416.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,6,3.6C(9%)-5C,393.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,7,4.8C(80%)-4.8C-newstructure,777.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,8,5.2C(58%)-4C-newstructure,904.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,9,5.6C(26%)-4.5C-newstructure,791.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,10,4.8C(80%)-4.8C,492.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,11,5.2C(50%)-4.25C,449.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,12,4.65C(44%)-5C,466.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,13,4.65C(69%)-6C,460.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,14,3.6C(30%)-6C,426.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,15,3.6C(9%)-5C,396.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,16,4.8C(80%)-4.8C,472.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,17,5.6C(26%)-4.5C,471.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,18,5.2C(50%)-4.25C,449.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,19,6C(60%)-3C,392.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,20,5.2C(58%)-4C,489.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,21,6C(60%)-3C,408.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,24,4.8C(80%)-4.8C,514.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,25,5.2C(58%)-4C,493.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,26,5.6C(26%)-4.5C,450.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,27,5.2C(50%)-4.25C,474.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,28,4.8C(80%)-4.8C,437.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,29,5.2C(58%)-4C,452.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,30,5.6C(26%)-4.5C,412.0,binary_550,Full,Test (Batch 2),,0.0,0.0
+2,31,5.6C(26%)-4.5C,425.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,32,4.8C(80%)-4.8C-newstructure,809.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,33,5.2C(58%)-4C-newstructure,1140.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,34,5.6C(26%)-4.5C-newstructure,1186.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,41,5.6C(26%)-4.5C,442.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,42,5.2C(50%)-4.25C,474.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,43,4.8C(80%)-4.8C-newstructure,1029.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,44,5.2C(58%)-4C-newstructure,841.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,45,5.6C(26%)-4.5C-newstructure,997.0,binary_550,Full,Test (Batch 2),,1.0,1.0
+2,46,4.8C(80%)-4.8C,503.0,binary_550,Full,Test (Batch 2),,1.0,0.0
+2,0,5.2C(58%)-4C,477.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,1,5.6C(26%)-4.5C,491.0,three_500_1000,Full,Test (Batch 2),,2.0,0.0
+2,2,5.2C(50%)-4.25C,424.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,3,4.65C(44%)-5C,499.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,4,4.65C(69%)-6C,444.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,5,3.6C(30%)-6C,416.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,6,3.6C(9%)-5C,393.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,7,4.8C(80%)-4.8C-newstructure,777.0,three_500_1000,Full,Test (Batch 2),,1.0,1.0
+2,8,5.2C(58%)-4C-newstructure,904.0,three_500_1000,Full,Test (Batch 2),,1.0,1.0
+2,9,5.6C(26%)-4.5C-newstructure,791.0,three_500_1000,Full,Test (Batch 2),,1.0,1.0
+2,10,4.8C(80%)-4.8C,492.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,11,5.2C(50%)-4.25C,449.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,12,4.65C(44%)-5C,466.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,13,4.65C(69%)-6C,460.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,14,3.6C(30%)-6C,426.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,15,3.6C(9%)-5C,396.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,16,4.8C(80%)-4.8C,472.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,17,5.6C(26%)-4.5C,471.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,18,5.2C(50%)-4.25C,449.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,19,6C(60%)-3C,392.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,20,5.2C(58%)-4C,489.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,21,6C(60%)-3C,408.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,24,4.8C(80%)-4.8C,514.0,three_500_1000,Full,Test (Batch 2),,1.0,1.0
+2,25,5.2C(58%)-4C,493.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,26,5.6C(26%)-4.5C,450.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,27,5.2C(50%)-4.25C,474.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,28,4.8C(80%)-4.8C,437.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,29,5.2C(58%)-4C,452.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,30,5.6C(26%)-4.5C,412.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,31,5.6C(26%)-4.5C,425.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,32,4.8C(80%)-4.8C-newstructure,809.0,three_500_1000,Full,Test (Batch 2),,1.0,1.0
+2,33,5.2C(58%)-4C-newstructure,1140.0,three_500_1000,Full,Test (Batch 2),,1.0,2.0
+2,34,5.6C(26%)-4.5C-newstructure,1186.0,three_500_1000,Full,Test (Batch 2),,1.0,2.0
+2,41,5.6C(26%)-4.5C,442.0,three_500_1000,Full,Test (Batch 2),,2.0,0.0
+2,42,5.2C(50%)-4.25C,474.0,three_500_1000,Full,Test (Batch 2),,1.0,0.0
+2,43,4.8C(80%)-4.8C-newstructure,1029.0,three_500_1000,Full,Test (Batch 2),,1.0,2.0
+2,44,5.2C(58%)-4C-newstructure,841.0,three_500_1000,Full,Test (Batch 2),,1.0,1.0
+2,45,5.6C(26%)-4.5C-newstructure,997.0,three_500_1000,Full,Test (Batch 2),,1.0,1.0
+2,46,4.8C(80%)-4.8C,503.0,three_500_1000,Full,Test (Batch 2),,2.0,1.0
+3,0,5C(67%)-4C-newstructure,1009.0,regression,Variance,Test (Batch 3),,1057.4499955815959,
+3,1,5.3C(54%)-4C-newstructure,1063.0,regression,Variance,Test (Batch 3),,1087.118612011619,
+3,2,5.6C(19%)-4.6C-newstructure,1267.0,regression,Variance,Test (Batch 3),,1524.2956636753972,
+3,3,5.6C(36%)-4.3C-newstructure,1115.0,regression,Variance,Test (Batch 3),,968.4146961372436,
+3,4,5.6C(19%)-4.6C-newstructure,1048.0,regression,Variance,Test (Batch 3),,1010.2956997113794,
+3,5,5.6C(36%)-4.3C-newstructure,828.0,regression,Variance,Test (Batch 3),,966.9683129681318,
+3,6,3.7C(31%)-5.9C-newstructure,667.0,regression,Variance,Test (Batch 3),,646.2755121776956,
+3,7,4.8C(80%)-4.8C-newstructure,1836.0,regression,Variance,Test (Batch 3),,1249.3311065015441,
+3,8,5C(67%)-4C-newstructure,828.0,regression,Variance,Test (Batch 3),,952.1128578793741,
+3,9,5.3C(54%)-4C-newstructure,1039.0,regression,Variance,Test (Batch 3),,883.3600618506188,
+3,10,4.8C(80%)-4.8C-newstructure,1078.0,regression,Variance,Test (Batch 3),,1184.8807595538087,
+3,11,5.6C(19%)-4.6C-newstructure,817.0,regression,Variance,Test (Batch 3),,826.4051396164091,
+3,12,5.6C(36%)-4.3C-newstructure,932.0,regression,Variance,Test (Batch 3),,862.1510974290787,
+3,13,5.6C(19%)-4.6C-newstructure,816.0,regression,Variance,Test (Batch 3),,953.8496407762858,
+3,14,5.6C(36%)-4.3C-newstructure,858.0,regression,Variance,Test (Batch 3),,893.9251934091576,
+3,15,5.9C(15%)-4.6C-newstructure,876.0,regression,Variance,Test (Batch 3),,894.5474810303276,
+3,16,4.8C(80%)-4.8C-newstructure,1638.0,regression,Variance,Test (Batch 3),,1438.2773722409383,
+3,17,5.3C(54%)-4C-newstructure,1315.0,regression,Variance,Test (Batch 3),,1208.1024162120684,
+3,18,5.6C(19%)-4.6C-newstructure,1146.0,regression,Variance,Test (Batch 3),,1063.938153629553,
+3,19,5.6C(36%)-4.3C-newstructure,1155.0,regression,Variance,Test (Batch 3),,1005.7946446652933,
+3,20,5C(67%)-4C-newstructure,813.0,regression,Variance,Test (Batch 3),,935.6658444157781,
+3,21,3.7C(31%)-5.9C-newstructure,772.0,regression,Variance,Test (Batch 3),,730.3174474388916,
+3,22,5.9C(60%)-3.1C-newstructure,1002.0,regression,Variance,Test (Batch 3),,923.2468069362251,
+3,24,5C(67%)-4C-newstructure,825.0,regression,Variance,Test (Batch 3),,994.3726681971792,
+3,25,5.3C(54%)-4C-newstructure,989.0,regression,Variance,Test (Batch 3),,988.4730447754498,
+3,26,5.6C(19%)-4.6C-newstructure,1028.0,regression,Variance,Test (Batch 3),,1039.077824810837,
+3,27,5.6C(36%)-4.3C-newstructure,850.0,regression,Variance,Test (Batch 3),,977.4206564279021,
+3,28,3.7C(31%)-5.9C-newstructure,541.0,regression,Variance,Test (Batch 3),,614.3366183843477,
+3,29,5.9C(15%)-4.6C-newstructure,858.0,regression,Variance,Test (Batch 3),,933.8945000360486,
+3,30,5.3C(54%)-4C-newstructure,935.0,regression,Variance,Test (Batch 3),,957.6168727602499,
+3,31,5.9C(60%)-3.1C-newstructure,731.0,regression,Variance,Test (Batch 3),,801.1655877581328,
+3,33,5C(67%)-4C-newstructure,1284.0,regression,Variance,Test (Batch 3),,1172.4110703419367,
+3,34,5.3C(54%)-4C-newstructure,1158.0,regression,Variance,Test (Batch 3),,1102.1903552401718,
+3,35,5.6C(19%)-4.6C-newstructure,1093.0,regression,Variance,Test (Batch 3),,1050.0526915403825,
+3,36,5.6C(36%)-4.3C-newstructure,923.0,regression,Variance,Test (Batch 3),,1063.5056319241667,
+3,37,4.8C(80%)-4.8C-newstructure,1390.0,regression,Variance,Test (Batch 3),,1896.8481740568168,
+3,38,5C(67%)-4C-newstructure,1935.0,regression,Variance,Test (Batch 3),,1129.9897661113616,
+3,39,5.3C(54%)-4C-newstructure,1156.0,regression,Variance,Test (Batch 3),,1220.5042202225654,
+3,40,5.6C(19%)-4.6C-newstructure,796.0,regression,Variance,Test (Batch 3),,1094.2593730447495,
+3,41,5.6C(36%)-4.3C-newstructure,786.0,regression,Variance,Test (Batch 3),,1039.0792164981278,
+3,42,4.8C(80%)-4.8C-newstructure,1642.0,regression,Variance,Test (Batch 3),,1133.1974916130323,
+3,43,5C(67%)-4C-newstructure,1046.0,regression,Variance,Test (Batch 3),,1110.5871509581386,
+3,44,5.3C(54%)-4C-newstructure,940.0,regression,Variance,Test (Batch 3),,978.333049274845,
+3,45,4.8C(80%)-4.8C-newstructure,1801.0,regression,Variance,Test (Batch 3),,1277.09078660075,
+3,0,5C(67%)-4C-newstructure,1009.0,regression,Discharge,Test (Batch 3),,1087.5423025278737,
+3,1,5.3C(54%)-4C-newstructure,1063.0,regression,Discharge,Test (Batch 3),,1108.4541723720577,
+3,2,5.6C(19%)-4.6C-newstructure,1267.0,regression,Discharge,Test (Batch 3),,1474.8577189546245,
+3,3,5.6C(36%)-4.3C-newstructure,1115.0,regression,Discharge,Test (Batch 3),,970.7903884258743,
+3,4,5.6C(19%)-4.6C-newstructure,1048.0,regression,Discharge,Test (Batch 3),,1098.3824624449448,
+3,5,5.6C(36%)-4.3C-newstructure,828.0,regression,Discharge,Test (Batch 3),,962.3686737335405,
+3,6,3.7C(31%)-5.9C-newstructure,667.0,regression,Discharge,Test (Batch 3),,604.578727887257,
+3,7,4.8C(80%)-4.8C-newstructure,1836.0,regression,Discharge,Test (Batch 3),,1386.3122992118645,
+3,8,5C(67%)-4C-newstructure,828.0,regression,Discharge,Test (Batch 3),,965.2305449762531,
+3,9,5.3C(54%)-4C-newstructure,1039.0,regression,Discharge,Test (Batch 3),,929.3738860768277,
+3,10,4.8C(80%)-4.8C-newstructure,1078.0,regression,Discharge,Test (Batch 3),,1247.640050455149,
+3,11,5.6C(19%)-4.6C-newstructure,817.0,regression,Discharge,Test (Batch 3),,861.4808115981192,
+3,12,5.6C(36%)-4.3C-newstructure,932.0,regression,Discharge,Test (Batch 3),,944.3498328196464,
+3,13,5.6C(19%)-4.6C-newstructure,816.0,regression,Discharge,Test (Batch 3),,943.7199533677654,
+3,14,5.6C(36%)-4.3C-newstructure,858.0,regression,Discharge,Test (Batch 3),,914.9665581335238,
+3,15,5.9C(15%)-4.6C-newstructure,876.0,regression,Discharge,Test (Batch 3),,955.1901664534306,
+3,16,4.8C(80%)-4.8C-newstructure,1638.0,regression,Discharge,Test (Batch 3),,1519.3430705112914,
+3,17,5.3C(54%)-4C-newstructure,1315.0,regression,Discharge,Test (Batch 3),,1286.6115791423356,
+3,18,5.6C(19%)-4.6C-newstructure,1146.0,regression,Discharge,Test (Batch 3),,1143.0928208905182,
+3,19,5.6C(36%)-4.3C-newstructure,1155.0,regression,Discharge,Test (Batch 3),,1114.6084510500855,
+3,20,5C(67%)-4C-newstructure,813.0,regression,Discharge,Test (Batch 3),,957.0790339222422,
+3,21,3.7C(31%)-5.9C-newstructure,772.0,regression,Discharge,Test (Batch 3),,719.6003778211674,
+3,22,5.9C(60%)-3.1C-newstructure,1002.0,regression,Discharge,Test (Batch 3),,914.5585756213857,
+3,24,5C(67%)-4C-newstructure,825.0,regression,Discharge,Test (Batch 3),,881.7785316603191,
+3,25,5.3C(54%)-4C-newstructure,989.0,regression,Discharge,Test (Batch 3),,927.3822875475931,
+3,26,5.6C(19%)-4.6C-newstructure,1028.0,regression,Discharge,Test (Batch 3),,1078.0344317669042,
+3,27,5.6C(36%)-4.3C-newstructure,850.0,regression,Discharge,Test (Batch 3),,931.5946254274165,
+3,28,3.7C(31%)-5.9C-newstructure,541.0,regression,Discharge,Test (Batch 3),,533.442508319607,
+3,29,5.9C(15%)-4.6C-newstructure,858.0,regression,Discharge,Test (Batch 3),,894.4562112064401,
+3,30,5.3C(54%)-4C-newstructure,935.0,regression,Discharge,Test (Batch 3),,984.9426586094671,
+3,31,5.9C(60%)-3.1C-newstructure,731.0,regression,Discharge,Test (Batch 3),,813.3860868174826,
+3,33,5C(67%)-4C-newstructure,1284.0,regression,Discharge,Test (Batch 3),,1201.5622900031217,
+3,34,5.3C(54%)-4C-newstructure,1158.0,regression,Discharge,Test (Batch 3),,1152.1100548697048,
+3,35,5.6C(19%)-4.6C-newstructure,1093.0,regression,Discharge,Test (Batch 3),,1129.9822478522528,
+3,36,5.6C(36%)-4.3C-newstructure,923.0,regression,Discharge,Test (Batch 3),,1049.8674077238277,
+3,37,4.8C(80%)-4.8C-newstructure,1390.0,regression,Discharge,Test (Batch 3),,1018.6072100687793,
+3,38,5C(67%)-4C-newstructure,1935.0,regression,Discharge,Test (Batch 3),,1280.5250506525565,
+3,39,5.3C(54%)-4C-newstructure,1156.0,regression,Discharge,Test (Batch 3),,1131.2772466049291,
+3,40,5.6C(19%)-4.6C-newstructure,796.0,regression,Discharge,Test (Batch 3),,1050.1928733636692,
+3,41,5.6C(36%)-4.3C-newstructure,786.0,regression,Discharge,Test (Batch 3),,926.2173544582985,
+3,42,4.8C(80%)-4.8C-newstructure,1642.0,regression,Discharge,Test (Batch 3),,1364.0905699511784,
+3,43,5C(67%)-4C-newstructure,1046.0,regression,Discharge,Test (Batch 3),,1158.16600414728,
+3,44,5.3C(54%)-4C-newstructure,940.0,regression,Discharge,Test (Batch 3),,1011.1647368137968,
+3,45,4.8C(80%)-4.8C-newstructure,1801.0,regression,Discharge,Test (Batch 3),,1480.5381156000483,
+3,0,5C(67%)-4C-newstructure,1009.0,regression,Full,Test (Batch 3),,1040.6778476953164,
+3,1,5.3C(54%)-4C-newstructure,1063.0,regression,Full,Test (Batch 3),,1061.0273346715005,
+3,2,5.6C(19%)-4.6C-newstructure,1267.0,regression,Full,Test (Batch 3),,1584.8583996436246,
+3,3,5.6C(36%)-4.3C-newstructure,1115.0,regression,Full,Test (Batch 3),,949.3240511168402,
+3,4,5.6C(19%)-4.6C-newstructure,1048.0,regression,Full,Test (Batch 3),,1045.8326002993201,
+3,5,5.6C(36%)-4.3C-newstructure,828.0,regression,Full,Test (Batch 3),,896.8544323470063,
+3,6,3.7C(31%)-5.9C-newstructure,667.0,regression,Full,Test (Batch 3),,601.5096310485322,
+3,7,4.8C(80%)-4.8C-newstructure,1836.0,regression,Full,Test (Batch 3),,1263.9974294502695,
+3,8,5C(67%)-4C-newstructure,828.0,regression,Full,Test (Batch 3),,919.8095307908984,
+3,9,5.3C(54%)-4C-newstructure,1039.0,regression,Full,Test (Batch 3),,877.5616926738171,
+3,10,4.8C(80%)-4.8C-newstructure,1078.0,regression,Full,Test (Batch 3),,1159.246229290164,
+3,11,5.6C(19%)-4.6C-newstructure,817.0,regression,Full,Test (Batch 3),,823.8134406514467,
+3,12,5.6C(36%)-4.3C-newstructure,932.0,regression,Full,Test (Batch 3),,892.6379794801852,
+3,13,5.6C(19%)-4.6C-newstructure,816.0,regression,Full,Test (Batch 3),,917.8681556471206,
+3,14,5.6C(36%)-4.3C-newstructure,858.0,regression,Full,Test (Batch 3),,880.2630724248945,
+3,15,5.9C(15%)-4.6C-newstructure,876.0,regression,Full,Test (Batch 3),,898.1728278599101,
+3,16,4.8C(80%)-4.8C-newstructure,1638.0,regression,Full,Test (Batch 3),,1424.2109295019823,
+3,17,5.3C(54%)-4C-newstructure,1315.0,regression,Full,Test (Batch 3),,1227.4063402823438,
+3,18,5.6C(19%)-4.6C-newstructure,1146.0,regression,Full,Test (Batch 3),,1082.5904295776274,
+3,19,5.6C(36%)-4.3C-newstructure,1155.0,regression,Full,Test (Batch 3),,1046.7044088142547,
+3,20,5C(67%)-4C-newstructure,813.0,regression,Full,Test (Batch 3),,920.3527559051455,
+3,21,3.7C(31%)-5.9C-newstructure,772.0,regression,Full,Test (Batch 3),,711.4417102652799,
+3,22,5.9C(60%)-3.1C-newstructure,1002.0,regression,Full,Test (Batch 3),,868.8121576433074,
+3,24,5C(67%)-4C-newstructure,825.0,regression,Full,Test (Batch 3),,860.3774496600861,
+3,25,5.3C(54%)-4C-newstructure,989.0,regression,Full,Test (Batch 3),,928.8431451454694,
+3,26,5.6C(19%)-4.6C-newstructure,1028.0,regression,Full,Test (Batch 3),,1049.7481908409086,
+3,27,5.6C(36%)-4.3C-newstructure,850.0,regression,Full,Test (Batch 3),,919.719572993966,
+3,28,3.7C(31%)-5.9C-newstructure,541.0,regression,Full,Test (Batch 3),,535.3270433330778,
+3,29,5.9C(15%)-4.6C-newstructure,858.0,regression,Full,Test (Batch 3),,890.00240811482,
+3,30,5.3C(54%)-4C-newstructure,935.0,regression,Full,Test (Batch 3),,953.7161419147812,
+3,31,5.9C(60%)-3.1C-newstructure,731.0,regression,Full,Test (Batch 3),,787.5862667233246,
+3,33,5C(67%)-4C-newstructure,1284.0,regression,Full,Test (Batch 3),,1146.2502504589497,
+3,34,5.3C(54%)-4C-newstructure,1158.0,regression,Full,Test (Batch 3),,1077.0058235528068,
+3,35,5.6C(19%)-4.6C-newstructure,1093.0,regression,Full,Test (Batch 3),,1051.459807823915,
+3,36,5.6C(36%)-4.3C-newstructure,923.0,regression,Full,Test (Batch 3),,1006.8203077748601,
+3,37,4.8C(80%)-4.8C-newstructure,1390.0,regression,Full,Test (Batch 3),,1428.181843214931,
+3,38,5C(67%)-4C-newstructure,1935.0,regression,Full,Test (Batch 3),,1171.555696620828,
+3,39,5.3C(54%)-4C-newstructure,1156.0,regression,Full,Test (Batch 3),,1090.6377540289325,
+3,40,5.6C(19%)-4.6C-newstructure,796.0,regression,Full,Test (Batch 3),,1019.6576051186198,
+3,41,5.6C(36%)-4.3C-newstructure,786.0,regression,Full,Test (Batch 3),,928.3239371791904,
+3,42,4.8C(80%)-4.8C-newstructure,1642.0,regression,Full,Test (Batch 3),,1306.133525588991,
+3,43,5C(67%)-4C-newstructure,1046.0,regression,Full,Test (Batch 3),,1192.9128690440193,
+3,44,5.3C(54%)-4C-newstructure,940.0,regression,Full,Test (Batch 3),,969.3126261679324,
+3,45,4.8C(80%)-4.8C-newstructure,1801.0,regression,Full,Test (Batch 3),,1337.0465981719403,
+3,0,5C(67%)-4C-newstructure,1009.0,regression,Selected,Test (Batch 3),,1087.5423025278737,
+3,1,5.3C(54%)-4C-newstructure,1063.0,regression,Selected,Test (Batch 3),,1108.4541723720577,
+3,2,5.6C(19%)-4.6C-newstructure,1267.0,regression,Selected,Test (Batch 3),,1474.8577189546245,
+3,3,5.6C(36%)-4.3C-newstructure,1115.0,regression,Selected,Test (Batch 3),,970.7903884258743,
+3,4,5.6C(19%)-4.6C-newstructure,1048.0,regression,Selected,Test (Batch 3),,1098.3824624449448,
+3,5,5.6C(36%)-4.3C-newstructure,828.0,regression,Selected,Test (Batch 3),,962.3686737335405,
+3,6,3.7C(31%)-5.9C-newstructure,667.0,regression,Selected,Test (Batch 3),,604.578727887257,
+3,7,4.8C(80%)-4.8C-newstructure,1836.0,regression,Selected,Test (Batch 3),,1386.3122992118645,
+3,8,5C(67%)-4C-newstructure,828.0,regression,Selected,Test (Batch 3),,965.2305449762531,
+3,9,5.3C(54%)-4C-newstructure,1039.0,regression,Selected,Test (Batch 3),,929.3738860768277,
+3,10,4.8C(80%)-4.8C-newstructure,1078.0,regression,Selected,Test (Batch 3),,1247.640050455149,
+3,11,5.6C(19%)-4.6C-newstructure,817.0,regression,Selected,Test (Batch 3),,861.4808115981192,
+3,12,5.6C(36%)-4.3C-newstructure,932.0,regression,Selected,Test (Batch 3),,944.3498328196464,
+3,13,5.6C(19%)-4.6C-newstructure,816.0,regression,Selected,Test (Batch 3),,943.7199533677654,
+3,14,5.6C(36%)-4.3C-newstructure,858.0,regression,Selected,Test (Batch 3),,914.9665581335238,
+3,15,5.9C(15%)-4.6C-newstructure,876.0,regression,Selected,Test (Batch 3),,955.1901664534306,
+3,16,4.8C(80%)-4.8C-newstructure,1638.0,regression,Selected,Test (Batch 3),,1519.3430705112914,
+3,17,5.3C(54%)-4C-newstructure,1315.0,regression,Selected,Test (Batch 3),,1286.6115791423356,
+3,18,5.6C(19%)-4.6C-newstructure,1146.0,regression,Selected,Test (Batch 3),,1143.0928208905182,
+3,19,5.6C(36%)-4.3C-newstructure,1155.0,regression,Selected,Test (Batch 3),,1114.6084510500855,
+3,20,5C(67%)-4C-newstructure,813.0,regression,Selected,Test (Batch 3),,957.0790339222422,
+3,21,3.7C(31%)-5.9C-newstructure,772.0,regression,Selected,Test (Batch 3),,719.6003778211674,
+3,22,5.9C(60%)-3.1C-newstructure,1002.0,regression,Selected,Test (Batch 3),,914.5585756213857,
+3,24,5C(67%)-4C-newstructure,825.0,regression,Selected,Test (Batch 3),,881.7785316603191,
+3,25,5.3C(54%)-4C-newstructure,989.0,regression,Selected,Test (Batch 3),,927.3822875475931,
+3,26,5.6C(19%)-4.6C-newstructure,1028.0,regression,Selected,Test (Batch 3),,1078.0344317669042,
+3,27,5.6C(36%)-4.3C-newstructure,850.0,regression,Selected,Test (Batch 3),,931.5946254274165,
+3,28,3.7C(31%)-5.9C-newstructure,541.0,regression,Selected,Test (Batch 3),,533.442508319607,
+3,29,5.9C(15%)-4.6C-newstructure,858.0,regression,Selected,Test (Batch 3),,894.4562112064401,
+3,30,5.3C(54%)-4C-newstructure,935.0,regression,Selected,Test (Batch 3),,984.9426586094671,
+3,31,5.9C(60%)-3.1C-newstructure,731.0,regression,Selected,Test (Batch 3),,813.3860868174826,
+3,33,5C(67%)-4C-newstructure,1284.0,regression,Selected,Test (Batch 3),,1201.5622900031217,
+3,34,5.3C(54%)-4C-newstructure,1158.0,regression,Selected,Test (Batch 3),,1152.1100548697048,
+3,35,5.6C(19%)-4.6C-newstructure,1093.0,regression,Selected,Test (Batch 3),,1129.9822478522528,
+3,36,5.6C(36%)-4.3C-newstructure,923.0,regression,Selected,Test (Batch 3),,1049.8674077238277,
+3,37,4.8C(80%)-4.8C-newstructure,1390.0,regression,Selected,Test (Batch 3),,1018.6072100687793,
+3,38,5C(67%)-4C-newstructure,1935.0,regression,Selected,Test (Batch 3),,1280.5250506525565,
+3,39,5.3C(54%)-4C-newstructure,1156.0,regression,Selected,Test (Batch 3),,1131.2772466049291,
+3,40,5.6C(19%)-4.6C-newstructure,796.0,regression,Selected,Test (Batch 3),,1050.1928733636692,
+3,41,5.6C(36%)-4.3C-newstructure,786.0,regression,Selected,Test (Batch 3),,926.2173544582985,
+3,42,4.8C(80%)-4.8C-newstructure,1642.0,regression,Selected,Test (Batch 3),,1364.0905699511784,
+3,43,5C(67%)-4C-newstructure,1046.0,regression,Selected,Test (Batch 3),,1158.16600414728,
+3,44,5.3C(54%)-4C-newstructure,940.0,regression,Selected,Test (Batch 3),,1011.1647368137968,
+3,45,4.8C(80%)-4.8C-newstructure,1801.0,regression,Selected,Test (Batch 3),,1480.5381156000483,
+3,0,5C(67%)-4C-newstructure,1009.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,1,5.3C(54%)-4C-newstructure,1063.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,2,5.6C(19%)-4.6C-newstructure,1267.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,3,5.6C(36%)-4.3C-newstructure,1115.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,4,5.6C(19%)-4.6C-newstructure,1048.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,5,5.6C(36%)-4.3C-newstructure,828.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,6,3.7C(31%)-5.9C-newstructure,667.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,7,4.8C(80%)-4.8C-newstructure,1836.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,8,5C(67%)-4C-newstructure,828.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,9,5.3C(54%)-4C-newstructure,1039.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,10,4.8C(80%)-4.8C-newstructure,1078.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,11,5.6C(19%)-4.6C-newstructure,817.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,12,5.6C(36%)-4.3C-newstructure,932.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,13,5.6C(19%)-4.6C-newstructure,816.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,14,5.6C(36%)-4.3C-newstructure,858.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,15,5.9C(15%)-4.6C-newstructure,876.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,16,4.8C(80%)-4.8C-newstructure,1638.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,17,5.3C(54%)-4C-newstructure,1315.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,18,5.6C(19%)-4.6C-newstructure,1146.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,19,5.6C(36%)-4.3C-newstructure,1155.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,20,5C(67%)-4C-newstructure,813.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,21,3.7C(31%)-5.9C-newstructure,772.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,22,5.9C(60%)-3.1C-newstructure,1002.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,24,5C(67%)-4C-newstructure,825.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,25,5.3C(54%)-4C-newstructure,989.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,26,5.6C(19%)-4.6C-newstructure,1028.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,27,5.6C(36%)-4.3C-newstructure,850.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,28,3.7C(31%)-5.9C-newstructure,541.0,binary_550,Variance,Test (Batch 3),,1.0,0.0
+3,29,5.9C(15%)-4.6C-newstructure,858.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,30,5.3C(54%)-4C-newstructure,935.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,31,5.9C(60%)-3.1C-newstructure,731.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,33,5C(67%)-4C-newstructure,1284.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,34,5.3C(54%)-4C-newstructure,1158.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,35,5.6C(19%)-4.6C-newstructure,1093.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,36,5.6C(36%)-4.3C-newstructure,923.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,37,4.8C(80%)-4.8C-newstructure,1390.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,38,5C(67%)-4C-newstructure,1935.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,39,5.3C(54%)-4C-newstructure,1156.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,40,5.6C(19%)-4.6C-newstructure,796.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,41,5.6C(36%)-4.3C-newstructure,786.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,42,4.8C(80%)-4.8C-newstructure,1642.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,43,5C(67%)-4C-newstructure,1046.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,44,5.3C(54%)-4C-newstructure,940.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,45,4.8C(80%)-4.8C-newstructure,1801.0,binary_550,Variance,Test (Batch 3),,1.0,1.0
+3,0,5C(67%)-4C-newstructure,1009.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,1,5.3C(54%)-4C-newstructure,1063.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,2,5.6C(19%)-4.6C-newstructure,1267.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,3,5.6C(36%)-4.3C-newstructure,1115.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,4,5.6C(19%)-4.6C-newstructure,1048.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,5,5.6C(36%)-4.3C-newstructure,828.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,6,3.7C(31%)-5.9C-newstructure,667.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,7,4.8C(80%)-4.8C-newstructure,1836.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,8,5C(67%)-4C-newstructure,828.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,9,5.3C(54%)-4C-newstructure,1039.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,10,4.8C(80%)-4.8C-newstructure,1078.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,11,5.6C(19%)-4.6C-newstructure,817.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,12,5.6C(36%)-4.3C-newstructure,932.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,13,5.6C(19%)-4.6C-newstructure,816.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,14,5.6C(36%)-4.3C-newstructure,858.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,15,5.9C(15%)-4.6C-newstructure,876.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,16,4.8C(80%)-4.8C-newstructure,1638.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,17,5.3C(54%)-4C-newstructure,1315.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,18,5.6C(19%)-4.6C-newstructure,1146.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,19,5.6C(36%)-4.3C-newstructure,1155.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,20,5C(67%)-4C-newstructure,813.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,21,3.7C(31%)-5.9C-newstructure,772.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,22,5.9C(60%)-3.1C-newstructure,1002.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,24,5C(67%)-4C-newstructure,825.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,25,5.3C(54%)-4C-newstructure,989.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,26,5.6C(19%)-4.6C-newstructure,1028.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,27,5.6C(36%)-4.3C-newstructure,850.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,28,3.7C(31%)-5.9C-newstructure,541.0,binary_550,Full,Test (Batch 3),,1.0,0.0
+3,29,5.9C(15%)-4.6C-newstructure,858.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,30,5.3C(54%)-4C-newstructure,935.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,31,5.9C(60%)-3.1C-newstructure,731.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,33,5C(67%)-4C-newstructure,1284.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,34,5.3C(54%)-4C-newstructure,1158.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,35,5.6C(19%)-4.6C-newstructure,1093.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,36,5.6C(36%)-4.3C-newstructure,923.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,37,4.8C(80%)-4.8C-newstructure,1390.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,38,5C(67%)-4C-newstructure,1935.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,39,5.3C(54%)-4C-newstructure,1156.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,40,5.6C(19%)-4.6C-newstructure,796.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,41,5.6C(36%)-4.3C-newstructure,786.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,42,4.8C(80%)-4.8C-newstructure,1642.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,43,5C(67%)-4C-newstructure,1046.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,44,5.3C(54%)-4C-newstructure,940.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,45,4.8C(80%)-4.8C-newstructure,1801.0,binary_550,Full,Test (Batch 3),,1.0,1.0
+3,0,5C(67%)-4C-newstructure,1009.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,1,5.3C(54%)-4C-newstructure,1063.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,2,5.6C(19%)-4.6C-newstructure,1267.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,3,5.6C(36%)-4.3C-newstructure,1115.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,4,5.6C(19%)-4.6C-newstructure,1048.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,5,5.6C(36%)-4.3C-newstructure,828.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,6,3.7C(31%)-5.9C-newstructure,667.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,7,4.8C(80%)-4.8C-newstructure,1836.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,8,5C(67%)-4C-newstructure,828.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,9,5.3C(54%)-4C-newstructure,1039.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,10,4.8C(80%)-4.8C-newstructure,1078.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,11,5.6C(19%)-4.6C-newstructure,817.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,12,5.6C(36%)-4.3C-newstructure,932.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,13,5.6C(19%)-4.6C-newstructure,816.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,14,5.6C(36%)-4.3C-newstructure,858.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,15,5.9C(15%)-4.6C-newstructure,876.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,16,4.8C(80%)-4.8C-newstructure,1638.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,17,5.3C(54%)-4C-newstructure,1315.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,18,5.6C(19%)-4.6C-newstructure,1146.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,19,5.6C(36%)-4.3C-newstructure,1155.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,20,5C(67%)-4C-newstructure,813.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,21,3.7C(31%)-5.9C-newstructure,772.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,22,5.9C(60%)-3.1C-newstructure,1002.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,24,5C(67%)-4C-newstructure,825.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,25,5.3C(54%)-4C-newstructure,989.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,26,5.6C(19%)-4.6C-newstructure,1028.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,27,5.6C(36%)-4.3C-newstructure,850.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,28,3.7C(31%)-5.9C-newstructure,541.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,29,5.9C(15%)-4.6C-newstructure,858.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,30,5.3C(54%)-4C-newstructure,935.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,31,5.9C(60%)-3.1C-newstructure,731.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,33,5C(67%)-4C-newstructure,1284.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,34,5.3C(54%)-4C-newstructure,1158.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,35,5.6C(19%)-4.6C-newstructure,1093.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,36,5.6C(36%)-4.3C-newstructure,923.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,37,4.8C(80%)-4.8C-newstructure,1390.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,38,5C(67%)-4C-newstructure,1935.0,three_500_1000,Full,Test (Batch 3),,1.0,2.0
+3,39,5.3C(54%)-4C-newstructure,1156.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,40,5.6C(19%)-4.6C-newstructure,796.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,41,5.6C(36%)-4.3C-newstructure,786.0,three_500_1000,Full,Test (Batch 3),,2.0,1.0
+3,42,4.8C(80%)-4.8C-newstructure,1642.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,43,5C(67%)-4C-newstructure,1046.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0
+3,44,5.3C(54%)-4C-newstructure,940.0,three_500_1000,Full,Test (Batch 3),,1.0,1.0
+3,45,4.8C(80%)-4.8C-newstructure,1801.0,three_500_1000,Full,Test (Batch 3),,2.0,2.0

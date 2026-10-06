@@ -1,0 +1,3 @@
+﻿model,train_accuracy_pct,primary_accuracy_pct,secondary_accuracy_pct
+Variance classifier,82.1,78.6,97.5
+Full classifier,97.4,92.7,97.5

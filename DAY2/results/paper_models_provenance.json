@@ -1,0 +1,21 @@
+{
+  "existing_model_unchanged": true,
+  "immutable_inputs_sha256": {
+    "predictions_all.csv": "110a2df6a2ec88315c8cc5deb47165a2d7ebbc3baeb05de967014013387312c2",
+    "frozen_config.json": "bb46e39a4e3c1749d039a8b96f8aaf8b85b51aed377d3b8696e233b02ee52216",
+    "models/final_model.joblib": "494a514a77a8fc0ebc1134f5de88abd0c8adfb2b23ffac7dce7d6abd3350b2eb"
+  },
+  "feature_source": "Severson et al. 2019, Supplementary Table 1, Notes 1 and 4",
+  "max_cycle": {
+    "regression": 100,
+    "binary_550": 5,
+    "three_500_1000": 100
+  },
+  "regression_variance_ddof": 1,
+  "temperature_integral": "sum of within-cycle trapezoidal integrals; cycles 2..window; degree C * min",
+  "early_5_charge_time": "finite positive cycles 2..5; cycle 6 excluded",
+  "model_selection": "Batch 1 development nested policy GroupKFold; minimize MAPE / maximize fixed-label macro F1",
+  "one_class_fold_rule": "constant observed training class; separately flagged; no validation labels used",
+  "external_evaluation": "additional analysis after the original external evaluation; no external scores used for configuration selection",
+  "classification_extensions": "class_weight None/balanced chosen in development; three-group Logistic L2 is project extension"
+}

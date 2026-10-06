@@ -1,0 +1,9 @@
+﻿model,partition,n_cells,accuracy_pct,macro_f1_reconstructed,short_support,short_recall_pct,source,locator
+Variance classifier,Train,38,81.57894736842105,0.8156618156618156,20,80.0,https://www.nature.com/articles/s41560-019-0356-8,Supplementary Table 4
+Variance classifier,Primary test,42,80.95238095238095,0.8055555555555556,19,73.6842105263158,https://www.nature.com/articles/s41560-019-0356-8,Supplementary Table 4
+Variance classifier,Secondary test,40,97.5,0.4936708860759494,1,0.0,https://www.nature.com/articles/s41560-019-0356-8,Supplementary Table 4
+Variance classifier,Primary + Secondary test,82,89.02439024390245,0.8429453075122366,20,70.0,https://www.nature.com/articles/s41560-019-0356-8,Supplementary Table 4
+Full classifier,Train,38,97.36842105263158,0.9736659736659736,20,95.0,https://www.nature.com/articles/s41560-019-0356-8,Supplementary Table 6
+Full classifier,Primary test,41,92.6829268292683,0.926829268292683,19,100.0,https://www.nature.com/articles/s41560-019-0356-8,Supplementary Table 6
+Full classifier,Secondary test,40,97.5,0.4936708860759494,1,0.0,https://www.nature.com/articles/s41560-019-0356-8,Supplementary Table 6
+Full classifier,Primary + Secondary test,81,95.06172839506173,0.9357142857142857,20,95.0,https://www.nature.com/articles/s41560-019-0356-8,Supplementary Table 6

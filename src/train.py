@@ -205,6 +205,8 @@ def main(include_batch3=False):
     from .report import build_report
     from .diagnostics import main as build_diagnostics
     build_diagnostics(include_batch3=include_batch3, refresh_report=False)
+    from .paper_models import run as run_paper_models
+    run_paper_models(include_batch3=include_batch3)
     build_report(frozen, scores, pd.DataFrame(perf), comparison, pd.DataFrame(baseline_rows), errors, combined, pd.DataFrame(subgroup))
     print(scores.to_string(index=False)); print(json.dumps(config))
 

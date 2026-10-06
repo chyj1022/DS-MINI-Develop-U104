@@ -1,0 +1,17 @@
+﻿scheme,partition,model,n_cells,macro_f1,accuracy_pct
+binary_550,Train (Batch 1 CV),training-majority constant,29,0.4903846153846154,96.42857142857143
+binary_550,Train (Batch 1 CV),frozen regression discretized,29,0.4807692307692308,92.85714285714286
+binary_550,Valid (Batch 1 Hold-out),training-majority constant,7,0.5,100.0
+binary_550,Valid (Batch 1 Hold-out),frozen regression discretized,7,0.5,100.0
+binary_550,Test (Batch 2),training-majority constant,39,0.1875,23.076923076923077
+binary_550,Test (Batch 2),frozen regression discretized,39,0.40870138431114045,41.02564102564102
+binary_550,Test (Batch 3),training-majority constant,44,0.4942528735632184,97.72727272727273
+binary_550,Test (Batch 3),frozen regression discretized,44,0.4942528735632184,97.72727272727273
+three_500_1000,Train (Batch 1 CV),training-majority constant,29,0.3055555555555556,85.71428571428572
+three_500_1000,Train (Batch 1 CV),frozen regression discretized,29,0.2967171717171717,82.14285714285714
+three_500_1000,Valid (Batch 1 Hold-out),training-majority constant,7,0.3076923076923077,85.71428571428571
+three_500_1000,Valid (Batch 1 Hold-out),frozen regression discretized,7,0.3076923076923077,85.71428571428571
+three_500_1000,Test (Batch 2),training-majority constant,39,0.11347517730496454,20.51282051282051
+three_500_1000,Test (Batch 2),frozen regression discretized,39,0.35213675213675205,25.64102564102564
+three_500_1000,Test (Batch 3),training-majority constant,44,0.2153846153846154,47.72727272727273
+three_500_1000,Test (Batch 3),frozen regression discretized,44,0.5454545454545455,81.81818181818183

@@ -1,0 +1,19 @@
+{
+  "source": "https://www.nature.com/articles/s41560-019-0356-8",
+  "source_pdf_name": "severson2019.pdf",
+  "paper_tables_pdf_page": 4,
+  "classification_description_pdf_page": 5,
+  "regression_target_mape_pct": 9.1,
+  "binary_target_accuracy_pct": 95.1,
+  "three_class_target": null,
+  "method": "Discretize existing early-100 regression predictions; no classifier fitting or test-based tuning",
+  "binary_boundary": "short <=550, long >550; no observed/predicted value equals 550",
+  "three_class_boundary": "short <500, middle 500<=life<=1000, long >1000",
+  "macro_f1": "fixed 2/3 labels, zero_division=0; an absent and unpredicted label contributes 0",
+  "train_aggregation": "unweighted mean of 4 existing nested outer-fold validation scores",
+  "immutable_inputs_sha256": {
+    "predictions_all.csv": "110a2df6a2ec88315c8cc5deb47165a2d7ebbc3baeb05de967014013387312c2",
+    "frozen_config.json": "bb46e39a4e3c1749d039a8b96f8aaf8b85b51aed377d3b8696e233b02ee52216",
+    "models/final_model.joblib": "494a514a77a8fc0ebc1134f5de88abd0c8adfb2b23ffac7dce7d6abd3350b2eb"
+  }
+}
