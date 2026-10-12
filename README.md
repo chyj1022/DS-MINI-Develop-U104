@@ -1,72 +1,48 @@
 # ESS 배터리 수명 예측
 
-배터리 기반 ESS(BESS)의 수명 평가를 위해 **초기 100사이클 기반 총 Cycle Life 회귀**를 개발하고, **Batch 1 학습 → Batch 2 평가**로 과제 Target과 비교합니다. Batch 3로 추가 일반화를 평가하며, 초기 5회 이진 분류와 초기 100회 3분류는 추가 실험으로 분리합니다.
+초기 100사이클에서 **계획서의 피처 후보를 계산·선택한 회귀 모델**로 총 Cycle Life를 예측합니다. 같은 예측 수명을 2구간·3구간으로 나누어 결과를 각각 평가하고 논문 보고값과 비교합니다. 논문은 성능 비교의 기준으로 사용합니다.
 
 ## 프로젝트 개요
 
-- 데이터셋: MIT–Stanford Battery Dataset 계열 (Severson et al., 2019)
-- 타깃: 명목 용량 1.1Ah의 80%(0.88Ah)까지의 총 Cycle Life; 현재 코드는 원본 MAT의 저장된 `cycle_life`를 사용합니다.
-- 주 태스크: **초기 100사이클 기반 총 Cycle Life 회귀(Regression)**; `log10(cycle_life)` 학습 후 사이클 단위 복원. 추가 태스크: 초기 5회 이진 Classification / 초기 100회 3분류
-- 학습: Batch 1 (`2017-05-12`), 46 → 36셀; 개발 29 / 정책 Hold-out 7
-- 평가: Batch 2 (`2018-02-20`), 47 → 39셀; 추가 Batch 3 (`2018-04-12`), 46 → 44셀
-- 최종 회귀: **논문 기반 Discharge Elastic Net**, 13개 후보 피처, `alpha=0.01`, `l1_ratio=0.2`; 피처군·파라미터는 Batch 1 CV 선택
-- 추가 분류: 초기 5회 Full **L1 Logistic Regression**(550회 경계), 초기 100회 Full **L2 Logistic Regression**(500/1,000회 경계)
-- 초기 구현 비교 모델: **Ridge**, 피처 `log10_dq_variance, charge_time_mean_2_6`, `alpha=0.1`; 기존 결과·모델은 비교 근거로 보존
-- [상세 분석·직접 실행 노트북](DAY2/03_modeling.ipynb)
+- 주 태스크: Regression — log10(cycle_life) 학습 후 사이클 단위 복원
+- 데이터: MIT–Stanford Battery Dataset 계열; 학습 Batch 1 (2017-05-12), 필수 평가 Batch 2 (2018-02-20), 추가 평가 Batch 3 (2018-04-12)
+- 학습 36셀: 개발 29셀·16정책 / Hold-out 7셀·4정책
+- 최종 모델: **Ridge, alpha=0.1**; 선택 피처 **ΔQ log 분산 + 초기 충전 시간**
+- 추가 평가: 같은 회귀 예측의 2구간(550회)·3구간(500·1,000회) 구간화. 별도 분류기 학습 결과와 구분합니다.
+- [DAY 1 계획서](DAY1/DS-MINI-Design-울산_3반-최유정.pdf) · [실행 결과와 직접 재현 노트북](DAY2/03_modeling.ipynb)
 
-### 핵심 결과와 논문 비교 기준
+### 핵심 결과 — 구간화 전 회귀
 
-| 평가 | 셀 수 | 최종 회귀 MAPE (%) | 비교·판단 |
-| --- | --- | --- | --- |
-| Train (Batch 1 CV) | 29 | 6.203 | 정책별 Nested-CV 검증 평균 |
-| Valid (Batch 1 Hold-out) | 7 | 6.722 | 모델 선택에 사용하지 않은 정책 Hold-out |
-| Test (Batch 2) | 39 | 25.563 | 과제 Target 9.1 대비 +16.463%p; 논문 밖 배치 일반화 |
-| Test (Batch 3) | 44 | 10.523 | 전체 유효 셀의 추가 평가 |
-| Batch 3 — 논문 품질 규칙 | 40 | 9.806 | 논문 Discharge Secondary 8.6 대비 +1.206%p |
+| 평가 | 셀 수 | MAPE (%) | MAE (회) | RMSE (회) |
+| --- | --- | --- | --- | --- |
+| Train (Batch 1 CV) | 29 | 10.842 | 86.504 | 102.695 |
+| Valid (Batch 1 Hold-out) | 7 | 10.435 | 85.643 | 90.719 |
+| Test (Batch 2) | 39 | 28.609 | 141.752 | 158.676 |
+| Test (Batch 3) | 44 | 12.156 | 147.910 | 232.046 |
 
-### 논문 비교 기준
-
-논문 학습·Primary-test는 2017-05-12·2017-06-30의 혼합 분할이며, 이번 모델은 과제대로 Batch 1(2017-05-12)만 학습합니다. **과제 필수 Batch 2(2018-02-20)는 논문 밖 배치의 일반화 평가**입니다. 회귀 Target 9.1%와 이진 Accuracy Target 95.1%는 과제 기준으로 유지합니다. **논문 Secondary에 대응하는 참고 비교는 Batch 3(2018-04-12)의 저자 품질 규칙 적용 40셀**이며 모델별 Table 1 성능과 비교합니다. 학습 구성·분할이 달라 완전한 재현으로 부르지 않으며, 선행 탐색·기존 평가 후의 확장 분석이어서 새 미사용 테스트셋의 독립 검증과 구분합니다.
-
-Batch 2 MAPE는 Ridge **28.609% → 25.563%**로 개선됐지만 MAE·RMSE는 악화했고, 최종 모델은 **37/39셀을 과대예측**했습니다. 분류는 Batch 1 단수명 학습 표본이 **550회 기준 1셀, <500회 기준 0셀**이므로 활용에 제약이 있습니다. 초기 5회 이진 단수명 Recall은 **Batch 2 33.3%(10/30), Batch 3 0%(0/1)**입니다. 자세한 분류 표보다 이 학습 구성과 클래스별 Recall을 먼저 해석합니다.
+Batch 2 MAPE는 **28.609%**, 과제 Target 9.1%와의 차이는 **+19.509%p**입니다. 단수명 범위에서 과대예측이 반복됐으며, 구간화 후의 점수도 아래에서 별도로 보고합니다.
 
 ## 파일 구조
 
 ```text
-├── archive/                    # 원본 MAT (Git 제외)
-├── data/README.md              # 데이터·제외 기준
-├── DAY1/                       # 기존 모델 전략 보고서
-├── DAY2/
-│   ├── 03_modeling.ipynb
-│   └── results/
-│       ├── provenance.json      # 원본·환경·초기 모델 해시
-│       ├── assessment_evidence.csv
-│       ├── paper_models_provenance.json
-│       ├── paper_selected_vif.csv
-│       ├── batch2_cycle_life_audit.csv
-│       ├── paper_binary_secondary_comparison.csv
-│       ├── paper_selected_structure_errors.csv
-│       └── ...                  # 성능·CV·피처·audit·오류·그래프
+├── archive/                 # 원본 MAT; Git 제외
+├── data/README.md           # 데이터·라벨·제외 기준
+├── DAY1/                    # 모델 전략 보고서
+├── DAY2/03_modeling.ipynb
+├── DAY2/results/            # 피처·CV·예측·지표·그림·검증 근거
 ├── src/
-│   ├── preprocess.py
-│   ├── features.py
-│   ├── train.py
-│   ├── diagnostics.py
-│   ├── eda_reporting.py        # 수명 그룹·knee·ΔQ·정책 EDA
-│   ├── paper_models.py         # 논문 피처·추가 회귀 및 실제 분류기
-│   ├── paper_comparison.py     # 논문 혼동행렬·F1·비교표·그래프
-│   ├── report.py / evidence.py
-│   ├── verify_paper_results.py
-│   ├── readme_layout.py / submission_review.py
-│   ├── submission_finalize.py  # 원본 라벨·추가 비교·최종 보고서
-│   └── verify_results.py
-├── requirements.txt
-└── README.md
+│   ├── preprocess.py / features.py / train.py
+│   ├── diagnostics.py / eda_reporting.py
+│   ├── paper_comparison.py  # 저장된 회귀 예측 구간화·논문 수치 비교
+│   ├── label_audit.py       # Batch 2 라벨 검증
+│   ├── report.py / plan_report.py
+│   └── verify_results.py / verify_plan_results.py
+└── requirements.txt
 ```
 
 ## 환경 설정
 
-Python 3.11 환경에서 프로젝트 루트 기준으로 실행합니다. 원본 MAT를 [데이터 안내](data/README.md)의 경로에 둡니다.
+Python 3.11, scikit-learn 1.6.1 기준입니다. 원본 MAT는 [데이터 안내](data/README.md)에 따라 archive/에 둡니다.
 
 ```bash
 git clone https://github.com/chyj1022/DS-MINI-Develop-U104.git
@@ -78,48 +54,17 @@ python -m src.train --batch3
 python -m src.verify_results
 ```
 
-필수 Batch 1/2만 실행하려면 `--batch3`를 생략합니다. 저장 모델의 추가 진단만 실행하려면 `python -m src.diagnostics --batch3`를 사용합니다. 노트북 커널은 패키지를 설치한 환경을 선택합니다. 실행 Python 3.11.15, scikit-learn 1.6.1; 원본 SHA-256·파일 크기·환경·고정 모델 해시는 `provenance.json`에 기록합니다.
+필수 Batch 1·2만 재학습하려면 `--batch3`를 생략합니다. DAY 1의 세 배치 EDA는 [계획서](DAY1/DS-MINI-Design-울산_3반-최유정.pdf)와 [기존 노트북](30-ESSHealth-scratch.ipynb)에서 확인합니다. 저장된 결과로 문서·구간화 표만 갱신하려면 `python -m src.report`, 라벨 재검사는 `python -m src.label_audit --archive-dir archive`입니다. 원본 MAT와 모델 joblib는 Git 제외이며, 재학습하면 모델이 생성됩니다. 원본 해시·크기·환경은 `provenance.json`에 기록합니다.
 
-대용량 원본 `archive/`, 가상환경 `.venv/`, 저장 모델 `*.joblib`는 Git 업로드에서 제외합니다. 공개된 CSV·그림·실행 결과는 바로 열람할 수 있고, 원본부터 재학습하거나 저장 모델을 재생성하려면 위의 MAT 파일과 환경이 필요합니다. 상세 분석의 재현 기준은 DAY 2 노트북이며 기존 통합 EDA는 선행 탐색 기록입니다.
+### 타깃과 데이터 품질
 
-### 분석·보고서 재현 명령
+논문의 총 Cycle Life는 명목 1.1Ah의 80%, **0.88Ah** 도달까지의 사이클 수입니다. 현재 학습 라벨은 MAT에 저장된 cycle_life입니다. Batch 1의 후속 측정 5셀과 조기 종료 5셀을 제외해 36셀, Batch 2는 결측 라벨 8셀을 제외해 39셀을 사용합니다. 학습 수명 범위는 534–1,074회이며, 장수명 후속 기록 제외로 범위가 좁아진 조건을 고려합니다. [제외 내역](DAY2/results/cell_audit_all.csv)
 
-```bash
-python -m src.paper_models --batch3   # 원본 피처 추출, 실제 추가 학습과 평가
-python -m src.report                  # 논문 비교표·그림·README·노트북 갱신
-python -m src.verify_results          # 기존 모델 및 추가 실험의 계산·누수 검증
-```
-
-Batch 2 저장 수명 라벨의 원본 재검사는 `python -m src.submission_finalize --archive-dir archive`로 실행합니다. `python -m src.verify_results`는 원본 피처·미래 정보 배제·정책 분리·전처리·저장 예측·성능표와 Gap을 대조하고 DAY 2 노트북의 모든 코드 셀을 실행합니다. 검증에는 원본 MAT와 재생성한 로컬 모델이 필요하며, 공개 저장소의 CSV·그림·노트북 저장 출력은 별도로 열람할 수 있습니다.
-
-전체 `python -m src.train --batch3`에도 추가 실험을 연결했습니다. 기존 Ridge 모델·예측·설정은 비교 기준으로 보존하며 해시 일치를 검사합니다. 논문 수치는 `paper_regression_metrics.csv`, `paper_classification_metrics.csv`, `paper_classification_confusion.csv`, 추가 실험은 `paper_model_*.csv`, 주 성능표는 `paper_selected_regression_performance.csv`, 이진·3분류 양식은 `paper_binary_550_performance.csv`·`paper_three_500_1000_performance.csv`에 있습니다.
+Batch 2 유효 39셀은 원본 summary.cycle의 최초 Qd≤0.88Ah 도달 사이클과 저장 라벨을 대조했습니다. **정확 일치 39셀 / 불일치 0셀 / 미도달 0셀**입니다. [셀별 검사](DAY2/results/batch2_cycle_life_audit.csv). 입력 관측 창은 100회까지이며 전체 수명 종료 용량·knee·기록 길이는 설명용으로만 사용합니다.
 
 ## EDA
 
-### 타깃 정의와 Batch 1 제외 내역
-
-원논문 Cycle Life는 명목 용량 **1.1Ah의 80%=0.88Ah**에 도달할 때까지의 사이클 수입니다. 현재 코드는 MAT의 **저장된 `cycle_life`를 라벨로 읽고**, 유한값·100회 초과 조건과 완결성 제외 규칙을 적용합니다. 용량 곡선에서 0.88Ah 도달 사이클을 새로 계산한 라벨이 아닙니다. 입력 관측 창의 마지막 용량은 **Q100 또는 Q5**이며, 전체 수명 종료 용량을 사용하지 않습니다.
-
-| 원본 ID (0-based) | 파일의 cycle_life | 제외 사유 |
-| --- | --- | --- |
-| 0 | 1190.000 | 2017-06-30에서 후속 측정; 현재 원본만으로 완결 수명 확인 불가 |
-| 1 | 1179.000 | 2017-06-30에서 후속 측정; 현재 원본만으로 완결 수명 확인 불가 |
-| 2 | 1177.000 | 2017-06-30에서 후속 측정; 현재 원본만으로 완결 수명 확인 불가 |
-| 3 | 1226.000 | 2017-06-30에서 후속 측정; 현재 원본만으로 완결 수명 확인 불가 |
-| 4 | 1227.000 | 2017-06-30에서 후속 측정; 현재 원본만으로 완결 수명 확인 불가 |
-| 8 | 879.000 | 조기 종료; 종료 시 용량이 0.88Ah보다 높음 |
-| 10 | 906.000 | 조기 종료; 종료 시 용량이 0.88Ah보다 높음 |
-| 12 | 902.000 | 조기 종료; 종료 시 용량이 0.88Ah보다 높음 |
-| 13 | 897.000 | 조기 종료; 종료 시 용량이 0.88Ah보다 높음 |
-| 22 | 891.000 | 조기 종료; 종료 시 용량이 0.88Ah보다 높음 |
-
-[저자 LoadData.m](https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation/blob/master/LoadData.m)은 첫 5셀의 기록을 2017-06-30 파일의 후속 측정과 연결하고 라벨을 계산합니다. 이 프로젝트의 원본 목록에는 해당 날짜 파일이 없어, 셀 0–4의 양수 `cycle_life`를 완결 수명으로 취급하지 않고 제외했습니다. 보충자료 Table 9에서 이 5셀의 최종 수명은 **1,852·2,160·2,237·1,434·1,709회**입니다. 나머지 5셀은 실제 기록 종료 용량이 0.88Ah보다 높습니다. 따라서 **46→36셀 처리로 학습 최대 수명이 1,074회까지 좁아진 것**이며, 원논문 Batch 1 전체가 원래 이 범위였다는 뜻은 아닙니다. Batch 3 >1,000회 그룹의 평균 −85.5회 과소예측과 함께 검토할 데이터 처리·학습 범위 조건으로 기록합니다. [제외 내역](DAY2/results/batch1_exclusions_verified.csv).
-
-DAY 1과 같은 **단수명 <500회 / 중간 500–1,000회 / 장수명 >1,000회** 기준을 유지합니다. 분모는 모델링에 사용할 유효 라벨 셀이며 알려진 불완전·결측 라벨은 제외했습니다. 그룹이 없는 배치는 0셀로 표시하고 경계를 바꾸어 채우지 않습니다. 이 기준은 아래 EDA·회귀 오류 분석과 추가 3분류 라벨에 사용합니다. 회귀 입력에는 실제 수명 그룹을 넣지 않습니다. 원논문의 장·단수명 이진 기준(550회)은 Modeling·성능 결과 절에서 별도로 분석합니다.
-
-### Batch 2 저장 수명 라벨 검증
-
-최종 평가 유효 **39셀**을 원본 `summary.cycle` 번호로 검사했습니다. 저장 `cycle_life`와 최초 **Qd ≤0.88Ah** 도달 사이클은 **정확히 일치 39셀 / 불일치 0셀 / 미도달 0셀**입니다. 배열 위치나 허용 오차로 일치 처리하지 않았습니다. 라벨 수정·추가 제외 없이 기존 39셀 평가를 유지했습니다. [셀별 검사 결과](DAY2/results/batch2_cycle_life_audit.csv).
+DAY 1과 같은 **단수명 <500회 / 중간 500–1,000회 / 장수명 >1,000회** 기준을 유지합니다. 분모는 모델링에 사용할 유효 라벨 셀이며 알려진 불완전·결측 라벨은 제외했습니다. 그룹이 없는 배치는 0셀로 표시하고 경계를 바꾸어 채우지 않습니다. 이 기준은 아래 EDA·회귀 오류 분석과 예측 수명의 3구간 평가에 사용합니다. 회귀 입력에는 실제 수명 그룹을 넣지 않습니다. 원논문의 장·단수명 이진 기준(550회)은 구간화 후 비교 절에서 별도로 분석합니다.
 
 ### 1. Cycle Life 분포
 
@@ -142,21 +87,6 @@ DAY 1과 같은 **단수명 <500회 / 중간 500–1,000회 / 장수명 >1,000�
 Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는 28/39셀(71.8%)이 <500회이고 소수의 긴 수명 셀 때문에 오른쪽 꼬리가 나타납니다. Batch 3은 더 넓은 범위로 분포하며 장수명 비중이 큽니다. 위 Batch 2 그래프는 고정 모델 평가 후의 사후 진단으로 후보 선택에 사용하지 않았습니다.
 
 **핵심 발견:** 학습 배치에 없는 단수명 구간이 외부 Batch 2의 대부분을 차지하므로 단수명 개발 데이터 확보와 배치 간 일반화 검증이 중요합니다.
-
-#### 원논문 장·단수명 기준과 프로젝트 세 구간 비교
-
-| 기준 | Batch | 단수명 | 중간 | 장수명 |
-| --- | --- | --- | --- | --- |
-| 논문 장·단 | 1 | 1 | 해당 없음 | 35 |
-| 논문 장·단 | 2 | 30 | 해당 없음 | 9 |
-| 논문 장·단 | 3 | 1 | 해당 없음 | 43 |
-| DAY 1 단·중·장 | 1 | 0 | 31 | 5 |
-| DAY 1 단·중·장 | 2 | 28 | 8 | 3 |
-| DAY 1 단·중·장 | 3 | 0 | 21 | 23 |
-
-논문 이진 기준을 **단수명 ≤550 / 장수명 >550회**로 구현했습니다. 현재 실제값·예측값에 정확히 550회가 없어 등호 방향은 이번 결과에 영향을 주지 않습니다. 세 구간은 DAY 1 기준을 유지합니다. 동일한 '단수명'이라는 이름도 경계가 달라 두 그룹의 셀 수가 다릅니다.
-
-550회 기준의 단수명 비율은 **Batch 1: 2.8% / Batch 2: 76.9% / Batch 3: 2.3%**입니다. 두 기준 모두 배치별 구성 차이를 확인하는 데 사용하며, 실제 수명 그룹은 회귀 입력에서 제외합니다.
 
 ### 2. 열화 곡선 분석
 
@@ -249,11 +179,11 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 
 **핵심 발견:** Batch 1에서 등가 C-rate–수명 Spearman은 약 −0.44이지만 거의 같은 등가 속도에서도 프로토콜과 배치별 수명이 다릅니다. 속도 하나로 수명을 설명하거나 빠른 충전의 인과 효과를 확정할 수 없습니다. Batch 1 프로토콜별 1–2셀의 평균 차이는 통계적 유의성을 입증한 결과가 아니며, 같은 정책이 train·valid에 겹치지 않도록 정책 단위로 검증했습니다.
 
-### 5. 추가 확인: 피처 중복·전이 안정성과 품질
+### 5. 초기 피처와 수명의 상관·다중공선성
 
 ![통합 탐색 상관행렬 및 배치별 피처와 수명의 Spearman 상관](DAY2/results/05_feature_stability.png)
 
-다음 VIF 값은 **초기 후보 피처 진단**입니다. 최종 Discharge 피처 진단은 Modeling 절에서 별도로 제시합니다. ΔQ 요약값 사이의 중복이 크고 보조 피처는 배치별 상관 부호가 달라질 수 있습니다. Batch 1 전체 10개 피처 최대 VIF 290.43를 대표 5개로 줄이면 2.74입니다. 통합 상관행렬은 탐색용이며 실제 후보 선택은 Batch 1 개발 CV로 제한합니다. 상관 변화 자체를 오차의 인과 원인으로 단정하지 않습니다.
+ΔQ 요약값 사이의 중복이 크고 보조 피처는 배치별 상관 부호가 달라질 수 있습니다. Batch 1 전체 10개 피처 최대 VIF 290.43를 대표 5개로 줄이면 2.74입니다. 통합 상관행렬은 탐색용이며 실제 후보 선택은 Batch 1 개발 CV로 제한합니다. 상관 변화 자체를 오차의 인과 원인으로 단정하지 않습니다.
 
 **핵심 발견:** 중복 피처를 줄이고 포함·제외 비교와 정규화를 사용하되 실제 예측 개선은 CV로 검증해야 합니다. IR 0 이하·비유한 값과 초기 용량 범위 이상을 점검하고 제외·대치 기준과 유효 표본 수를 기록했습니다. 상세 계산은 `eda_distribution.csv`, `life_group_statistics.csv`, `knee_timing_summary.csv`, `eda_vif.csv`, `cell_audit_all.csv` 및 [DAY 2 노트북](DAY2/03_modeling.ipynb)에 있습니다. [기존 통합 EDA](30-ESSHealth-scratch.ipynb)는 DAY 1 탐색 기록입니다.
 
@@ -263,208 +193,69 @@ Batch 1은 중간 수명에 집중되고 <500회 셀이 없습니다. Batch 2는
 | --- | --- | --- |
 | 연속 수명과 초기 ΔQ 신호 | 총수명 회귀·ΔQ log 분산 핵심 입력 | 단일 피처 기준선 및 후보 CV 비교 |
 | 후반 열화와 knee는 미래 관측 | 100회 이내 피처만 사용 | 미래 사이클 값을 바꾸어도 피처가 같은지 검사 |
-| ΔQ 요약값의 중복 | 초기 부분집합 비교 후 논문 13·20개 후보에 Elastic Net 적용 | 학습 배치 VIF·`paper_model_coefficients.csv` |
+| ΔQ 요약값의 중복 | 대표 5개 피처의 16개 부분집합 비교 | `feature_ablation.csv`, 학습 배치 VIF |
 | 보조 피처의 배치별 상관 변화 | 포함·제외 효과를 Batch 1에서 비교 | `paired_ablation.csv`, 피처별 배치 상관 |
-| 작은 표본과 정책별 실험 | 정규화 선형 모델·정책별 분할·fold 내부 전처리 | `paper_model_fold_manifest.csv`·Nested-CV·정책 Hold-out |
+| 작은 표본과 정책별 실험 | 정규화 선형 모델·정책별 분할 | Nested-CV 및 정책 Hold-out |
 | Batch 1의 단수명 부재 | 외부 배치의 과대예측 편향 점검 | Batch 2 기준선·부호 오차·수명 구간 분석 |
-
-논문의 장·단수명 기준에는 초기 5회 ΔQ 신호와 L1 Logistic Regression을 적용했습니다. 프로젝트 세 구간 분류는 초기 100회 Full 피처를 사용합니다. 두 분류 모두 Batch 1의 클래스 구성을 확인하고 Macro-F1·단수명 Recall을 함께 평가합니다.
 
 ## Modeling
 
-### 피처 엔지니어링 전략
+### 피처 엔지니어링과 선택 근거
 
-[Severson et al. (2019) 원논문](https://www.nature.com/articles/s41560-019-0356-8)의 본문 Table 1/2와 같은 논문의 Supplementary Table 1·4·5·6, Notes 1·4를 확인하고 **회귀 피처 확장, 초기 5회 이진 분류, 단·중·장 3분류, 그룹별 회귀 오차**를 실제 구현·학습·평가했습니다. 참고문헌은 원논문 한 편이며 보충자료는 그 논문의 일부입니다.
+계획서의 대표 5개 후보에서 ΔQ log 분산을 고정하고 나머지 4개의 포함·제외를 조합한 **16개 부분집합**을 비교합니다.
 
-| 실험 | 관측 데이터 | 구현 | 평가 기준 |
+| 후보 피처 | 의미·구간 | EDA 근거 | 최종 선택 |
 | --- | --- | --- | --- |
-| Variance 회귀 | 초기 100회 | log Var(Q100−Q10) 단일 피처, 선형 log 수명 회귀 | MAPE·MAE·RMSE |
-| Discharge 회귀 | 초기 100회 | ΔQ 6개 + 용량 7개 = 13개 후보, Elastic Net | Batch 1 CV 선택, Batch 2/3 평가 |
-| Full 회귀 | 초기 100회 | 위 13개 + 충전 시간·온도·IR 7개 = 20개 후보, Elastic Net | 같은 분할·전처리·선택 규칙 |
+| log10_dq_variance | log10 Var(Q100−Q10), ddof=0 | 배치별 수명과 일관된 음의 상관 | 선택 |
+| qd_slope_2_100 | 유효 Qd의 2–100회 선형 기울기 | 초기 열화 속도, 배치별 관계 변화 | 제외 |
+| charge_time_mean_2_6 | 2–6회 유한 양수 충전 시간 평균 | 충전 조건의 보조 신호; 전이 위험 점검 | 선택 |
+| ir_change_100_2 | 양수 IR100−IR2 | 초기 저항 변화의 추가 설명력 검토 | 제외 |
+| tavg_mean_2_100 | 2–100회 평균 온도 | 초기 열 환경의 추가 설명력 검토 | 제외 |
 
-새 분석은 회귀값을 구간으로 나누는 것에 그치지 않고 **분류기를 따로 학습**했습니다. 초기 5회 피처에는 6회 이후 자료가 들어가지 않습니다. 기존 회귀 예측의 구간화 결과도 `life_class_*.csv`로 보존해 실제 분류기와 구분합니다.
+0<Qd≤1.2Ah 범위로 기울기를 계산하고 0 이하 IR은 결측 처리합니다. 결측 중앙값 대치·표준화는 학습 fold 안에서만 적합합니다. 상관된 ΔQ 요약값은 대표 변수로 줄였고, 최종 선택은 예측 성능으로 결정합니다. 최종 두 피처의 Batch 1 사후 VIF는 아래와 같습니다. 낮은 VIF는 통계적 독립성의 증명이 아니며 Ridge도 피처 상관을 제거하지 않습니다.
 
-#### 피처 계산과 논문 대응
+| feature | vif | n_cells |
+| --- | --- | --- |
+| log10_dq_variance | 1.628 | 36 |
+| charge_time_mean_2_6 | 1.628 | 36 |
 
-- ΔQ: 2.0–3.5V의 공통 1,000점에서 회귀는 Q100−Q10, 이진 분류는 Q5−Q4를 계산합니다. 최솟값·평균·표본 분산·왜도·첨도·2V 값을 보충자료의 log 절댓값 형태로 변환합니다. 분산은 논문 식의 **ddof=1**을 적용합니다.
-- 용량: 2회부터 관측 끝까지의 선형 기울기·절편, Q2, 초기 최대 Q−Q2, 입력 관측 창의 마지막 용량 Q100 또는 Q5를 구현합니다. 91–100회의 기울기·절편은 100회 회귀에만 추가합니다.
-- 충전·온도·IR: 충전 시간 평균, 최고·최저 온도, **원시 T(t)와 t의 사다리꼴 온도 적분**, IR2·최소 IR·끝 회차−2회 IR을 구현합니다. 온도 적분은 사이클 내부 시간을 이용해 적분한 뒤 관측 구간에서 합하며 단위는 °C·min입니다.
-- 충전 시간은 회귀에서 논문 Note 1 식의 2–6회, 초기 5회 분류에서는 2–5회 유한 양수 값만 평균냅니다. 초기 5회 정의를 지키기 위해 6회 값은 제외합니다. 0 이하 IR은 결측, 결측 대치·표준화는 각 학습 fold 안에서 적합합니다.
+상관계수는 방향과 단조 관계의 강도를 설명하며 인과 효과를 의미하지 않습니다. 상관 피처 사이에서 계수의 크기를 독립적인 영향으로 읽지 않습니다. [배치별 상관](DAY2/results/feature_batch_correlations.csv) · [부분집합 비교](DAY2/results/feature_ablation.csv)
 
-원본 셀별 38개 계산 피처는 `paper_model_features.csv`, 온도 적분의 유효 회차 수는 `paper_feature_audit.csv`에 있습니다. 피처 추출은 `src/paper_models.py`의 `extract_window`·`read_features`로 재현합니다.
+### 후보 모델과 EDA 연결
 
-
-
-### 모델 선택 및 근거
-
-학습 규모가 36셀인 표 형식 피처 데이터에서는 정규화 선형 모델의 검증·해석을 우선해 딥러닝을 후보에서 제외했습니다.
-
-- **후보 모델:** 논문 Variance(단일 ΔQ 선형 회귀), Discharge(13개 피처 Elastic Net), Full(20개 피처 Elastic Net). 초기 구현에서 중앙값·Linear·Ridge·Elastic Net·SVR·Random Forest도 비교했습니다.
-- **최종 모델:** Discharge Elastic Net, `alpha=0.01`, `l1_ratio=0.2`; `log10(cycle_life)` 학습 후 사이클 단위로 복원합니다.
-- **선택 이유:** ΔQ의 초기 열화 신호와 용량 변화를 함께 반영하고, 상관된 후보 피처는 L1·L2 정규화로 제어합니다. Batch 1 개발 CV MAPE를 기준으로 피처군과 파라미터를 선택했고, 선택 과정을 포함한 Nested-CV와 별도 Hold-out으로 검증했습니다. 최종 13개 후보 중 비영 계수는 6개입니다. 여기서 최적은 사전에 정한 후보군·분할·선택 지표 안의 최저 후보를 의미합니다.
-
-#### 논문 피처군 비교와 Batch 1 최종 선택
-
-| 이번 모델 | Batch 2 MAPE (%) | Batch 3 MAPE (%) | Nested-CV MAPE (%) | Hold-out MAPE (%) |
-| --- | --- | --- | --- | --- |
-| Variance | 28.559 | 12.814 | 9.064 | 10.426 |
-| Discharge | 25.563 | 10.523 | 6.203 | 6.722 |
-| Full | 30.283 | 10.041 | 10.158 | 7.679 |
-| Selected | 25.563 | 10.523 | 6.203 | 6.722 |
-
-Selected 행은 **Variance·Discharge·Full의 피처군과 파라미터를 내부 CV에서 함께 선택한 Nested-CV**입니다. 각 외부 검증 fold는 피처군 선택에도 사용하지 않습니다. 개발 29셀의 최종 선택 CV MAPE **5.351%**로 **Discharge / ElasticNet**, `alpha=0.01`, `l1_ratio=0.2`가 선택됐습니다. 최종 계수는 Batch 1 전체 36셀로 재학습하고 고정했습니다. Batch 2/3 점수로 모델을 바꾸지 않습니다.
-
-기존 2피처 Ridge의 개발 선택 CV는 9.024%, Nested-CV는 10.842%였습니다. 새 설계는 논문의 후보 피처와 Elastic Net 선택을 반영했으며, 최종 Discharge 모델의 13개 후보 중 6개가 비영 계수로 남았습니다.
-
-| 최종 비영 피처 | 표준화 log 수명 계수 |
+| 후보 | 선정 이유 |
 | --- | --- |
-| c100_dq_min_log | -0.041 |
-| c100_dq_variance_log | -0.045 |
-| c100_dq_kurtosis_log | -0.004 |
-| c100_capacity_2 | 0.017 |
-| c100_capacity_max_minus_2 | -0.023 |
-| c100_capacity_end | 0.004 |
+| 중앙값·단일 ΔQ Linear | 예측 신호와 복잡도 증가의 이득을 확인할 기준선 |
+| Ridge·Elastic Net | 소표본·상관 피처에서 정규화로 계수 추정의 변동을 제어 |
+| 제한된 RBF SVR | 초기 신호와 수명의 비선형 관계 가능성 비교 |
+| 얕은 Random Forest | 피처 상호작용 가능성 비교; 깊이·최소 잎 표본 수 제한 |
 
-계수는 표준화 입력에 대한 log10 수명 계수입니다. 후보·외부 fold별 선택·전처리 및 정책 분리 근거는 `paper_model_candidates.csv`, `paper_model_cv_folds.csv`, `paper_model_fold_manifest.csv`, `paper_models_config.json`에 있습니다.
+36셀의 정형 피처 데이터이므로 정규화 모델의 검증·해석을 우선해 딥러닝은 후보에서 제외했습니다. 연속적인 교체·수명 계획 정보를 유지하고 학습 배치의 단수명 표본 부족을 고려해 **회귀를 주 태스크로 선택**했습니다.
 
-#### Selected와 Discharge의 Nested-CV가 같은 이유
+### 모델 선택 기준과 검증 순서
 
-| 외부 fold | 선택 피처군 | alpha | l1_ratio | MAPE (%) |
-| --- | --- | --- | --- | --- |
-| 1 | Discharge | 0.010 | 0.200 | 5.201 |
-| 2 | Discharge | 0.010 | 0.500 | 6.476 |
-| 3 | Discharge | 0.001 | 0.800 | 6.079 |
-| 4 | Discharge | 0.001 | 0.200 | 7.055 |
+1. 고정한 정책 Hold-out 7셀을 분리하고 개발 29셀만 후보 선택에 사용합니다.
+2. **212개 후보 조합**을 정책별 4-fold CV의 원 사이클 단위 MAPE 평균으로 비교합니다. 회귀 적합은 주로 log 수명의 제곱오차와 정규화 목적함수를 사용하고, **후보 선택 지표는 MAPE**입니다.
+3. 최저 개발 CV 9.02417%의 Ridge·두 피처·alpha=0.1을 선택합니다. 단일 ΔQ Ridge 9.02586%와 차이는 **0.00169%p**여서 충전 시간의 추가 효과를 강하게 주장하지 않습니다. 외부 평가 후 후보를 재선택하지 않습니다.
+4. Nested 4×4 GroupKFold에서 피처·모델·파라미터 선택 과정 전체를 평가합니다. 외부 fold마다 선택 모델이 달라질 수 있으므로 Train 10.842%는 최종 Ridge만의 고정 CV 점수가 아닙니다.
+5. 개발 29셀로 Hold-out을 평가한 뒤 설정을 고정하고 Batch 1 전체 36셀로 재학습해 Batch 2·3를 평가합니다.
 
-외부 4개 fold 모두에서 Selected는 Discharge를 선택했고, **각 fold에서 Discharge 단독 탐색과 같은 파라미터·예측·점수**를 얻었습니다. 따라서 외부 평균 6.203%가 같습니다. **파라미터가 네 fold 전체에서 동일한 것은 아닙니다.** 검증 근거는 [paper_selected_fold_choices.csv](DAY2/results/paper_selected_fold_choices.csv)입니다. 논문의 Discharge도 13개 후보 중 6개 피처를 사용했습니다. 선택된 개수는 같지만 피처 집합과 학습 분할이 동일하다는 뜻은 아닙니다.
-
-### 최종 피처의 다중공선성 진단
-
-기존 **290.43→2.74**는 초기 10개·대표 5개 피처의 VIF이며 최종 Discharge 피처의 결과가 아닙니다. 최종 비영 피처 6개를 **Batch 1 전체 36셀의 중앙값으로 대치**하고, 각 피처를 나머지 피처에 절편 포함 OLS로 회귀해 `VIF=1/(1−R²)`를 계산했습니다. 이는 사후 학습 입력 진단이며 모델 선택·테스트 전처리에 사용하지 않습니다.
-
-| 최종 비영 피처 | VIF |
-| --- | --- |
-| c100_dq_min_log | 311.516 |
-| c100_dq_variance_log | 288.947 |
-| c100_dq_kurtosis_log | 2.576 |
-| c100_capacity_2 | 50.211 |
-| c100_capacity_max_minus_2 | 4.959 |
-| c100_capacity_end | 38.359 |
-
-최대 VIF는 **311.516**입니다. **상관된 피처를 유지하면서 Elastic Net으로 계수를 정규화했으며, 피처 독립성이나 계수 안정성을 보장하지 않습니다.** 높은 VIF가 정규화 모델의 예측 성능을 곧바로 무효화하지는 않지만, 개별 계수를 독립적인 영향으로 읽기는 어렵습니다. 정의와 해석은 [NIST VIF 설명](https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/vif.htm)을 참고했습니다. 13개 후보·6개 비영 피처 및 개발 29셀의 진단도 [paper_selected_vif.csv](DAY2/results/paper_selected_vif.csv)에 저장합니다.
-
-### 개발 파이프라인과 데이터 분할
-
-| 단계 | 최종 모델에서 수행한 내용 | 구현·저장 근거 |
-| --- | --- | --- |
-| 품질 검사 | 원본 Batch별 불완전·결측 타깃 제외와 셀별 사유 기록 | preprocess.py / cell_audit_all.csv |
-| 피처 추출 | 회귀·3분류 초기 100회, 이진 분류 초기 5회만 사용 | paper_models.py / paper_model_features.csv |
-| Hold-out 고정 | Batch 1 개발 29셀·16정책 / 검증 7셀·4정책 분리 | split_manifest.csv |
-| Nested-CV | 정책별 외부 4-fold 검증; 각 학습 fold 안에서 내부 4-fold 선택 | paper_model_cv_folds.csv / paper_model_fold_manifest.csv |
-| fold 내부 전처리 | 결측 중앙값·표준화 통계를 해당 학습 fold에만 적합 | paper_models.py의 fit |
-| 최종 후보 선택 | 개발 29셀의 내부 CV로 피처군·파라미터 선택 | paper_model_candidates.csv / paper_models_config.json |
-| Hold-out 평가 | 개발 29셀로 적합한 모델로 검증 7셀 평가 | paper_model_metrics.csv / paper_model_predictions.csv |
-| 모델 고정·외부 평가 | 설정 고정 후 Batch 1 전체 36셀 재학습; 같은 모델로 Batch 2·3 평가 | paper_models_config.json / paper_model_predictions.csv |
-| 수치·누수 검증 | 미래 정보 불변성·정책 분리·학습 전용 전처리·지표 재계산 | verify_paper_results.py / verify_results.py |
-
-Hold-out은 최종 후보 선택에 쓰지 않는 별도 검증입니다. 셀을 나누는 것에 더해 **동일 충전 정책이 개발·Hold-out과 CV train·valid에 겹치지 않도록** 정책 단위로 분리했습니다. Train은 학습 오차가 아니라 Nested-CV 외부 검증 평균입니다. Batch 2·3의 성능으로 최종 후보를 선택하지 않았으며, 선행 탐색에서 외부 데이터를 확인한 이력은 성능 비교의 조건으로 함께 보고합니다.
-
-<details>
-<summary>초기 Ridge 피처·후보·파이프라인 상세 보기</summary>
-
-#### 초기 구현의 피처 엔지니어링 전략
-
-ΔQ log 분산을 고정하고 초기 용량 기울기·충전 시간·IR 변화·평균 온도를 포함/제외한 **16개 부분집합**을 비교했습니다. 용량 기울기는 `0<Qd≤1.2Ah` 값으로 적합하며 결측 대치·표준화는 학습 fold 안에서만 수행합니다. 셀 ID·수명·기록 길이·최종 용량·후반 knee는 입력에서 제외합니다.
-
-| 피처 | 의미 | 관측 구간 | 단위 | 초기 Ridge 선택 |
-| --- | --- | --- | --- | --- |
-| log10_dq_variance | ΔQ(V) 변화 분산의 log10 | 100회 − 10회 | log10(Ah²) | 선택 |
-| qd_slope_2_100 | 방전 용량 기울기 | 2–100회 | Ah/cycle | 후보 비교 |
-| charge_time_mean_2_6 | 초기 평균 충전 시간 | 2–6회 | min | 선택 |
-| ir_change_100_2 | 내부저항 변화량 | 100회 − 2회 | Ω | 후보 비교 |
-| tavg_mean_2_100 | 초기 평균 온도 | 2–100회 | °C | 후보 비교 |
-
-핵심 피처는 `log10 Var(Q100(V) − Q10(V))`입니다. 충전 시간은 2–6회의 유한한 양수 값 평균, 용량 기울기는 2–100회 유효 용량에 대한 선형 적합, IR 변화는 양수인 100회 값−2회 값, 온도는 2–100회 유한 값 평균으로 구현했습니다. 전압축의 단조성·2.0–3.5V 범위·1,000개 공통 점을 확인합니다. 최종 입력과 품질 진단용 플래그는 구분합니다.
-
-#### 개발 파이프라인과 누수 방지
-
-| 단계 | 수행 내용 | 확인할 파일 |
-| --- | --- | --- |
-| 원본·품질 검사 | 불완전·결측 타깃 제외 및 셀별 이유 기록 | `src/preprocess.py`, `cell_audit_all.csv` |
-| 초기 피처 추출 | 100사이클 이내 정보만 사용 | `src/features.py`, `feature_definitions.csv` |
-| 정책 Hold-out | Batch 1 개발 29셀·16정책 / 검증 7셀·4정책 분리 | `split_manifest.csv` |
-| Nested-CV | 외부 4-fold 검증, 각 외부 학습 fold 안에서 내부 4-fold 후보 선택 | `nested_cv_folds.csv`, `cv_fold_manifest.csv` |
-| 최종 후보 선택 | 개발 29셀의 정책별 CV MAPE로 설정 선택 | `cv_results.csv`, `frozen_config.json` |
-| Hold-out 평가 | 개발 29셀에만 적합한 모델로 검증 7셀 평가 | `metrics.csv` |
-| 외부 배치 평가 | 설정 고정 후 Batch 1 전체 36셀 재학습, Batch 2·3 평가 | `predictions_all.csv`, `metrics_all.csv` |
-
-셀 단위 분리만으로 동일 정책의 중복이 자동으로 차단되지는 않으므로, **동일 충전 정책이 개발·Hold-out 및 CV train·valid를 가로지르지 않도록** 분리합니다. 결측 중앙값과 표준화 통계도 각 학습 fold에서만 적합합니다. Hold-out 및 외부 배치 점수는 후보 선택에 사용하지 않았습니다. 선행 EDA에서 평가 배치를 확인했다는 한계는 별도로 보고합니다.
-
-#### 초기 모델 선택 및 논문 피처 확장 근거
-
-중앙값·단일 피처 Linear·Ridge·Elastic Net·제한된 RBF SVR/Random Forest, 원 단위 타깃 대안을 포함한 **212조합**을 개발 29셀의 정책별 4-fold CV에서 비교했습니다. Ridge가 최저 CV(9.02417%)로 선택됐지만 단일 ΔQ 피처 후보(9.02586%)와 차이는 **0.00169%p**로 작습니다. 충전 시간 하나의 추가 개선을 강하게 해석하지 않습니다. 이번에는 논문 후보 피처와 Elastic Net을 실제로 추가 구현하고 Batch 1 CV로 다시 선택했습니다. 논문 기반 Modeling·성능 결과 절의 모델군 비교와 최종 선택으로 연결합니다.
-
-과제의 Train은 **개발 Nested-CV**(nested 4×4 GroupKFold)의 외부 fold 검증오차 평균이며 학습 오차가 아닙니다. Valid는 별도 7셀 Hold-out입니다. 설정 고정 후 전체 Batch 1 **36셀**로 재학습해 Batch 2·3를 평가했습니다. 같은 정책이 개발·검증에 걸치지 않습니다. 피처 추가 효과는 `paired_ablation.csv`에서 같은 alpha·같은 fold로 비교합니다.
-
-#### 후보 모델 비교
-
-![Batch 1 개발 정책별 CV의 모델군별 최저 후보 비교](DAY2/results/01_model_comparison.png)
-
-각 막대는 해당 모델군에서 선택된 최저 후보의 개발 CV MAPE이며 오차 막대는 **fold 간 표준편차**입니다. 성능 리포팅의 Nested-CV와는 별도입니다. Ridge·Elastic Net·Linear의 성능이 비슷해 작은 점수 차이를 우월성의 강한 근거로 보지 않습니다. `plus_2`는 ΔQ log 분산과 초기 충전 시간 조합입니다.
-
-</details>
-
-## 성능 결과
-
-**Gap 공통 규칙:** 과제 행 이름을 유지하며 **(+)는 성능 저하**입니다. 회귀의 `Train-Valid / Valid-Test / Target-Test / Batch2-Batch3`는 각각 `Valid−Train / Test−Valid / Test−9.1 / Batch3−Batch2`입니다. 추가 분류의 앞 두 Gap과 배치 Gap은 `Train−Valid / Valid−Test / Batch2−Batch3`이고, Accuracy의 Target Gap은 `95.1−Test`입니다. **과제 F1 Target이 없어 F1의 Target Gap은 N/A**입니다. MAPE·Accuracy 차이는 %p, F1 차이는 0–1 점수 차이입니다. Hold-out에 단수명 클래스가 없는 분류 Gap은 클래스 구성 차이를 포함한 참고 차이이며, 단수명 식별력이나 동일 클래스 구성의 일반화 판단에 사용하지 않습니다.
-
-노션 지정 양식에 따라 회귀·분류의 필수 표는 **Train / Valid / Test (Batch 2) / 세 가지 Gap의 6행**으로 작성했습니다. Batch 3 추가 표는 **구분과 비교 항목을 분리**하고, Batch 3 성능·Batch2-Batch3 Gap·Batch 3 Target Gap을 더한 **9행**입니다. 회귀는 MAPE, 분류는 Macro-F1·Accuracy를 보고합니다. 원논문 Target은 회귀 MAPE **9.1%**, 이진 분류 오류율 **4.9%(1−Accuracy)**, 즉 **Accuracy 95.1%**입니다. Train–Valid의 양수 Gap은 과적합을 점검할 신호, Valid–Test의 양수 Gap은 배치 간 일반화 저하를 점검할 신호이며, 표본 수와 분포 차이를 함께 해석합니다.
-
-### 같은 Batch 2에서 초기·최종 모델 비교
-
-| 모델 | MAPE (%) | MAE (회) | RMSE (회) |
+| 후보 모델 | 선택 피처 세트 | 개발 선택 CV MAPE (%) | fold 표준편차 (%p) |
 | --- | --- | --- | --- |
-| 초기 Ridge | 28.609 | 141.752 | 158.676 |
-| 최종 Discharge | 25.563 | 144.205 | 185.994 |
+| Ridge | plus_2 | 9.024 | 2.581 |
+| ElasticNet | plus_2 | 9.026 | 2.774 |
+| Linear | variance | 9.064 | 2.385 |
+| SVR | variance | 10.150 | 2.373 |
+| RandomForest | full | 11.991 | 3.954 |
+| Median | variance | 19.883 | 5.398 |
 
-### 최종 회귀 필수 평가: 논문 기반 Discharge Elastic Net
+![후보 모델의 개발 CV 비교](DAY2/results/01_model_comparison.png)
 
-| 구분 | MAPE (%) | 비고 |
-| --- | --- | --- |
-| Train (Batch 1 CV) | 6.203 | 29셀; 피처군·파라미터 선택을 포함한 Nested-CV 외부 검증 평균 |
-| Valid (Batch 1 Hold-out) | 6.722 | 개발 29셀로 학습한 모델의 정책 Hold-out 7셀 평가 |
-| Test (Batch 2) | 25.563 | Batch 1 전체 36셀로 재학습한 고정 모델; 39셀 평가 |
-| Gap (Train-Valid) | 0.519 | (+): 검증 오차 증가; 과적합 점검 신호 |
-| Gap (Valid-Test) | 18.841 | (+): 외부 배치 오차 증가; 일반화 저하 점검 신호 |
-| Gap (Target-Test) | 16.463 | Batch 2 기준; 과제 Target MAPE 9.1% |
+위 표는 각 모델군의 최저 **선택용 CV**이며 아래 성능표의 Nested-CV와 다릅니다. [CV 후보](DAY2/results/cv_results.csv) · [외부 fold별 선택](DAY2/results/nested_cv_folds.csv) · [최종 계수](DAY2/results/model_coefficients.csv)
 
-Train은 학습 적합 오차가 아니라 **피처군·파라미터 선택을 포함한 개발 Nested-CV 외부 검증 평균**입니다. Hold-out 모델은 개발 29셀로, 외부 테스트 모델은 전체 Batch 1 36셀로 학습합니다.
+## 성능 결과 — 구간화 전 회귀
 
-
-
-### 최종 회귀 추가 평가: Batch 3
-
-| 구분 | 비교 항목 | MAPE (%) | 비고 |
-| --- | --- | --- | --- |
-| Train (Batch 1 CV) |  | 6.203 | 29셀; 피처군·파라미터 선택을 포함한 Nested-CV 외부 검증 평균 |
-| Valid (Batch 1 Hold-out) |  | 6.722 | 개발 29셀로 학습한 모델의 정책 Hold-out 7셀 평가 |
-| Test (Batch 2) |  | 25.563 | Batch 1 전체 36셀로 재학습한 고정 모델; 39셀 평가 |
-|  | Gap (Train-Valid) | 0.519 | (+): 검증 오차 증가; 과적합 점검 신호 |
-|  | Gap (Valid-Test) | 18.841 | (+): 외부 배치 오차 증가; 일반화 저하 점검 신호 |
-|  | Gap (Target-Test) | 16.463 | Batch 2 기준; 과제 Target MAPE 9.1% |
-| Test (Batch 3) |  | 10.523 | 동일 Batch 1 고정 모델 |
-|  | Gap (Batch2-Batch3) | -15.040 | Batch 2・3 테스트 성능 차이 |
-|  | Gap (Target-Test) | 1.423 | Batch 3 기준; 과제 Target MAPE 9.1% |
-
-**Batch 2–3 Gap 해석:** Batch 3 MAPE는 10.523%로 Batch 2보다 15.040%p 낮고, 회귀 Gap은 **-15.040%p**입니다. 음수는 Batch 3에서 오차가 감소했다는 뜻이며, Target Gap은 **+1.423%p**입니다. 실제 수명 중앙값은 Batch 1·2·3 각각 772.5·472.0·1005.5회입니다. 단수명 셀이 많은 Batch 2의 과대예측과 아래 수명 그룹별 오차를 함께 보면, 배치에 따라 일반화 성능이 달라집니다. 큰 Gap의 절댓값만으로 특정 피처의 과적합을 단정하지 않습니다. 수명·충전 정책·수집 조건이 함께 달라 이를 원인 후보로 구분하고, 공통 전압축 검사와 저자 품질 규칙의 민감도 결과도 함께 확인합니다. 같은 Batch 1 고정 모델을 두 배치에 적용했으며 Batch 3 결과로 재선택하지 않았습니다.
-
-![논문 기반 최종 회귀의 실제·예측 수명과 기존 Ridge 대비 MAPE](DAY2/results/13_paper_regression_comparison.png)
-
-왼쪽은 최종 논문 기반 모델의 예측이며 Train 점은 Nested-CV 외부 fold 예측입니다. 오른쪽은 같은 셀·분할에서 기존 Ridge와 추가 최종 모델의 MAPE를 비교합니다. 점선 9.1%는 논문의 테스트 Target으로 내부 CV 달성만으로 외부 목표 달성을 주장하지 않습니다.
-
-
-<details>
-<summary>초기 Ridge 필수·추가 성능표와 기준선 상세 보기</summary>
+### 필수 평가: Batch 1 학습 → Batch 2
 
 | 구분 | MAPE (%) | 비고 |
 | --- | --- | --- |
@@ -475,12 +266,11 @@ Train은 학습 적합 오차가 아니라 **피처군·파라미터 선택을 �
 | Gap (Valid-Test) | 18.174 | Test − Valid; (+): 배치 간 일반화 저하 가능성 |
 | Gap (Target-Test) | 19.509 | Test − 9.1%; 과제 Target 대비 참고 비교 |
 
+**Gap 공통 규칙:** 과제 행 이름을 유지하며 (+)는 오차 증가 또는 점수 하락입니다. 회귀는 Valid−Train / Test−Valid / Test−9.1 / Batch3−Batch2, 구간화의 F1·Accuracy는 Train−Valid / Valid−Test / Target−Test / Batch2−Batch3입니다. MAPE·Accuracy 차이는 %p, F1 차이는 0–1 점수 차이입니다. 과제 F1 Target과 논문 3구간 Target은 없어 N/A로 표시합니다.
 
-MAPE=`100 × mean(|실제−예측|/실제)`. 필수 6행은 `model_performance.csv`, 추가 배치 계산값은 `model_performance_with_batch3.csv`에 있습니다. 개발 Nested-CV 외부 fold는 **5.44–16.62%**로 변하고 Hold-out은 7셀뿐이므로, −0.407%p 차이를 안정성의 강한 증거로 삼기는 어렵습니다.
+Train은 개발 29셀의 외부 CV fold 평균입니다. Valid 7셀과 외부 fold MAPE 5.44–16.62%의 변동을 고려하면 작은 Train–Valid Gap만으로 과적합 부재를 확정할 수 없습니다. Valid와 Test는 학습 셀 수도 29·36셀로 다릅니다. 선행 EDA에서 세 배치를 확인했으므로 완전히 미관측한 독립 시험으로 주장하지 않습니다.
 
-
-
-### 초기 Ridge의 Batch 3 평가 (비교 기준)
+### Batch 3 추가 평가 — 지정 9행
 
 | 구분 | 비교 항목 | MAPE (%) | 비고 |
 | --- | --- | --- | --- |
@@ -492,329 +282,187 @@ MAPE=`100 × mean(|실제−예측|/실제)`. 필수 6행은 `model_performance.
 |  | Gap (Target-Test) | 19.509 | Test − 9.1%; 과제 Target 대비 참고 비교 |
 | Test (Batch 3) |  | 12.156 | 추가 44셀; 동일 Batch 1 고정 모델 |
 |  | Gap (Batch2-Batch3) | -16.453 | Batch 3 − Batch 2; (+): Batch 3 오차 증가 |
-|  | Gap (Target-Test) | 3.056 | Batch 3 − 9.1%; 동일 조건 재현 아님 |
+|  | Gap (Target-Test, Batch 3) | 3.056 | Batch 3 − 9.1%; 동일 조건 재현 아님 |
 
+Batch 3 오차는 Batch 2보다 16.453%p 낮습니다. 단수명 중심 Batch 2와 장수명 비중이 높은 Batch 3의 구성 차이를 함께 해석하며, Gap만으로 특정 피처의 과적합이나 구조의 인과 효과를 확정하지 않습니다. [품질 규칙 민감도: 44셀·40셀](DAY2/results/batch3_quality_sensitivity.csv)
 
-Batch 3 MAPE 12.156%는 Batch 2보다 16.453%p 낮습니다. 이번 결과는 모든 외부 배치가 동일하게 어렵다는 가정과 맞지 않으며, 짧은 수명에 집중된 Batch 2에서 모델이 더 취약함을 보여줍니다. 구조·정책·수명 분포가 함께 달라 원인을 하나로 단정하지 않습니다. 추가 양식의 계산 근거는 `model_performance_with_batch3_formatted.csv`에 저장합니다.
+### 논문 회귀 결과와 비교
 
-같은 Batch 2 39셀에서 **Batch 1 중앙값 772.5회 기준선 MAPE 58.73% → 모델 28.61%**로 상대 오차가 **51.29% 감소**했습니다. 예측 신호는 있지만 정확도에는 한계가 있습니다. [기준선 비교](DAY2/results/batch2_baseline_comparison.csv)는 학습 Batch 1로만 중앙값을 정하며 모델 선택에는 사용하지 않습니다.
-
-| 모델 | 평가 셀 수 | MAPE (%) | MAE (회) |
+| 논문 모델 | Primary MAPE (%) | Primary 이상 셀 제외 후 (%) | Secondary MAPE (%) |
 | --- | --- | --- | --- |
-| Batch 1 중앙값 고정 예측 | 39 | 58.728 | 284.782 |
-| 고정 Ridge 모델 | 39 | 28.609 | 141.752 |
+| Variance | 14.700 | 13.200 | 11.400 |
+| Discharge | 13.000 | 10.100 | 8.600 |
+| Full | 14.100 | 7.500 | 10.700 |
 
-상대 감소율은 `100 × (1 − 모델 MAPE / 기준선 MAPE)`입니다. 논문과의 비교에 더해, 같은 외부 셀에서의 실질적 개선을 보여주는 단순 기준선 비교입니다.
+과제 Target **9.1%**는 논문 Abstract의 대표 보고값입니다. Table 1은 모델·평가셋별 값이며, Primary 제외 후는 이상 셀 1개를 제외한 결과입니다. 이번 Ridge의 Batch 2 28.609%는 Target보다 **19.509%p** 높습니다. 논문 학습·Primary는 2017-05-12·2017-06-30 혼합 분할이고, 이번 학습은 2017-05-12만, 필수 테스트는 2018-02-20이므로 동일 조건 재현이 아닙니다. 논문 Train은 학습 적합 성능, 이번 Train은 Nested-CV입니다.
 
-Batch 2는 Target에 미달했습니다. 정책 단위 bootstrap(2,000회·seed=42)의 고정 모델 MAPE 95% 구간은 **22.05–35.61%**입니다. 재학습·미래 배치의 성능 보증이나 셀별 예측 구간은 아닙니다.
+Batch 3의 논문 품질 규칙 적용 40셀에서 Ridge MAPE는 **11.430%**이며, 논문 Secondary Variance 11.4%, Discharge 8.6%, Full 10.7%와 참고 비교합니다. 이번 두 피처 Ridge는 논문의 모델과 다르므로 숫자가 가깝다고 재현 성공을 주장하지 않습니다.
 
+## 구간화 후 결과 — 같은 회귀 예측의 2구간·3구간 평가
 
-</details>
+회귀에서 얻은 예측 수명과 실제 수명에 같은 고정 경계를 적용합니다. **모델·입력 피처·회귀 예측값은 동일하며, 구간화는 평가 방식의 추가입니다.** 구간화 전 MAPE와 구간화 후 Accuracy·F1은 다른 질문에 대한 지표여서 서로의 개선율로 비교하지 않습니다. 경계는 기존 EDA·논문 기준이며 테스트 점수로 조정하지 않았습니다.
 
-### 논문 Secondary-test와 대응하는 Batch 3 40셀 비교
-
-| 논문 대응 피처군 | Batch 3 셀 수 | 이번 MAPE (%) | 논문 Secondary MAPE (%) | 이번−논문 (%p) |
-| --- | --- | --- | --- | --- |
-| Variance | 40 | 11.747 | 11.400 | 0.347 |
-| Discharge | 40 | 9.806 | 8.600 | 1.206 |
-| Full | 40 | 9.487 | 10.700 | -1.213 |
-
-저자 코드의 채널·종료 용량·잡음 제외를 현재 원본 ID로 추적하면 전체 46셀에서 **2·23·32·37·42·43을 제외한 40셀**입니다. 그중 23·32는 기존 유효 라벨 검사에서 빠지고, 44셀에 2·37·42·43을 추가 제외합니다. 보충자료 Table 9의 Secondary 40셀과 저장된 수명값의 다중집합도 일치합니다. 전체 44셀 성능을 유지하면서 논문과 대응하는 40셀 비교를 함께 보고하며, 오차로 제외 대상을 정하지 않았습니다. Full의 40셀 점수가 더 낮아도 테스트 결과로 모델을 바꾸지 않고 Batch 1 CV에서 선택한 **Discharge**를 최종 모델로 유지합니다. 초기 2피처 Ridge의 같은 40셀 MAPE는 11.430%로 논문 Variance 11.4%와 가깝지만, Ridge는 충전 시간까지 사용하는 다른 모델이므로 직접 재현 근거로 사용하지 않습니다. [모델별 비교 CSV](DAY2/results/paper_secondary_comparison.csv).
-
-### 원논문 회귀 Table 1과 비교
-
-<details>
-<summary>9.1% Target 출처와 역산 추정 근거</summary>
-
-**9.1% Target의 출처:** Abstract의 보고값은 9.1%입니다. 본문은 이 값의 셀 집합을 명시하지 않습니다. 회귀 Primary 43셀 중 이상 셀 1개 제외 후 42셀의 Full MAPE 7.5%와 Secondary 40셀의 10.7%를 가중하면 `(42×7.5 + 40×10.7)/82 = 9.060976%`로 한 자리 반올림 시 9.1%와 일치합니다. 따라서 **Full의 Primary 제외 후 + Secondary 통합값으로 추정**할 수 있으나, 반올림된 표 값에서의 역산이며 논문이 통합 계산을 명시한 것은 아닙니다. [계산 근거](DAY2/results/paper_target_91_audit.csv).
-
-</details>
-
-| 원논문 모델 | Train MAPE (%) | Primary MAPE 전체 (제외 후) | Secondary MAPE (%) | Primary RMSE 전체 (제외 후) | Secondary RMSE (회) |
-| --- | --- | --- | --- | --- | --- |
-| Variance | 14.100 | 14.7 (13.2) | 11.400 | 138 (138) | 196 |
-| Discharge | 9.800 | 13.0 (10.1) | 8.600 | 91 (86) | 173 |
-| Full | 5.600 | 14.1 (7.5) | 10.700 | 118 (100) | 214 |
-
-논문 Methods의 Mean percent error는 이번 MAPE와 같은 `100 × mean(|y−ŷ|/y)`입니다. 괄호는 논문이 특이한 Primary-test 셀 1개를 제외한 결과입니다. 과제의 **Target 9.1%는 논문 Abstract의 대표 성능**으로, Table 1의 Full Primary 전체값 14.1%와 구분합니다. 논문의 Train은 학습셋 성능이고 이번 Train은 Nested-CV 검증 평균입니다.
-
-추가 최종 Discharge의 Batch 2 MAPE는 **25.563%**, Target Gap은 **+16.463%p**입니다. 기존 Ridge 28.609%에서 **3.046%p 감소**했지만 Target 9.1%에는 도달하지 못했습니다. Batch 2 MAE/RMSE는 **144.205 / 185.994회**입니다. 기존 Ridge 141.752 / 158.676회와 비교하면 **MAPE 개선이 MAE·RMSE 개선까지 뜻하지는 않습니다.** 짧은 수명을 더 크게 반영하는 MAPE로 선택한 결과와 큰 절대 오차를 함께 평가합니다.
-
-
-### 추가 분류 실험
-
-초기 5회 이진 분류는 단수명 학습 표본이 1셀뿐이며, 초기 100회 3분류는 Batch 1에 단수명 클래스가 없어 중간·장수명만 학습한 확장 실험입니다. Hold-out Accuracy 100%는 단수명 검증 결과가 아닙니다.
-
-<details>
-<summary>추가 분류 설계·지정 성능표·논문 참고 비교·혼동행렬 펼치기</summary>
-
-| 실험 | 관측 데이터 | 구현 | 평가 기준 |
+| 구간 | 평가 | Macro-F1 | Accuracy (%) |
 | --- | --- | --- | --- |
-| Variance 이진 분류 | **초기 5회** | log Var(Q5−Q4), Logistic Regression | 수명 550회 경계, Macro-F1·Accuracy |
-| Full 이진 분류 | **초기 5회** | 18개 후보, **L1 Logistic Regression** | 수명 550회 경계, Macro-F1·Accuracy·혼동행렬 |
-| 단·중·장 분류 | 초기 100회 | 20개 후보, L2 Logistic Regression | <500 / 500–1,000 / >1,000회; 프로젝트 확장 |
+| 2구간 (550회) | Train (Batch 1 CV) | 0.481 | 92.857 |
+| 2구간 (550회) | Valid (Batch 1 Hold-out) | 0.500 | 100.000 |
+| 2구간 (550회) | Test (Batch 2) | 0.409 | 41.026 |
+| 2구간 (550회) | Test (Batch 3) | 0.494 | 97.727 |
+| 3구간 (500·1,000회) | Train (Batch 1 CV) | 0.297 | 82.143 |
+| 3구간 (500·1,000회) | Valid (Batch 1 Hold-out) | 0.308 | 85.714 |
+| 3구간 (500·1,000회) | Test (Batch 2) | 0.352 | 25.641 |
+| 3구간 (500·1,000회) | Test (Batch 3) | 0.545 | 81.818 |
 
-### 실제 학습한 초기 5회 분류: 논문과의 비교
+F1은 고정 2개 또는 3개 클래스의 Macro-F1입니다. 실제·예측 모두 없는 클래스도 F1=0으로 평균에 포함합니다. Hold-out에는 단수명 정답이 없어 관련 Gap은 **클래스 구성 차이를 포함한 참고 차이**이며, 단수명 식별력이나 동일 클래스 구성의 일반화를 판단하는 근거로 사용하지 않습니다.
 
-**분류 해석 전제:** Batch 1 단수명 ≤550회는 1셀뿐이고 개발셋에 포함됩니다. OOF 예측은 이 단수명 1셀을 맞히지 못했으며, 해당 셀이 검증으로 빠진 fold의 학습셋에는 단수명 클래스가 없습니다. Hold-out은 단수명 정답이 0셀이므로 **단수명 Recall은 N/A**입니다. Accuracy 100%와 Macro-F1 0.5는 정의에 따라 계산한 값으로 유지하지만, 단수명 일반화 검증이나 Train–Valid 과적합 판단의 근거로 사용하지 않습니다. 이진 모델이 전혀 적합 불가능하다는 뜻은 아니며, 현재 표본 구성으로 안정적인 단수명 학습·검증을 하기 어렵다는 뜻입니다.
-
-| 원논문 분류기 | Train Accuracy (%) | Primary Accuracy (%) | Secondary Accuracy (%) |
-| --- | --- | --- | --- |
-| Variance classifier | 82.100 | 78.600 | 97.500 |
-| Full classifier | 97.400 | 92.700 | 97.500 |
-
-위는 본문 Table 2의 보고값을 그대로 옮긴 표입니다. 아래는 Full classifier의 보충자료 혼동행렬 셀 개수에서 별도로 재계산한 결과입니다.
-
-| 원논문 분류기 | 분할 | 셀 수 | Accuracy (%) | Macro-F1 재계산 | 단수명 셀 | 단수명 Recall (%) |
-| --- | --- | --- | --- | --- | --- | --- |
-| Full classifier | Train | 38 | 97.368 | 0.974 | 20 | 95.000 |
-| Full classifier | Primary test | 41 | 92.683 | 0.927 | 19 | 100.000 |
-| Full classifier | Secondary test | 40 | 97.500 | 0.494 | 1 | 0.000 |
-| Full classifier | Primary + Secondary test | 81 | 95.062 | 0.936 | 20 | 95.000 |
-
-논문 Table 2의 Accuracy에 더해 **보충자료 Table 4·6의 혼동행렬에서 Macro-F1과 단수명 Recall을 재계산**했습니다. 이는 논문이 F1을 직접 보고했다는 뜻이 아닙니다. Full의 Primary+Secondary 81셀에서 Accuracy 95.062%가 한 자리 반올림으로 **95.1%**, 재계산 Macro-F1은 **0.935714**입니다. Accuracy Target은 95.1%이며 재계산 Macro-F1은 과제 Target이 아닌 별도 참고값입니다. 보충자료 캡션은 Train 39셀로 적었지만 Full 혼동행렬의 합은 38셀입니다. Variance 혼동행렬도 캡션·본문 Accuracy와 일부 불일치합니다. 보고값을 임의로 수정하지 않고 `paper_classification_source_audit.csv`에 대조 결과를 저장했으며, F1은 명시된 혼동행렬 셀 개수로 계산했습니다.
-
-| 태스크 | 피처군 | 평가 구분 | Macro-F1 | Accuracy (%) |
-| --- | --- | --- | --- | --- |
-| 초기 5회 이진 | Variance | Train (Batch 1 CV) | 0.490 | 96.429 |
-| 초기 5회 이진 | Variance | Valid (Batch 1 Hold-out) | 0.500 | 100.000 |
-| 초기 5회 이진 | Full | Train (Batch 1 CV) | 0.490 | 96.429 |
-| 초기 5회 이진 | Full | Valid (Batch 1 Hold-out) | 0.500 | 100.000 |
-| 초기 100회 3분류 | Full | Train (Batch 1 CV) | 0.324 | 75.446 |
-| 초기 100회 3분류 | Full | Valid (Batch 1 Hold-out) | 0.667 | 100.000 |
-| 초기 5회 이진 | Variance | Test (Batch 2) | 0.188 | 23.077 |
-| 초기 5회 이진 | Full | Test (Batch 2) | 0.487 | 48.718 |
-| 초기 100회 3분류 | Full | Test (Batch 2) | 0.106 | 17.949 |
-| 초기 5회 이진 | Variance | Test (Batch 3) | 0.494 | 97.727 |
-| 초기 5회 이진 | Full | Test (Batch 3) | 0.494 | 97.727 |
-| 초기 100회 3분류 | Full | Test (Batch 3) | 0.461 | 70.455 |
-
-단수명 재현율을 포함한 세부 결과는 `paper_model_class_recalls.csv`에 있습니다. 초기 5회 Full 모델은 L1 정규화 강도와 `class_weight=None/balanced`를 Batch 1 내부 Macro-F1로 선택합니다. class_weight 비교는 표본 불균형을 반영한 프로젝트 확장입니다. 이진 분류의 외부 CV 학습셋이 한 클래스뿐인 1개 fold는 그 학습 클래스만 예측하는 상수 모델을 적용하고 `constant_fallback`으로 기록했습니다. 검증 라벨로 학습 클래스를 보완하지 않습니다. 따라서 CV 평균은 이 fallback을 포함한 파이프라인의 결과입니다.
-
-### 장·단 이진 분류 성능표: 초기 5회 Full
+### 2구간: 단수명 ≤550회 / 장수명 >550회
 
 | 구분 | F1-Score (macro) | Accuracy (%) | 비고 |
 | --- | --- | --- | --- |
-| Train (Batch 1 CV) | 0.490 | 96.429 | 29셀; 실제 학습 분류기 |
-| Valid (Batch 1 Hold-out) | 0.500 | 100.000 | 7셀; 단수명 정답 0셀; 단수명 검증 불가 |
-| Test (Batch 2) | 0.487 | 48.718 | 39셀; 실제 학습 분류기 |
-| Gap (Train-Valid) | -0.010 | -3.571 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음 |
-| Gap (Valid-Test) | 0.013 | 51.282 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음 |
-| Gap (Target-Test) | — | 46.382 | Batch 2 기준; Accuracy Target 95.1%; F1 Target N/A |
+| Train (Batch 1 CV) | 0.481 | 92.857 | 29셀; 회귀 예측 구간화 |
+| Valid (Batch 1 Hold-out) | 0.500 | 100.000 | 7셀; 회귀 예측 구간화 |
+| Test (Batch 2) | 0.409 | 41.026 | 39셀; 회귀 예측 구간화 |
+| Gap (Train-Valid) | -0.019 | -7.143 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이 |
+| Gap (Valid-Test) | 0.091 | 58.974 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이 |
+| Gap (Target-Test) | — | 54.074 | Accuracy Target 95.1%; 100회 회귀 구간화와 논문 5회 분류의 참고 비교; F1 Target 없음 |
 
-#### 초기 5회 이진 분류: Batch 3 추가 양식
+<details>
+<summary>Batch 3 추가 평가 — 지정 9행</summary>
 
 | 구분 | 비교 항목 | F1-Score (macro) | Accuracy (%) | 비고 |
 | --- | --- | --- | --- | --- |
-| Train (Batch 1 CV) |  | 0.490 | 96.429 | 29셀; 실제 학습 분류기 |
-| Valid (Batch 1 Hold-out) |  | 0.500 | 100.000 | 7셀; 단수명 정답 0셀; 단수명 검증 불가 |
-| Test (Batch 2) |  | 0.487 | 48.718 | 39셀; 실제 학습 분류기 |
-|  | Gap (Train-Valid) | -0.010 | -3.571 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음 |
-|  | Gap (Valid-Test) | 0.013 | 51.282 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음 |
-|  | Gap (Target-Test) | — | 46.382 | Batch 2 기준; Accuracy Target 95.1%; F1 Target N/A |
-| Test (Batch 3) |  | 0.494 | 97.727 | 44셀; 동일 고정 모델 |
-|  | Gap (Batch2-Batch3) | -0.007 | -49.009 | Batch 2 점수 − Batch 3 점수 |
-|  | Gap (Target-Test) | — | -2.627 | Batch 3 기준; Accuracy Target 95.1%; F1 Target N/A |
+| Train (Batch 1 CV) |  | 0.481 | 92.857 | 29셀; 회귀 예측 구간화 |
+| Valid (Batch 1 Hold-out) |  | 0.500 | 100.000 | 7셀; 회귀 예측 구간화 |
+| Test (Batch 2) |  | 0.409 | 41.026 | 39셀; 회귀 예측 구간화 |
+|  | Gap (Train-Valid) | -0.019 | -7.143 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이 |
+|  | Gap (Valid-Test) | 0.091 | 58.974 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이 |
+|  | Gap (Target-Test) | — | 54.074 | Accuracy Target 95.1%; 100회 회귀 구간화와 논문 5회 분류의 참고 비교; F1 Target 없음 |
+| Test (Batch 3) |  | 0.494 | 97.727 | 44셀; 동일 회귀 예측 구간화 |
+|  | Gap (Batch2-Batch3) | -0.086 | -56.702 | Batch 2 점수 − Batch 3 점수 |
+|  | Gap (Target-Test, Batch 3) | — | -2.627 | Accuracy Target 95.1%; 100회 회귀 구간화와 논문 5회 분류의 참고 비교; F1 Target 없음 |
 
-**Batch 2–3 Gap 해석:** Accuracy Gap은 **-49.009%p**, Macro-F1 Gap은 **-0.007**입니다. 음수는 Batch 3 점수가 더 높다는 뜻입니다. 그러나 단수명 셀은 Batch 2의 30셀에서 Batch 3의 1셀로 줄고, Batch 3 단수명 Recall은 **0.0%**입니다. 높은 Batch 3 Accuracy는 클래스 구성의 영향을 크게 받으며, Macro-F1과 혼동행렬까지 함께 봐야 합니다. 전체 Accuracy 개선을 단수명 식별이나 모든 배치의 일반화 개선으로 해석하지 않습니다.
-
-F1은 고정된 2개 클래스의 **Macro-F1(0–1)**, Accuracy는 **%(0–100)**입니다. Train은 4개 Nested-CV 외부 fold 점수의 단순 평균입니다. 클래스가 실제·예측 모두 없으면 해당 클래스 F1을 0으로 포함(`zero_division=0`)합니다. Hold-out은 단수명 정답이 없어 Accuracy 100%가 단수명 식별의 검증을 뜻하지 않습니다.
-
-
-### 단·중·장 분류 성능표: 초기 100회 Full
-
-**학습 클래스 부재를 확인한 확장 실험:** Batch 1에 <500회 클래스가 없으므로 현재 Logistic 모델은 중간·장수명만 학습하고 단수명 클래스를 출력하지 않습니다. Batch 2의 단수명 28셀은 이 모델 구조로 맞힐 수 없습니다. Accuracy 17.949%는 정의된 평가값이지만, 학습에 없는 클래스를 포함한 외부 분포에서의 결과입니다. 일반적인 3클래스 식별력이나 분류 알고리즘 자체의 우열로 해석하지 않습니다.
+</details>
+### 3구간: <500회 / 500–1,000회 / >1,000회
 
 | 구분 | F1-Score (macro) | Accuracy (%) | 비고 |
 | --- | --- | --- | --- |
-| Train (Batch 1 CV) | 0.324 | 75.446 | 29셀; 실제 학습 분류기 |
-| Valid (Batch 1 Hold-out) | 0.667 | 100.000 | 7셀; 단수명 정답 0셀; 단수명 검증 불가 |
-| Test (Batch 2) | 0.106 | 17.949 | 39셀; 실제 학습 분류기 |
-| Gap (Train-Valid) | -0.343 | -24.554 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음 |
-| Gap (Valid-Test) | 0.561 | 82.051 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음 |
-| Gap (Target-Test) | — | — | Batch 2 기준; 3분류 Target N/A |
+| Train (Batch 1 CV) | 0.297 | 82.143 | 29셀; 회귀 예측 구간화 |
+| Valid (Batch 1 Hold-out) | 0.308 | 85.714 | 7셀; 회귀 예측 구간화 |
+| Test (Batch 2) | 0.352 | 25.641 | 39셀; 회귀 예측 구간화 |
+| Gap (Train-Valid) | -0.011 | -3.571 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이 |
+| Gap (Valid-Test) | -0.044 | 60.073 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이 |
+| Gap (Target-Test) | — | — | 논문 3구간 Target 없음; N/A |
 
-#### 단·중·장 분류: Batch 3 추가 양식
+<details>
+<summary>Batch 3 추가 평가 — 지정 9행</summary>
 
 | 구분 | 비교 항목 | F1-Score (macro) | Accuracy (%) | 비고 |
 | --- | --- | --- | --- | --- |
-| Train (Batch 1 CV) |  | 0.324 | 75.446 | 29셀; 실제 학습 분류기 |
-| Valid (Batch 1 Hold-out) |  | 0.667 | 100.000 | 7셀; 단수명 정답 0셀; 단수명 검증 불가 |
-| Test (Batch 2) |  | 0.106 | 17.949 | 39셀; 실제 학습 분류기 |
-|  | Gap (Train-Valid) | -0.343 | -24.554 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음 |
-|  | Gap (Valid-Test) | 0.561 | 82.051 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이이며 단수명 식별력·동일 클래스 구성의 일반화 판단에 사용하지 않음 |
-|  | Gap (Target-Test) | — | — | Batch 2 기준; 3분류 Target N/A |
-| Test (Batch 3) |  | 0.461 | 70.455 | 44셀; 동일 고정 모델 |
-|  | Gap (Batch2-Batch3) | -0.355 | -52.506 | Batch 2 점수 − Batch 3 점수 |
-|  | Gap (Target-Test) | — | — | Batch 3 기준; 3분류 Target N/A |
-
-**Batch 2–3 Gap 해석:** Accuracy Gap은 **-52.506%p**, Macro-F1 Gap은 **-0.355**입니다. 음수는 Batch 3 점수가 더 높다는 뜻입니다. <500회 단수명 셀은 Batch 1에 0셀, Batch 2에 28셀, Batch 3에 0셀입니다. Batch 2에는 학습에서 관측하지 못한 클래스가 다수 포함되지만 Batch 3에는 해당 클래스가 없습니다. 배치별 클래스 구성과 클래스별 Recall을 함께 설명하며, Batch 3 점수만으로 단수명 예측 능력을 검증했다고 주장하지 않습니다.
-
-고정된 3개 클래스의 Macro-F1을 사용합니다. 3분류 Target은 원논문에 없어 `—`로 둡니다. Batch 1의 관측 클래스는 중간·장수명 두 개이며, 학습된 Logistic 모델은 이 관측 클래스에 대해 계수를 적합합니다. <500회 클래스는 학습셋에 없으므로 외부 셀의 단수명 Recall도 같이 제시합니다. 3분류를 이진 논문 Accuracy 95.1%와 동등한 실험으로 비교하지 않습니다.
-
-![논문 기반 초기 5회 이진 및 초기 100회 3분류의 혼동행렬](DAY2/results/11_paper_classifiers_confusion.png)
-
-행은 실제, 열은 예측 클래스입니다. Batch 2의 이진 단수명 **30셀 중 10셀**을 맞혀 Recall **33.3%**입니다. 3분류의 <500회 **28셀 중 0셀**을 맞혔습니다. Batch 3 이진 단수명 1셀의 Recall은 0.0%입니다. 높은 전체 Accuracy와 단수명 식별 성능을 구분해 해석합니다. 원논문에서도 Secondary-test 단수명은 1셀로, 혼동행렬과 재현율을 함께 보면 Accuracy의 구성 차이를 확인할 수 있습니다.
-
-![논문 초기 5회 ΔQ 그룹 곡선과 초기 100회 신호 비교](DAY2/results/12_paper_early5_signal.png)
-
-상단은 실제 550회 수명 그룹별 Q5−Q4 중앙값과 IQR, 하단은 셀별 초기 100회와 초기 5회 log 분산을 비교합니다. 서로 다른 관측 시점의 신호를 같은 피처로 간주하지 않고 각각 학습·평가했습니다. Batch 1 단수명 곡선은 1셀로 IQR이 0이며 집단 변동을 추정하지 않습니다.
-
-### 추가 이진 분류의 Secondary 참고 비교
-
-| 평가 | 셀 수 | Accuracy (%) | Macro-F1 | 단수명 셀 | 단수명 정답 셀 | 단수명 Recall (%) |
-| --- | --- | --- | --- | --- | --- | --- |
-| 논문 Full Secondary | 40 | 97.500 | 0.494 | 1 | 0 | 0.000 |
-| 이번 Batch 3 전체 | 44 | 97.727 | 0.494 | 1 | 0 | 0.000 |
-| 이번 Batch 3 저자 품질 규칙 | 40 | 97.500 | 0.494 | 1 | 0 | 0.000 |
-
-논문 Secondary와 이번 Batch 3의 전체·품질 규칙 평가 모두 **단수명 1셀을 맞히지 못했습니다.** 높은 Accuracy만으로 단수명 식별력을 주장할 수 없으며 비슷한 지표를 모델 성능의 동등성으로 해석하지 않습니다. [재계산 결과](DAY2/results/paper_binary_secondary_comparison.csv).
-
-### 논문 재계산 Macro-F1과의 별도 참고 차이
-
-| 이번 평가 | 이번 Macro-F1 | 논문 pooled Macro-F1 참고값 | 참고값−이번 값 |
-| --- | --- | --- | --- |
-| 이번 Batch 2 | 0.487 | 0.936 | 0.449 |
-| 이번 Batch 3 전체 | 0.494 | 0.936 | 0.441 |
-| 이번 Batch 3 저자 품질 규칙 | 0.494 | 0.936 | 0.442 |
-
-논문 Full의 Primary+Secondary 혼동행렬에서 재계산한 F1과의 기술적 비교이며, 과제 Target Gap이 아닙니다. 표본·클래스 구성이 달라 동일 분포의 성능 비교로 해석하지 않습니다. [참고 차이 CSV](DAY2/results/paper_binary_f1_reference_comparison.csv).
+| Train (Batch 1 CV) |  | 0.297 | 82.143 | 29셀; 회귀 예측 구간화 |
+| Valid (Batch 1 Hold-out) |  | 0.308 | 85.714 | 7셀; 회귀 예측 구간화 |
+| Test (Batch 2) |  | 0.352 | 25.641 | 39셀; 회귀 예측 구간화 |
+|  | Gap (Train-Valid) | -0.011 | -3.571 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이 |
+|  | Gap (Valid-Test) | -0.044 | 60.073 | 단수명 Hold-out 0셀; 클래스 구성 차이를 포함한 참고 차이 |
+|  | Gap (Target-Test) | — | — | 논문 3구간 Target 없음; N/A |
+| Test (Batch 3) |  | 0.545 | 81.818 | 44셀; 동일 회귀 예측 구간화 |
+|  | Gap (Batch2-Batch3) | -0.193 | -56.177 | Batch 2 점수 − Batch 3 점수 |
+|  | Gap (Target-Test, Batch 3) | — | — | 논문 3구간 Target 없음; N/A |
 
 </details>
+
+### 단수명 식별과 2구간·3구간 해석
+
+| 구간 | 평가 | 실제 단수명 | 맞힌 단수명 | 단수명 Recall (%) |
+| --- | --- | --- | --- | --- |
+| 2구간 ≤550 | Test (Batch 2) | 30 | 7 | 23.333 |
+| 2구간 ≤550 | Test (Batch 3) | 1 | 0 | 0.000 |
+| 3구간 <500 | Test (Batch 2) | 28 | 2 | 7.143 |
+| 3구간 <500 | Test (Batch 3) | 0 | 0 | — |
+
+Batch 2는 2구간 Accuracy **41.026%**, Macro-F1 **0.409**로 3구간 **25.641%**, **0.352**보다 높습니다. 2구간 단수명은 30셀 중 7셀(23.3%), 3구간 단수명은 28셀 중 2셀(7.1%)을 맞혔습니다. 단수명 경계와 클래스 수가 달라 구간 수 자체의 우월성으로 일반화하지 않습니다. Batch 1에 <500회 정답이 없어도 회귀값은 500회 미만으로 외삽할 수 있으므로, 단수명 출력을 못 하는 별도 분류기와 다릅니다.
+
+Batch 3에서는 2구간 Accuracy **97.727%**가 높지만 전부 장수명으로 예측해 단수명 1셀을 놓쳤습니다. 3구간 Accuracy **81.818%**, Macro-F1 **0.545**이고 중간·장수명을 각각 구분했습니다. 2구간 Macro-F1 **0.494**보다 높지만 Batch 3에는 <500회 정답이 없어 그 클래스의 식별력을 검증한 것은 아닙니다. [혼동행렬](DAY2/results/life_class_confusion.csv) · [클래스별 Recall](DAY2/results/life_class_per_class.csv) · [학습 다수 클래스 기준선](DAY2/results/life_class_baselines.csv)
+
+![회귀 예측 구간화의 혼동행렬](DAY2/results/10_life_class_confusion.png)
+
+### 구간화 결과와 논문 분류 결과 비교
+
+| 비교 항목 | 이번 프로젝트 | 논문 | 해석 |
+| --- | --- | --- | --- |
+| 2구간 입력·방법 | 초기 100회, Ridge 수명 예측을 550회로 구간화 | 초기 5회, 별도 Logistic 분류기 | 관측 기간·모델·학습 분할이 다른 참고 비교 |
+| Batch 2 Accuracy | 41.026% | 과제 Target 95.1% | Target−Test = +54.074%p |
+| Macro-F1 | Batch 2 0.409 | 과제 공식 Target 없음 | Target Gap N/A; 재계산 논문 F1은 참고값 |
+| 3구간 | 500·1,000회 경계 | 대응하는 3구간 보고값 없음 | 자체 추가 평가; 논문 Target·Gap N/A |
+
+논문 Table 2 Full classifier는 Primary **92.7%**, Secondary **97.5%**이고, 본문 통합 테스트 Accuracy는 **95.1%**입니다. 2구간 참고 비교는 이 보고값을 그대로 사용합니다.
+
+| 평가 | 셀 수 | Accuracy (%) | Macro-F1 | 단수명 Recall (%) |
+| --- | --- | --- | --- | --- |
+| 논문 Full Secondary (초기 5회 분류) | 40 | 97.500 | 0.494 | 0.000 |
+| 이번 Batch 3 전체 (100회 회귀 구간화) | 44 | 97.727 | 0.494 | 0.000 |
+| 이번 Batch 3 품질 규칙 (100회 회귀 구간화) | 40 | 97.500 | 0.494 | 0.000 |
+
+논문 Secondary Macro-F1은 보충자료 Full 혼동행렬에서 재계산한 값으로 논문 직접 보고값과 구분합니다. 해당 혼동행렬의 단수명 1셀도 놓쳤습니다. 높은 Accuracy가 단수명 식별을 보장하지 않는다는 점을 보여주며, 모델의 동등한 성능을 입증하지는 않습니다.
 
 ## 오류 분석
 
-### 최종 모델의 수명 그룹별 오류와 편향
+![실제·예측 수명과 Batch 2 잔차](DAY2/results/02_predictions_residuals.png)
 
-| 그룹 기준 | 평가 배치 | 실제 그룹 | 셀 수 | MAPE (%) | MAE (회) | 평균 예측−실제 (회) | 과대예측 셀 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 550회 이진 기준 | Test (Batch 2) | 단수명 ≤550 | 30 | 24.385 | 109.520 | 103.822 | 28 |
-| 550회 이진 기준 | Test (Batch 2) | 장수명 >550 | 9 | 29.492 | 259.822 | 259.822 | 9 |
-| 550회 이진 기준 | Test (Batch 3) | 단수명 ≤550 | 1 | 1.397 | 7.557 | -7.557 | 0 |
-| 550회 이진 기준 | Test (Batch 3) | 장수명 >550 | 43 | 10.735 | 122.839 | -11.814 | 25 |
-| 500/1,000회 세 구간 | Test (Batch 2) | 단수명 <500 | 28 | 24.184 | 107.486 | 101.382 | 26 |
-| 500/1,000회 세 구간 | Test (Batch 2) | 중간 500–1,000 | 8 | 34.981 | 272.890 | 272.890 | 8 |
-| 500/1,000회 세 구간 | Test (Batch 2) | 장수명 >1,000 | 3 | 13.318 | 143.754 | 143.754 | 3 |
-| 500/1,000회 세 구간 | Test (Batch 3) | 단수명 <500 | 0 | — | — | — | 0 |
-| 500/1,000회 세 구간 | Test (Batch 3) | 중간 500–1,000 | 21 | 10.516 | 86.666 | 69.142 | 17 |
-| 500/1,000회 세 구간 | Test (Batch 3) | 장수명 >1,000 | 23 | 10.529 | 150.855 | -85.545 | 8 |
-
-이는 실제 수명으로 나눈 사후 오류 분석입니다. 구간별 MAPE·MAE·과대예측을 함께 확인하고 0셀은 `—`로 둡니다. 논문은 이 세 구간별 회귀 오차를 보고하지 않아 위 구간에 별도의 논문 Target을 만들지 않습니다. 원논문과의 전체 MAPE 비교는 주 성능표에서 수행합니다.
-
-추가 최종 모델은 Batch 2 **39셀 중 37셀**을 과대예측했습니다. 평균 예측−실제는 **+139.8회**, 오차율 중앙값은 **26.39%**입니다. Batch 1 중앙값 772.5회 기준선 MAPE **58.73%** 대비 새 모델 **25.56%**로 상대 오차가 **56.47% 감소**했습니다. 낮은 수명 셀의 교체 시점 판단에는 그룹별 편향도 함께 반영해야 합니다.
-
-#### 최종 회귀 Batch 3의 품질 제외 민감도
-
-| scope | n_cells | mape_pct | mae_cycles | rmse_cycles |
+| cell_id | policy | cycle_life | predicted_cycle_life | ape_pct |
 | --- | --- | --- | --- | --- |
-| Batch 3 all eligible | 44 | 10.523 | 120.219 | 174.127 |
-| Batch 3 author quality rule | 40 | 9.806 | 108.008 | 163.028 |
+| 6 | 3.6C(9%)-5C | 393.000 | 648.585 | 65.034 |
+| 15 | 3.6C(9%)-5C | 396.000 | 642.824 | 62.329 |
+| 18 | 5.2C(50%)-4.25C | 449.000 | 726.432 | 61.789 |
+| 2 | 5.2C(50%)-4.25C | 424.000 | 620.207 | 46.275 |
+| 19 | 6C(60%)-3C | 392.000 | 556.893 | 42.064 |
 
-같은 저자 품질 규칙(원본 ID 2·37·42·43)을 추가 최종 모델에도 적용했습니다. 전체 44셀 평가를 유지하고 40셀 민감도를 나란히 보고하며, 오차 크기로 제외 대상을 정하지 않습니다.
+절대 오차율 상위 5셀은 모두 실제 수명 500회 미만이며 과대예측했습니다. Batch 2 전체 **36/39셀 과대예측**, 평균 예측−실제 **+133.1회**입니다. 학습 최소 수명 534회보다 짧은 30셀 모두 과대예측됐습니다.
 
-### 최종 모델이 가장 크게 틀린 Batch 2 셀
-
-| 셀 ID | 충전 정책 | 실제 수명 | 예측 수명 | 예측−실제 (회) | 오차율 (%) |
+| group | n_cells | mape_pct | mae_cycles | rmse_cycles | mean_signed_error_cycles |
 | --- | --- | --- | --- | --- | --- |
-| 44 | 5.2C(58%)-4C-newstructure | 841.000 | 1488.757 | 647.757 | 77.022 |
-| 9 | 5.6C(26%)-4.5C-newstructure | 791.000 | 1293.049 | 502.049 | 63.470 |
-| 31 | 5.6C(26%)-4.5C | 425.000 | 612.437 | 187.437 | 44.103 |
-| 2 | 5.2C(50%)-4.25C | 424.000 | 595.157 | 171.157 | 40.367 |
-| 13 | 4.65C(69%)-6C | 460.000 | 633.104 | 173.104 | 37.631 |
+| standard_structure | 30 | 32.661 | 146.086 | 156.050 | 146.086 |
+| newstructure | 9 | 15.102 | 127.308 | 167.131 | 89.962 |
+| below_batch1_life_min | 30 | 32.661 | 146.086 | 156.050 | 146.086 |
+| life_lt500 | 28 | 32.758 | 145.132 | 155.687 | 145.132 |
+| life_500_to1000 | 8 | 23.070 | 163.198 | 189.285 | 158.298 |
+| life_gt1000 | 3 | 4.660 | 53.025 | 74.471 | -45.947 |
 
-MAPE에 대응하는 셀별 절대 오차율 상위 5셀입니다. 이 중 단수명 <500회는 **3셀**, 중간 500–1,000회는 **2셀**이며 **5셀 모두 과대예측**했습니다. 중간 수명 셀에서도 큰 절대 오차가 발생해 최종 모델의 MAPE 개선을 모든 셀의 오차 감소로 해석하지 않습니다. 충전 정책과 구조 표시도 함께 제시하지만, 오차가 큰 셀을 제거하지 않습니다. 셀별 근거는 [paper_selected_top_errors.csv](DAY2/results/paper_selected_top_errors.csv)에 저장합니다.
+standard_structure와 below_batch1_life_min은 같은 30셀입니다. 구조·수명 범위·충전 정책이 함께 달라 독립적인 원인 증거로 중복 해석하지 않습니다. ΔQ log 분산의 수명 Spearman은 Batch 1 −0.826, Batch 2 −0.709인 반면 충전 시간은 +0.432에서 −0.802로 달라져 보조 피처 전이 위험을 시사합니다. 이는 원인 가설이며 인과 검증 결과는 아닙니다.
 
-### 최종 모델의 Batch 2 구조별 오류
-
-| 정책 표기의 구조 그룹 | 셀 수 | MAPE (%) | MAE (회) | 평균 예측−실제 (회) |
-| --- | --- | --- | --- | --- |
-| standard | 30 | 24.385 | 109.520 | 103.822 |
-| newstructure | 9 | 29.492 | 259.822 | 259.822 |
-
-정책 문자열의 `newstructure` 표시로 구분했습니다. 큰 오차가 어느 그룹에 집중되는지 확인하는 사후 진단이며, 구조와 수명 분포가 함께 달라 **구조 자체의 인과 효과를 입증하는 결과가 아닙니다.** [구조별 계산 근거](DAY2/results/paper_selected_structure_errors.csv).
-
-### 원인 가설 및 개선 방향
-
-학습 수명 범위와 외부 배치의 수명·클래스 분포 차이, 충전 정책·수집 조건, 피처와 수명 관계의 변화를 함께 점검합니다. 최종 모델은 Batch 2 39셀 중 37셀을 과대예측하므로 일부 극단값만의 문제가 아닙니다. 후속 개발에서는 단수명 개발 표본을 확보하고, 신규 제조 배치·정책을 분리한 미사용 평가셋으로 검증하며, 과대예측 비용과 셀별 예측 구간을 반영한 의사결정 기준을 평가합니다. 현재 Batch 2·3에 맞춰 재조정한 성능을 새 검증 성능으로 보고하지 않습니다.
-
-<details>
-<summary>초기 Ridge 잔차·오류 셀 상세 보기</summary>
-
-#### 실제값·예측값과 Batch 2 잔차
-
-![실제 수명 대비 예측 수명 및 Batch 2의 부호 오차](DAY2/results/02_predictions_residuals.png)
-
-왼쪽의 대각선은 실제값과 예측값이 같은 기준선입니다. Train 점은 개발 Nested-CV의 외부 fold 예측으로 학습 적합값이 아닙니다. 오른쪽에서 잔차(예측−실제)가 0보다 크면 과대예측입니다. 짧은 수명의 Batch 2 셀에서 양의 잔차가 반복되어 **일부 큰 오차보다 넓게 나타나는 과대예측 편향**을 확인할 수 있습니다.
-
-- Batch 2 **39셀 중 36셀**을 과대예측했습니다. 평균 부호 오차(예측−실제)는 **+133.1회**, 오차율 중앙값은 **30.41%**로 일부 이상치만의 문제가 아닙니다.
-- Batch 1 최소 수명보다 짧은 **30셀 모두 과대예측**됐고 MAE와 평균 부호 오차는 146.1회입니다. `standard_structure`와 `below_batch1_life_min`은 정확히 같은 30셀로, 두 결과는 독립적인 원인 증거가 아닙니다. 구조와 수명 범위의 효과를 분리해 주장하지 않습니다.
-- 입력 범위 안 22셀의 MAPE 34.30%가 범위 밖 17셀 21.25%보다 높습니다. **입력 범위 이탈만으로 성능 저하를 설명할 수 없으며** 피처–수명 관계·정책·배치 효과를 함께 봐야 합니다.
-- Batch 3 전체 44셀 12.16%, 저자 품질 규칙을 적용한 40셀 11.43%를 함께 보고했습니다. 개선은 단수명 개발 표본 확보·현장 조건 검증을 우선하며 변경 모델은 새 미사용 배치로 평가해야 합니다.
-
-셀별 근거: `error_analysis.csv`, `prediction_bias.csv`, `subgroup_overlap.csv`, `input_domain_audit.csv`, `domain_metrics.csv`. 표본 수만으로 원인을 설명하기보다 학습 수명 범위·배치 분포·피처–수명 관계를 우선 점검합니다. 추가 Batch 3의 곡선 정렬·원점 불변성·품질 민감도와 반례 해석은 [노트북](DAY2/03_modeling.ipynb)에 있습니다.
-
-#### 오차율 상위 5셀
-
-| 셀 ID | 실제 수명 | 예측 수명 | 예측−실제 (회) | 오차율 (%) |
-| --- | --- | --- | --- | --- |
-| 6 | 393.000 | 648.585 | 255.585 | 65.034 |
-| 15 | 396.000 | 642.824 | 246.824 | 62.329 |
-| 18 | 449.000 | 726.432 | 277.432 | 61.789 |
-| 2 | 424.000 | 620.207 | 196.207 | 46.275 |
-| 19 | 392.000 | 556.893 | 164.893 | 42.064 |
-
-다섯 셀은 모두 실제 수명 500회 미만이며 과대예측됐습니다. 전체 39셀의 부호 오차와 함께 보아야 하며, 이 셀들을 제거해서 성능을 개선하지 않았습니다. 다음 실험은 단수명 개발 표본 확보, 단일 ΔQ 피처와 충전 시간 조합 재비교, 신규 배치 검증을 우선합니다.
-
-</details>
+같은 Batch 2에서 Batch 1 중앙값 772.5회 고정 예측의 MAPE **58.728%** 대비 모델 **28.609%**로 상대 오차가 **51.29% 감소**했습니다. 입력 범위 안 22셀의 MAPE 34.30%가 밖 17셀 21.25%보다 높아 입력 범위 이탈만으로 오차를 설명하기도 어렵습니다. 단수명 개발 표본을 확보하고 개선 모델은 새로운 미사용 배치에서 검증해야 합니다.
 
 ## ESS 도메인 해석
 
-셀 선별·점검 우선순위·교체 예산의 보조 지표로 활용할 수 있습니다. 짧은 수명 과대예측은 교체 지연 위험으로 이어집니다. 실험실 단일 셀·36셀 학습·특정 충전 조건에 한정돼 현장 달력 열화·온도·부분 충방전·셀 불균형, 제조 배치와 셀별 예측 구간의 추가 검증이 필요합니다.
+배터리 기반 ESS(BESS)에서 초기 신호로 셀 선별·점검 우선순위·교체 예산을 검토하는 보조 지표로 활용할 수 있습니다. 목표는 **총 Cycle Life**이며 현재 시점의 RUL이나 화재 확률이 아닙니다. 단수명 과대예측은 교체 지연으로 이어질 수 있어 현재 성능으로 교체 시점을 단독 결정하기 어렵습니다.
 
-논문 피처를 반영한 최종 회귀는 내부 약 6–7%, 외부 Batch 2 약 25.6% MAPE를 얻었습니다. 초기 5회 이진·3분류 모델의 혼동행렬과 수명 구간별 회귀 오차를 함께 분석했습니다. 짧은 수명에 대한 과대예측과 클래스별 식별 오차를 고려하면 현재 모델은 교체 시점의 단독 결정 근거로 사용하기 어렵습니다.
-
-| 의사결정 | 활용 | 추가 조건 |
+| 의사결정 | 활용 가능성 | 추가 검증 |
 | --- | --- | --- |
-| 셀 선별·점검 우선순위 | 초기 신호로 상대 수명 비교 | 같은 화학계·현장 운전 조건 검증 |
-| 교체 예산·정비 계획 | 총수명과 과대예측 위험 참고 | 셀별 예측 구간·보수적 기준·실제 SOH |
-| 충전 운영 검토 | 정책별 오차·신규 정책 감시 | 관측 상관을 최적 C-rate의 인과 근거로 쓰지 않음 |
+| 셀 선별·점검 우선순위 | 상대 수명과 단수명 누락 위험 참고 | 단수명 표본·제조 배치별 Recall·예측 구간 |
+| 교체 예산·정비 계획 | 총수명 예측과 과대예측 편향 참고 | 실제 SOH·운전 이력·현장 데이터 |
+| 측정 도입 | 100사이클 검사 시간·전력·설비 비용 평가 | 줄어든 점검 비용과 미탐·조기 교체 비용 비교 |
 
-예측 대상은 **총 Cycle Life**로 현재 잔여 수명(RUL)이나 안전 사고 확률이 아닙니다. 실 배포를 위해 현장 라벨 확보와 제조 배치·운전 조건별 검증, 셀별 예측 구간, 신규 정책 및 입력 분포의 감시 기준이 필요합니다.
+실험실 LFP/graphite 단일 셀·특정 급속 충전·36셀 학습 조건입니다. 현장의 달력 열화·온도·부분 충방전·셀 불균형과 분포 변화를 추가 검증해야 합니다. 현재 자료에 운영 비용이 없어 절감 금액이나 운영 임계값을 임의로 제시하지 않습니다.
 
-### ESS 의사결정의 비용과 적용 기준
-
-| 운영 판단 | 비용·평가 항목 | 적용 기준 |
-| --- | --- | --- |
-| 초기 100회 수명 평가 | 100사이클 측정 시간·전력·설비 점유·검사 지연 비용 | 예측으로 줄인 점검·교체 비용이 측정 비용을 상회하는지 검증 |
-| 초기 5회 셀 선별 | 낮은 측정 부담과 단수명 미탐 비용 | 현재 Batch 2 단수명 Recall 33.3%로 단독 선별에 사용하지 않음 |
-| 교체·점검 우선순위 | 과대예측으로 늦춘 교체 비용, 불필요한 제외·조기 교체 비용 | 실제 SOH·운전 이력과 함께 보수적 구간·점검 기준을 평가 |
-
-현재 데이터에는 운영 비용이나 현장 RUL·안전 사고 라벨이 없어 금액·교체 임계값을 임의로 정하지 않습니다. 현장 비용표와 신규 배치 검증을 확보한 뒤 미탐·오탐 비용을 반영해 기준을 결정합니다.
-
-### 해석 범위
-
-정책·구조·수명·수집 조건이 함께 달라 관측 상관과 하위집단 차이만으로 인과 효과를 분리하지 않습니다. 계수는 상관된 입력의 조건부 값이며 개별 피처의 독립적 영향으로 해석하지 않습니다. 선행 탐색에서 외부 배치를 본 이력이 있어 이번 확장 분석은 새 미사용 테스트셋의 독립 검증과 구분합니다.
-
-## 평가항목별 확인 위치
+## 평가항목과 산출물
 
 | 평가항목 | 배점 | 직접 근거 | 산출물 |
 | --- | --- | --- | --- |
-| EDA | 50 | 분포·열화·ΔQ·정책·상관·VIF를 원본 재계산 | eda_distribution / degradation_evidence / eda_correlations / eda_vif |
-| EDA → 전략 연결성 | 30 | 관측→시사점→설계→코드→검증 연결표 | 노트북 1–3절 |
-| 모델링 전략 수립 | 20 | 논문 피처군·Elastic Net·초기 5회 Logistic·3분류·Batch 1 선택 | paper_model_candidates / paper_models_config / 기존 cv_results |
-| 전략 → 구현 반영 | 20 | 최종 Discharge 피처·log 타깃 변환·실제 선택 모델; Ridge는 초기 비교 | paper_models.py / paper_model_coefficients.csv; 초기 Ridge: features.py / model_coefficients.csv |
-| Pipeline 개발 | 40 | 원본→정책 분리→fold 내부 전처리→선택→재학습→평가 | train.py / 직접 재현 셀 / provenance / verify_results.py |
-| 성능 리포팅 및 해석 | 20 | 회귀·이진·3분류 지정 양식·원논문 혼동행렬 F1·Gap | paper_selected_regression_performance / paper_binary_550_performance / paper_three_500_1000_performance |
-| 분석 결과 해석 | 20 | 과대예측 편향·동일 하위집단 확인·입력 범위 반례·ESS 해석 | prediction_bias / subgroup_overlap / domain_metrics / ESS 의사결정표 |
+| EDA | 50 | 분포·열화·ΔQ·충전 정책·상관·VIF | EDA 절 / eda_* / DAY1 보고서 |
+| EDA → 전략 연결성 | 30 | 관측→피처·후보 모델→검증 연결 | EDA→전략 표 / feature_ablation.csv |
+| 모델링 전략 수립 | 20 | 회귀 타깃·5개 후보·선택 규칙 | features.py / cv_results.csv |
+| 전략 → 구현 반영 | 20 | 계획서 피처에서 선택한 Ridge | train.py / frozen_config.json / model_coefficients.csv |
+| Pipeline 개발 | 40 | 정책 분할·fold 내부 전처리·고정 외부 평가 | preprocess.py / train.py / provenance.json |
+| 성능 리포팅 및 해석 | 20 | 회귀 지정 양식·Target Gap·2/3구간 참고 비교 | model_performance*.csv / life_class_*.csv |
+| 분석 결과 해석 | 20 | 오류 셀·배치 차이·ESS 활용과 한계 | error_analysis.csv / subgroup_metrics.csv / 오류 분석 절 |
 
-배점은 과제 기준을 옮긴 것으로 자체 채점 점수가 아닙니다. 모델 전략 수립 100점·모델 개발 및 평가 100점의 각 근거를 README와 노트북, 결과 CSV에서 확인할 수 있습니다.
+배점은 과제의 DAY 1·DAY 2 평가 기준이며 자체 채점 점수가 아닙니다. 주 태스크 회귀의 지정 성능표와 Batch 2 Target Gap을 중심으로 평가 근거를 연결했습니다.
 
 ## 참고문헌
 
-- Severson et al. (2019). Data-driven prediction of battery cycle life before capacity degradation. *Nature Energy*, 4, 383–391. [원논문](https://www.nature.com/articles/s41560-019-0356-8).
+- Severson et al. (2019). Data-driven prediction of battery cycle life before capacity degradation. *Nature Energy*, 4, 383–391. [원논문](https://www.nature.com/articles/s41560-019-0356-8) · [보충자료](https://static-content.springer-cdn.com/esm/art%3A10.1038%2Fs41560-019-0356-8/MediaObjects/41560_2019_356_MOESM1_ESM.pdf)
+- [저자 전처리·분할 코드](https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation/blob/master/LoadData.m)
+- [과제 지침·Reporting format](https://app.notion.com/p/DS-Mini-Project-3ecb7788ac2a808c972af1dc0cdce6e3)
 
 ## 수행자
 
-- 최유정(울산 3반 U104), **개인 수행**: EDA, 모델 전략 수립, 피처 엔지니어링, 파이프라인·모델 개발, Batch 2·3 성능 평가, 오류 분석 및 보고서 작성 전 과정.
-
-평가항목별 근거는 노트북과 `assessment_evidence.csv`에서 확인할 수 있습니다. 자동 검증은 원본 피처·미래 정보 불변성·정책 분리·학습 전용 전처리·수치·모델·노트북 실행을 확인합니다.
+최유정(울산 3반 U104): EDA, 모델 전략, 피처·모델 선택, 파이프라인, Batch 2·3 평가, 오류 분석 및 보고서 작성.

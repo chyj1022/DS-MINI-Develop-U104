@@ -2,7 +2,7 @@
 __pycache__/
 .venv/
 .ipynb_checkpoints/
-archive/
+/archive
 data/*
 !data/README.md
 data_preview/

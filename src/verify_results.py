@@ -168,8 +168,8 @@ def main():
     for key in saved["features"]:
         expected=(domains[key]<bounds.loc["min",key])|(domains[key]>bounds.loc["max",key])
         assert np.array_equal(expected,domains[key+"_outside_train_range"])
-    from .verify_paper_results import main as verify_paper_results
-    verify_paper_results()
+    from .verify_plan_results import main as verify_plan
+    verify_plan()
     nb=nbformat.read(ROOT / "DAY2/03_modeling.ipynb",as_version=4)
     nbformat.validate(nb)
     environment={}

@@ -7,4 +7,4 @@ Test (Batch 2),,28.60918728493949,Batch 1 36셀로 재학습한 고정 모델; 3
 ,Gap (Target-Test),19.509187284939493,Test − 9.1%; 과제 Target 대비 참고 비교
 Test (Batch 3),,12.15616437745865,추가 44셀; 동일 Batch 1 고정 모델
 ,Gap (Batch2-Batch3),-16.453022907480843,Batch 3 − Batch 2; (+): Batch 3 오차 증가
-,Gap (Target-Test),3.05616437745865,Batch 3 − 9.1%; 동일 조건 재현 아님
+,"Gap (Target-Test, Batch 3)",3.05616437745865,Batch 3 − 9.1%; 동일 조건 재현 아님
